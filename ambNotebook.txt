@@ -1,0 +1,1065 @@
+﻿\ anna magdalena's notebook                             04feb86cht
+\ js_bach, 23jan21cht
+
+decimal
+0 constant bass
+0 constant tenor
+0 constant alto
+0 constant soprano
+0 constant flute
+0 constant pedal
+0 constant z
+: init z to bass z to tenor z to alto z to soprano z to pedal z to flute ;
+
+variable fudge 30 fudge ! ( quater note )
+: notes ( duration -- )
+  >r 0.1 bass tenor alto soprano pedal flute r> poly ;
+hex
+: play ( n1 n2 n3 n4 n5 n6 bits duration -- )
+  >r >r 
+  r@ 1 and if to soprano then  
+  r@ 2 and if to alto then
+  r@ 4 and if to tenor then
+  r@ 8 and if to flute then
+  r@ 200 and if to bass then
+  r@ 400 and if to pedal then
+  r> drop r> notes ;
+
+decimal
+: ppqn   constant   does 0 q@ fudge @ * play ;
+192 ppqn 3/2
+128 ppqn 1/1    64 ppqn 1/2    32 ppqn 1/4   16 ppqn 1/8
+  8 ppqn 1/16    4 ppqn 1/32    2 ppqn 1/64   1 ppqn 1/128
+ 96 ppqn 3/4    48 ppqn 3/8    24 ppqn 3/16  12 ppqn 3/32
+ 12 ppqn 1/12'  10 ppqn 1/12   22 ppqn 1/6
+  6 ppqn $.      5 ppqn $       3 ppqn ]      2 ppqn [
+hex
+: | z z z z 0f 1/128 ;
+decimal
+
+
+\ musette-1                                           04jan86cht
+
+: p1   g3 b3 d4 7 1/4 a3 e4 3 1/8 c4 1 1/8   b3 d4 3 1/4
+   c4 g4 3 1/8 a4 1 1/8 d4 b4 3 1/4 c4 a4 3 1/8 f4# 1 1/8
+   b3 g4 3 1/4 c4 d4 3 1/4 b3 g4 3 1/4 a3 a4 3 1/8 f4# 1 1/8
+   b3 g4 3 1/8 a4 1 1/8 c4 b4 3 1/8 c5 1 1/8
+   b3 d4 3 1/8 b4 1 1/8 a3 c5 3 1/8 a4 1 1/8   g3 g3 b4 7 1/2 ;
+: p2   g3 b3 d5 7 1/4 a3 e5 3 1/8 c5 1 1/8   b3 d5 3 1/4
+   e4 c5 3 1/8 a4 1 1/8 d4 b4 3 1/8 g4 1 1/8 c4 a4 3 1/8
+   f4# 1 1/8   b3 g4 3 1/4 a3 d4 3 1/8 b3 2 1/8 c4 e4 3 1/8
+   d4 1 1/8 b3 g4 3 1/8 d4 1 1/8   c4 e4 3 1/8 d4 1 1/8
+   b3 g4 3 1/8 d4 1 1/8 c4 e4 3 1/8 d4 1 1/8 c4 a4 3 1/8
+   a3 2 1/8   g3 c4 f4# a4 15 1/2 | ;
+: p3   g3 c4 a4 7 1/4 d4 b4 3 1/8 g4 1 1/8   e4 c5 3 1/4
+   d4 b4 3 1/8 g4 1 1/8 c4 e5 3 1/8 c5 1 1/8 b3 d5 3 1/8
+   b4 1 1/8   a3 c5 3 1/8 b4 1 1/8 b3 a4 3 1/8 g4 1 1/8
+   c4 a4 3 1/8 b4 1 1/8 d4 c5 3 1/8 b4 1 1/8   c4 a4 3 1/8
+   g4 1 1/8 e4 f4# 3 1/8 g4 1 1/8 d4 a4 3 1/8 g4 1 1/8
+   c4 f4# 3 1/8 e4 1 1/8    b3 d4 3 1/4 c4 2 1/4 | ;
+: p4   g3 b3 d4 7 1/4 a3 e4 3 1/8 c4 1 1/8   b3 d4 3 1/4
+   c4 g4 3 1/8 a4 1 1/8 d4 b4 3 1/4 c4 a4 3 1/8 f4# 1 1/8
+   b3 g4 3 1/4 z d4 3 1/4 d4 b4 3 1/8 f4# 1 1/8 z g4 3 1/8
+   d4 1 1/8   b3 d5 3 1/8 f4# 1 1/8 z g4 3 1/8 d4 1 1/8
+   d4 b4 3 1/8 f4# 1 1/8 z g4 3 1/8 d4 1 1/8
+   g3 b3 d4 g4 15 1/2 | ;
+: musette-1 15 fudge ! p1 p1 p2 p3 p4 p2 p3 p4 ;
+
+\ little prelude                                      04jan86cht
+
+: seq3 ( n1 n2 n3 mask)   >r swap rot r>
+   2 for   swap over 1/8   next drop ;
+: seq4 ( n1 n2 n3 n4 mask)   >r swap 2swap swap r>
+   3 for   swap over 1/8   next drop ;
+: seq5 >r swap 2swap swap r> 3 for swap over 1/16 next drop ;
+: p1   c2 c3 6 1/8 c4 e4 g4 1 seq3 e4 c4 b4b g4 1 seq4
+   a4 c4 f4 a4 1 seq4 f4 c4 c5 a4 1 seq4   b4 g4 b4 d5 1 seq4
+   b4 g4 f5 d5 1 seq4 ;
+: p2   z g4 c5 e5 15 1/8 c3 e3 g3 8 seq3 e3 z z z 15 1/8
+   c3 8 1/8 c4 g4 c5 e5 15 1/8 e3 8 1/8
+   f3# a4 c5 d5 15 1/8 d3 f3# a3 8 seq3 f3# z z z 15 1/8
+   d3 8 1/8 d4 a4 c5 d5 15 1/8 f3# 8 1/8   g3 g4 b4 d4
+   15 1/8 g4 b4 d5 1 seq3 z z g4 b4 15 1/4 g3 b4 e5 11 1/8
+   a3 c5 c5 11 1/8   a2 c3 e3 8 seq3 ;
+: p3   c3 z z z 15 1/8 a2 8 1/8 g3 e4 a4 c5 15 1/8
+   e3 8 1/8   f3# 8 1/8 | d4 f4# a4 1 seq3 f4# 1 1/8
+   d4 1 1/8 d3 c5 9 1/8 a4 1 1/8   g3 b4 9 1/8 g4 1 1/8
+   g2 b4 9 1/8 d5 1 1/8 g3 b4 9 1/8 g4 1 1/8 g2 f5 9 1/8
+   d5 1 1/8   g3 e5 9 1/8 g4 1 1/8 g2 c5 9 1/8 e5 1 1/8
+   g3 c5 9 1/8 g4 1 1/8 g2 g5 9 1/8 e5 1 1/8   g3 f5#
+   9 1/8 a4 1 1/8 g2 c5 9 1/8 f5# 1 1/8 g3 c5 9 1/8
+   a4 1 1/8 g2 a5 9 1/8 f5# 1 1/8   g3 b4 d5 g5 15 1/8
+   g2 b2 d3 8 seq3 | b2 8 1/8 g2 8 1/8 f3 b4 9 1/8
+   d3 8 1/8 e3 c5 9 1/8 c3 e5 9 1/8 e3 g5 9 1/8
+   g3 c6 9 1/8 e3 g5 9 1/8 c3 e5 9 1/8 c4 b5b 9 1/8
+   f3 8 1/64   a5 g5 f5 e5 1 seq5 d5 c5 b4 a4 1 seq5
+   b4 g4 a4 b4 1 seq5 c5 d5 e5 f5 1 seq5 f3 g5 9 1/8
+   d3 8 1/8 e3 g4 c5 11 1/8 c3 8 1/8 g3 8 1/4
+   g2 d4 b4 11 1/4 c2 e4 c5 11 1/1 | ;
+: little 20 fudge ! p1 p2 p3 ;
+
+\ erbauliche gedanken eines tabakrauchers, tobacco    25jan86cht
+
+: /   5 1/4   ;
+: //   1 1/8  ;
+: //'  4 1/8  ;
+: m1   d3 d4 /   d4 d4 /   c4 d4 / | ;
+: m2   b3 g4 /   e3 4 1/8   a4 1 1/16 b4b 1 1/16   f3 a4 / | ;
+: m3   g3 g4 /   a3 f4 5 1/8 e4 //   a2 a4 / | ;
+: m4   d3 f4 /   a2 e4 5 1/8 f4 //   f2 d4 / | ;
+: m5   d2 f4 /   d3 f4 /   b2 f4 / | ;
+: m6   f3 a4 /   c3 4 1/8 b4 1 1/16 c5 1 1/16   d3 f4 / | ;
+: m7   b2 g4 /   c3 e4 /   c2 4 1/4 |    ;
+: m8   f2 f4 5 1/2 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: m9   c4 g4 / |   e3 g4 / |   g3 g4 | / ;
+: m10   b3 g4 /   g3 g4 /   c4 e4 / | ;
+: m11   f3 a4 /   g4 // f4 //   g3 e4 5 1/8 d4 // | ;
+: m12   a3 c4# /   g3 //' f3 //' e3 //' d3 //' | ;
+: m13   c3# a3 5 1/8 b2 //'   a2 c4# 5 1/8 b2 //'
+        c3# e4 5 1/8 d3 //' | ;
+: m14   e3 g4 /   d3 4 1/8 a4 1 1/16 b4b 1 1/16   c3# a4 / | ;
+: m15   d3 f4 /   f3 d4 /   a3 c4# / | ;
+: m16   d3 d4 /   a2 4 1/4   d2 4 1/4 | ;
+: p2   m9 m10 m11 m12 m13 m14 m15 m16 ;
+: tobacco   20 fudge !    p1 p1 p2 p2 ;
+
+\ polonaise-1                                         03jul88cht
+
+: 4-1   >r >r >r   5 1/16   r> 1 1/16 r> 1 1/16 r> 1 1/16 ;
+: 2-1   >r 5 1/8   r> 1 1/8 ;
+: 1-2   >r 5 1/8   r> 4 1/8 ;
+: m1   g3 g4 g4 g4 a4 4-1 |   g3 b4b / |   g3 c5 / | ;
+: m2   g3 a4 a4 a4 b4b 4-1 |   f3# c5 e3 1-2
+       f3# c5 d3 1-2 | ;
+: m3   g3 b4b b4b b4b c5 4-1   g2 d5 g5 2-1   c3 c5 g5 2-1 | ;
+: m4   d3 b4b b4b a4 b4b 4-1   g3 g4 g2 2-1   b2 g4 d3 2-1 | ;
+: m5   g3 b4b 5 3/16 a3 c5 5 1/16   b3 d5 /   a3 f5 / | ;
+: m6   b3 d5 d5 c5 b4b 4-1   f3 a4 b4b c5 a4 4-1
+       f3 f4 e3b 1-2 | ;
+: m7   d3 g5 d5 2-1   g3 b4b g5 2-1   e3b g5 f5 e5b d5 4-1 | ;
+: m8   c3 e5b c5 2-1   f3 a4 e5b 2-1 d3 f5 e5b d5 c5 4-1 | ;
+: p1   m1 m2 m3 m4 ;
+: p2   m5 m6 m7 m8 ;
+: m9   b2 d5 d5 c5 d5 4-1   g3 e5b d5 2-1   e3b c5 b4b 2-1 | ;
+: m10  f3 a4 5 1/16 b4b 1 1/16 e3b c5 5 1/16 a4 1 1/16
+       d3 b4b e3b 1-2   d3 b3 c3 1-2 | ;
+: m11  b2 d5 /   c3 e5b /   e3b g4 / | ;
+: m12   d3 f4# f4# f4# g4 4-1   d3 a4 d4 2-1
+        c3 f4# a4 2-1 | ;
+: m13   m11 ;
+: m14   m12 ;
+: m15   b2 d5 d5 d5 e5b 4-1   g2 d5 d5 d5 e5b 4-1
+        b2 d5 g5 2-1 | ;
+: m16   d3 b4b b4b a4 b4b 4-1   g2 g4 /   g2 g3 / | ;
+: p3   m9 m10 m11 m12 m13 m14 m15 m16 ;
+: polonaise-1  20 fudge !  p1 p1 p2 p3 p2 p3 ;
+
+\ menuet-1                                            26jan86cht
+
+: m1   g3 g4 b4 2-1   g3 d5 g5 2-1   d3 a4 f5# 2-1 | ;
+: m2   g2 g5 b2 1-2   d3 g4 g3 2-1   d3 g4 b2 2-1 | ;
+: m3   g2 g4 b4 2-1   g2 d5 g5 2-1   d3 a4 f5# 2-1 | ;
+: m4   m2 ;
+: m5   c3 e5 / |   g3 e5 / |   c3 e5 g5 2-1 | ;
+: m6   b2 d5 / |   g3 d5 / |   b2 d5 g5 2-1 | ;
+: m7   a2 c5 / |   f3# d5 c5 2-1   g3 b4 c5 2-1 | ;
+: m8   d3 a4 e3 1-2   f3# a4 d3 1-2   e3 a4 f3# 1-2 | ;
+: m9   m1 ;
+: m10   m2 ;
+: m11   m3 ;
+: m12   m4 ;
+: m13 c3 e5 /   e3 d5 c5 2-1   g3 b4 a4 2-1 | ;
+: m14   b2 d5 /   d3 c5 b4 2-1   g3 a4 g4 2-1 | ;
+: m15   c3 a4 a4 b4 c5 4-1 | c3 d4 /   d3 f4# / | ;
+: m16   g3 g4 /   d3 4 1/4   g2 4 1/4 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: p2   m9 m10 m11 m12 m13 m14 m15 m16 ;
+: m17   e3 g4 a4 2-1   d3# b4 a4 2-1   b2 g4 f4# 2-1 | ;
+: m18   e3 g4 /   b2 e4 /   e2 e4 / | ;
+: m19   e3 g5 f5# 2-1   g3 e5 g5 2-1   b3 f5# e5 2-1 | ;
+: m20   b2 f5# d3# 1-2   f3# b4 b3 1-2   f3# b4 d3# 1-2 | ;
+: m21   m19 ;
+: m22   b2 f5# /   a3 b4 /   g3 e5 / | ;
+: m23   a3 f5# f5# g5 a5 4-1   b3 b4 /   b2 d5# / | ;
+: m24   e3 e5 /   e3 d5 e5 2-1   e3 f5# / | ;
+: m25   b2 g5 / |   d3 g5 f5# 2-1   g3 e5 d5 2-1 | ;
+: m26   c3 e5 / |   d3 e5 d5 2-1   e3 c5 b4 2-1 | ;
+: m27   a2 c5 / |   b2 c5 b4 2-1   c3 a4 g4 2-1 | ;
+: m28   d3 f4# / |   a2 e4 f4# 2-1   d2 d4 / | ;
+: m29   f3# a4 d3 1-2   f3# d4 d3 2-1 |   f3# d4 d3 2-1 | ;
+: m30   g3 b4 d3 1-2   g3 d4 d3 1-2 |   g3 d4 d3 1-2 | ;
+: m31   f3# c5 /   d3 d5 c5 2-1   g3 b4 c5 2-1 | ;
+: m32   m8 ;
+: p3   m17 m18 m19 m20 m21 m22 m23 m24 m25 m26 m27 m28
+   m29 m30 m31 m32 ;
+: menuet-1   15 fudge ! p1 p2 p1 p2   p3 p2   p3 p2 ;
+
+\ gib dich zufrieden, content                         26jan86cht
+
+: //   5 1/8 ;
+: 2=1   >r   5 1/16   r> 1 1/16 ;
+: m0   e2 b4 // ;
+: m1   e3 g4 d3# 1-2   e3 a4 //   f3# b4 c5 2=1   g3 b4 f3# 1-2
+   g3 4 1/8   a3 a4 // | ;
+: m2   b3 g4 // a3 f4# //   b3 f4# // b2 g4 a4 2=1 |
+   e3 g4 // b2 f4# //   g2 e4 // b2 4 1/4 | ;
+: m3   e2 c5 // e3 b4 b4 2-1 d3 4 1/8 |   c3 e5 // c4 d5 d5 2-1
+   b3 4 1/8 | ;
+: m4   a3 f4# c5 2-1   g3 b4 a4 2-1 | d3 a4 /   g2 g4 / | ;
+: m5   m0 m1 ;
+: m6   m2 ;
+: m7   m3 ;
+: m8   m4 ;
+: m9   g3 b4 //   f3# a4 d3 1-2   g3 b4 // g2 a4 g4 2=1 |
+  d3 a4 e3 1-2   d3 b4 // c3 c5 // | ;
+: m10   b2 d5 c5 2-1 | e3 c5 b4 2-1 |   a2 c5 b4 2-1
+   a4 1 1/4 |    a3 c5 // ;
+: m11   b3 f4# a3 1-2   g3 e5 // f3# d5# //   g3 e5 f5# 2=1
+   f3# g5 //   e3 c5 // d3 b4 // | ;
+: m12   c3 a4 // b2 g5 //   a2 f5# e5 2-1   b2 d5# c5# 2-1
+   b4 1 1/4 |   g3 e5 // ;
+: m13   a3 d5 c5 2-1   f3# b4 a4 2-1 |   g3 b4 // b3 d4# //
+   c4 e4 // a3 a4 // | ;
+: m14   b3 g4 a3 1-2   b3 g4 5 1/32 f4# 1 1/32 g4 1 1/32
+   f4# 1 1/32   b2 e4 //   e3 e4 5 1/1 | ;
+: content   30 fudge ! m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 m10
+   m11 m12 m13 m14 ;
+
+\ schaff's mit mir, schaff                            26jan86cht
+
+: cord   ( n n n)   7 1/4 ;
+: m1   c3 e4 c5 cord   d3 f4 b4 cord   e3 g4 c5 cord | ;
+: m2   f3 f4 a4 cord   f3 g4 b4 cord   e3 g4 c5 cord | ;
+: m3   d3 c4 f4 cord   g3 4 1/8 g4 1 1/16 a4 1 1/16
+   g2 b3 g4 cord | ;
+: m4   c3 c4 e4 cord   g2 b3 d4 7 1/8 e4 1 1/8
+   c2 c4 c4 cord | ;
+: m5   c3 e4 g4 cord   c3 f4# a4 cord   b2 g4 b4 cord | ;
+: m6   a2 a4 c5 cord   g2 a4 c5 cord |   f2# a4 d5 cord | ;
+: m7   g2 g4 b4 7 1/8 a4 1 1/8   d3 g4 a4 cord
+   d2 f4# a4 cord | ;
+: m8   g2 g4 g4 cord   g3 4 1/8 f3 4 1/8 e3 4 1/8 d3 4 1/8 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: m9   e3 g4 c5 cord   f3 d5 e3 1-2   d3 e5 c3 1-2 | ;
+: m10   f3 f4 a4 cord   f3 g4 b4 cord   e3 g4 c5 cord | ;
+: m11   b2 g4 d5 cord   g2 4 1/8 e5 1 1/16 f5 1 1/16 |
+   c3 g4 e5 cord | ;
+: m12   g2 b4 d5 cord   g3 4 1/8 a3 4 1/8 b3 4 1/8 g3 4 1/8 | ;
+: m13   c4 g4 e5 7 1/8 f5 1 1/16 g5 1 1/16   c3 f5 e5 2-1
+   e3 d5 c5 2-1 | ;
+: m14   f3 f4 a4 cord   e3 b4 d3 1-2   e3 g4 c5 7 1/8
+   c3 4 1/8 | ;
+: m15   a3 c5 f5 cord   f3 c5 d5 cord   g3 b4 d5 cord | ;
+: m16   c3 c5 c5 7 1/1 | ;
+: p2   m9 m10 m11 m12 m13 m14 m15 m16 ;
+: schaff   20 fudge ! p1 p1 p2 ;
+
+\ menuet-2                                            26jan86cht
+
+: m1   b2b b4b c3 1-2   d3 b4b c3 1-2   d3 f4 //
+   b2b 4 1/16 g4 1 1/16 | ;
+: m2   c3 f4 b2b 1-2   c3 e4b f2 1-2   b2b d4 / | ;
+: m3   e2b c4 g3 1-2   f3 c5 e3b 1-2   d3 4 1/8 c3 d5 e5b 2=1
+   | ;
+: m4   f3 b4b c3 1-2   e3b a4 d3 1-2   c3 b4b b2b 1-2 | ;
+: m5   a2 c5 c3 1-2   b2b f4 a2 1-2   g2 e5b f2 1-2 | ;
+: m6   b2b d5 c5 2-1   c3 b4b a4 2-1   d3 b4b / | ;
+: m7   g2 e5b f5 2=1 g5 1 1/8 |   a2 f5 e5b 2-1
+   b2b d5 e5b 2-1 | ;
+: m8   f2 c5 e2 1-2   f2 4 1/8 g2 4 1/8 a2 4 1/8 f2 4 1/8 | ;
+: m9   f2 c5 /   a2 4 1/4   c3 4 1/4 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 ;
+: m10   f3 a4 e3b 1-2 |   d3 a4 // c3 4 1/16 b4b 1 1/16
+   d3 c5 5 1/32 b4b 1 1/32 c5 1 1/32 b4b 1 1/32
+   b2b c5 5 1/32 b4b 1 1/32   a4 1 1/32 b4b 1 1/32 | ;
+: m11   f3 c5 f2 1-2   g2 b4b // a2 a4 // b2b g4 //
+   c3 f4 // | ;
+: m12    d3 b4b /   e3 a4 g4 2-1   f3 a4 f4 2-1 | ;
+: m13   c3 g4 f4 2-1   c4 e4 d4 2-1   b3b e4 c4 2-1 | ;
+: m14   a3 c4 d4 2-1   g3 e4 f4 2-1   f3 g4 a4 2-1 | ;
+: m15   e3 b4b d3 1-2   c3 e5 b2b 1-2   a2 e5 f5 2=1
+   g2 g5 // | ;
+: m16   a2 c5 /   b2b b4b a4 2-1   c3 g4 a4 2-1 | ;
+: m17   f2 f4 c3 1-2   f3 4 1/8 d3 4 1/8 e3 4 1/8 c3 4 1/8 | ;
+: p2   m10 m11 m12 m13 m14 m15 m16 m17 ;
+: m18   d3 f4 f3 1-2   e3b b4b d3 1-2   c3 b4b c5 2=1
+   b2b d5 // | ;
+: m19   a2 f4 c3 1-2   b2b c5 a2 1-2   g2 c5 d5 2=1
+   f2 e5b // | ;
+: m20   b2b d5 f5 2-1   g2 e5b d5 2-1   e2b c5 b4b 2-1 | ;
+: m21   f2 a4 f3 1-2   e3b g4 // d3 a4 // e3b f4 c3 1-2 | ;
+: m22   d3 b4b c3 1-2 |   d3 b4b b2b 1-2   c3 a4 d3 1-2 | ;
+: m23   e3b g4 f3 1-2   g3 f4 // a3 e4b //   b3b d4 a3 1-2 | ;
+: m24   g3 e5b / e3b d5 / f3 c5 / | ;
+: m25   b2b b4b a2 1-2   b2b 4 1/8 c3 4 1/8 d3 4 1/8
+   e3b 4 1/8 | ;
+: m26   b2b b4b 5 1/1 | ;
+: p3   m18 m19 m20 m21 m22 m23 m24 ;
+: menuet-2   15 fudge ! p1 m8 p1 m9   p2 p3 m25
+   p2 p3 m26 ;
+
+\ menuet-3                                            26jan86cht
+
+: m1   g3 g4 / e3 4 1/4   c3 a4 / | ;
+: m2   d3 f4# /   d4 1 1/4   a3 a4 / | ;
+: m3   c4 c5 /   a3 a4 /   f3# f4# / | ;
+: m4   d3 e4 / z d4 5 1/8   c4 4 1/8 b3 4 1/8 a3 4 1/8 | ;
+: m5   g3 b4 /   f3# d5 c5 2-1   d3 b4 a4 2-1 | ;
+: m6   e3 g4 /   d3 b4 a4 2-1   b2 g4 f4# 2-1 | ;
+: m7   c3 e4 /   a2 c5 /   g2 b4 / | ;
+: m8   d3 a4 c3# 1-2   d3 a4 e3 1-2 f3# a4 d3 1-2 | ;
+: m9   d3 a4 5 3/4 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 ;
+: m10   d3 d5 /   b2 d5 /   g2 e5 / | ;
+: m11   a2 c5# /   a2 a4 /   e3 e5 / | ;
+: m12   g3 g5 /   e3 e5 /   c3# c5# / | ;
+: m13   a2 a4 /   a3 a4 b3 1-2   c4# a4 d4 1-2 | ;
+: m14   e4 g5 /   c4# g5 /   a3 a5 / | ;
+: m15   d4 f5# /   b3 d5 /   g3 e5 / | ;
+: m16   f3# a4 /   g3 d5 /   a3 c5# / | ;
+: m17   d3 d5 c3# 1-2   d3 d5 e3 1-2   f3# d5 d3 1-2 | ;
+: m18   g3 b4 /   f3# d5 c5 2-1   d3 b4 a4 2-1 | ;
+: m19   e3 g4 /   d3 b4 a4 2-1   b2 g4 f4# 2-1 | ;
+: m20   c3 e4 /   a2 c5 /   g2 b4 / | ;
+: m21   d3 a4 d2 1-2   d3 a4 e3 1-2   f3# a4 d3 1-2 | ;
+: m22   g3 g4 /   e3 g4 /   c3 a4 / | ;
+: m23   d3 f4# /   d3 d4 /   a3 a4 / | ;
+: m24   c4 c5 /   a3 a4 /   f3# f4# / | ;
+: m25   d3 d4 5 3/8 c3 4 1/8   b2 d4 a2 1-2 | ;
+: p2   m10 m11 m12 m13 m14 m15 m16 m17 m18 m19 m20
+   m21 m22 m23 m24 m25 ;
+: m26   g2 b4 /   b2 d5 c5 2-1   d3 b4 a4 2-1 | ;
+: m27   g3 b4 /   f3# d5 c5 2-1   d3 b4 a4 2-1 | ;
+: m28   b2 g4 /   c3 a4 /   d3 f4# / | ;
+: m29   g2 g4 f2# 1-2   g2 g4 a2 1-2   b2 g4 c3 1-2 | ;
+: m30   g3 g4 /   d3 g4 /   g2 4 1/2 | ;
+: menuet-3   15 fudge ! p1 m8   p1 m9
+   p2 m26 m27 m28 m29   p2 m26 m27 m28 m30 ;
+
+\ march-1                                             26jan86cht
+
+: m0  z a4 / | ;
+: m1   d3 d5 /  g3 a4 /  f3# a4 / e3 b4 c5# 2-1 | ;
+: m2  m1 ;
+: m3  f3# d5 e5 2-1  d3 f5# g5 2-1  c3# a5 g5 2-1
+   a2 f5# e5 2-1 | ;
+: m4   d2 f5# /  d3 d5 c3# 1-2  d3 d5 /  d2 f5# e5 2-1 | ;
+: m5   m4 ;
+: m6   d2 b4 g4# 2-1  d3 e5 c3# 1-2  d3 e5 d5 2-1
+   d2 c5# b4 2-1 | ;
+: m7   c2# a4 /  f2# a4 d5 2-1  d2 c5# 5 1/8
+   c5# b4 2dup 3 for 1 1/32 next   e2 b4 a4 2-1 | ;
+: m8   a2 a4 / | a2 e4 // | a2 a4 // |  a2 c5# // |
+   a2 a4 // |  a2 c5# // |  a2 e5 // | ;
+: m9   a2 a5 /   e3 a5 /   a3 a5 / | ;
+: p1   m0 m1 m2 m3 m4 m5 m6 m7 m8 m9 ;
+: m9'   z e5 / | ;
+: m10   a3 a5 /  d4 e5 /  c4# e5 /  b3 f5# g5# 2-1 | ;
+: m11   m10 ;
+: m12   a3 a5 /  b3 g5 f5# 2-1  c4# e5 f5# 2-1  a3 g5 e5 2-1 |
+   ;
+: m13   d4 f5# /  d3 d5 e3 1-2  f3# d5 a4 2-1  d3 b4 c5 2-1
+   | ;
+: m14  g3 b4 d5 2-1  z e5 f5# 2-1  z g5 b4 2-1
+   g3# c5# d5 2-1 | ;
+: m15  a3 c5# e5 2-1  z f5# g5 2-1  z a5 c5# 2-1
+   a3# d5 e5 2-1 | ;
+: m16  b3 d5 g5 2-1  g3 b5 a5 2-1  e3 g5 f5# 2-1
+   g3 e5 d5 2-1 | ;
+: p2   m9' m10 m11 m12 m13 m14 m15 m16 ;
+: m17  a3 c5# a2 1-2  a3 a4 g3 1-2  f3# a4 e3 1-2
+   f3# d5 // d3 a4 // | ;
+: m18  g2 b4 a4 2-1  z g4 f4# 2-1  z g4 b4 2-1
+   g3 e5 b4 2-1 | ;
+: m19  a3 c5# a4 2-1  z b4 c5# 2-1  z d5 e5 2-1
+   g3 f5# g5 2-1 | ;
+: m20  f3# a5 /  b3 d5 /  g3 f5# e5 2-1  a3 d5 c5# 2-1 | ;
+: m21  d3 d5 /  d2 a4 // | d2 d5 // |  d2 f5# // |  d2 d5 // |
+   d2 f5# // | d2 a5 // | ;
+: m22  d2 d6 /  a2 4 1/4  d3 4 1/2 | ;
+: p3   m17 m18 m19 m20 m21 m22 ;
+: march-1   15 fudge ! p1 p1   p2 p3  p2 p3 ;
+
+\ menuet-4                                            26jan86cht
+
+: m1  g3 b3 d4 d5 15 1/4  g4 1 1/8 a4 1 1/8 |
+   a3 b4 c5 2-1 | ;
+: m2  b3 d5 /  b3 g4 / |  b3 g4 / | ;
+: m3  c4 e5 /  c5 1 1/32 b4 1 1/32 c5 1 1/16  d5 1 1/8
+   c4 e5 f5# 2-1 | ;
+: m4  b3 g5 /  b3 g4 / |  b3 g4 / | ;
+: m5  a3 c5 5 1/32 b4 1 1/32 c5 1 3/16   a3 d5 c5 2-1
+   a3 b4 a4 2-1 | ;
+: m6  g3 b4 /  g3 c5 b4 2-1  g3 a4 g4 2-1 | ;
+: m7  d4 f4# /  b3 g4 a4 2-1  g3 b4 g4 2-1 | ;
+: m8  d4 b4 /  d3 a4 c4 1-2  b3 a4 a3 1-2 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: m9  b3 d5 /  b3 g4 a4 2-1  a3 b4 c5 2-1 | ;
+: m10  g3 d5 /  b3 g4 / |  g3 g4 / | ;
+: m11  m3 ;
+: m12  b3 g5 /  c4 g4 b3 1-2 |  a3 g4 g3 1-2 | ;
+: m13  a3 c5 5 1/32 b4 1 1/32 c5 1 3/16  a3 d5 c5 2-1
+   f3# b4 a4 2-1 | ;
+: m14  g3 b4 /  g3 c5 b4 2-1  b3 a4 g4 2-1 | ;
+: m15  c4 a4 /  d4 b4 a4 2-1  d3 g4 f4# 2-1 | ;
+: m16  g3 g4 5 1/2  g2 4 1/2 | ;
+: p2   m9 m10 m11 m12 m13 m14 m15 m16 ;
+: m17  g3 b5 /  g3 g5 a5 2-1  g3 b5 g5 2-1 | ;
+: m18  f3# a5 /  f3# d5 e5 2-1  f3# f5# d5 2-1 | ;
+: m19  e3 g5 /  g3 e5 f5# 2-1  e3 g5 d5 2-1 | ;
+: m20  a3 c5# /  a3 b4 c5# 2-1  a2 a4 / | ;
+: p3   m17 m18 m19 m20 ;
+: m21  a3 a4 b4 2-1  a3 c5# d5 2-1  a3 e5 f5# 2-1 | ;
+: m22  b3 g5 /  d4 f5# /  c4# e5 / | ;
+: m23  d4 f5# /  f3# a4 /  a3 c5# / | ;
+: m24  d4 d5 /  d3 d5 /  c4 d5 / | ;
+: m25  b3 d5 /  d4 g4 3 1/8 f4# 1 1/8  b3 g4 / | ;
+: m26  c4 e5 /  e4 g4 3 1/8 f4# 1 1/8  c4 g4 / | ;
+: m27 b3 d5 /  a3 c5 /  g3 b4 / | ;
+: m28  d4 a4 g4 2-1  d4 f4# g4 2-1  z a4 / | ;
+: m29  d3 d4 e4 2-1  d3 f4# g4 2-1  f3# a4 3 1/8 b4 1 1/8 | ;
+: m30  e3 c5 / |  g3 c5 5 1/32 b4 1 1/32  c5 1 1/8
+   f3# a4 / | ;
+: m31  g3 b4 d5 2-1  b2 g4 /  d3 f4# /  g3 b3 d4 g4 15 1/4
+   d3 4 1/4  g2 4 1/2 | ;
+: p4   m21 m22 m23 m24 m25 m26 m27 m28 m29 m30 m31 ;
+: menuet-4   15 fudge ! p1 p2 p1 p2  p3 p4 p3 p4 ;
+
+\ menuet-5                                            27jan86cht
+
+: tr ( n m)   swap 2dup 2 for 1 1/32 next  1 1/8 ;
+: m1  g3 b5b /  g3 a5 /  g3 g5 / | ;
+: m2  f3 a5 /  f3 d5 / | f3 d5 / | ;
+: m3  e3b g5 /  e3b g4 a4 2-1  e3b b4b c5 2-1 | ;
+: m4  d3 d5 /  d4 d5 c4 1-2  b3b d5 a3 1-2 | ;
+: m5  g3 b3 e5b 7 1/4  g3 f5 e5b 2-1 |  a3 d5 c5 2-1 | ;
+: m6  b3b d5 /  b3b e5b d5 2-1  g3 c5 b4b 2-1 | ;
+: m7  a3 c5 /  f3# d5 c5 2-1  g3 b4b c5 2-1 | ;
+: m8  d3 4 1/128  b4b a4 tr  d4 a4 c4 2-1  b3b a4 a3 2-1 | ;
+: m9  g3 b5b / | b5b a5 tr  g3 g5 / | ;
+: m10  m2 ;
+: m11  m3 ;
+: m12  d3 d5 /  d4 d5 c4 2-1  b3 d5 a3 2-1 | ;
+: m13  b3 d4 f5 7 1/128  g5 f5 tr  b3 g5 f5 2-1
+   g3 e5b d5 2-1 | ;
+: m14  c4 e5b /  a3 f5 e5b 2-1  f3 d5 c5 2-1 | ;
+: m15  b3b d5 /  e3b g5 /  f3 a3 6 1/128 d5 c5 tr | ;
+: m16  b3b d4 f4 b4b 15 1/4  b2b 4 1/2 | ;
+: p1  m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 m13 m14 m15 m16 ;
+: m17  b3b d5 /  b3b b4b c5 2-1  b3b d5 e5 2-1 | ;
+: m18  a3 f5 /  g3 g5 /  f3 a5 / | ;
+: m19  g3 b5b /  e3 g5 a5 2-1  c3 b5b g5 2-1 | ;
+: m20  f3 a5 /  f3 g5 a5 2-1  z f5 / | ;
+: m21  a3 f4 g4 2-1  g3 a4 b4b 2-1  f3 c5 d5 2-1 | ;
+: m22  g3 e5b /  f3 4 1/128 e5b d5 tr  e3b c5 / | ;
+: p2  m17 m18 m19 m20 m21 m22 ;
+: m23  d3 f5 /  e3b b4b /  f3 a4 / | ;
+: m24  b2b b4b /  d4 b4b /  c4 b4b / | ;
+: m25  b3 d4 g4 7 1/4  b3 d5 c5 2-1  b3 z d5 7 1/4 | ;
+: m26  c4 g5 /  c4 e5b d5 2-1  c4 e5b / | ;
+: m27  b3b g4 d5 2-1  a3 f4# c5 2-1  g3 g4 b4b 2-1 | ;
+: m28  d4 a4 /  a3 a4 g3 1-2  f3# z e3 1-2 | ;
+: m29  d3 d4 e4 2-1  d3 f4# g4 2-1  z a4 b4b 2-1 | ;
+: m30  e3b c5 /  d3 b4b /  c3 a4 / | ;
+: m31  b2b c5 5 1/32 b4b 1 1/32 c5 1 1/32 b4b 1 1/32
+   c5 1 1/16 d5 1 1/16  c3 g4 /  d3 4 1/128 g4 f4# tr | ;
+: m32  g3 b3b d4 g4 15 1/4  g2 4 1/2 | ;
+: p3  m23 m24 m25 m26 m27 m28 m29 m30 m31 m32 ;
+: menuet-5   15 fudge ! p1 p1  p2 p3 p2 p3 ;
+
+\ march-2                                           27jan86cht
+
+: seq ( n1 n2 #)   1 - for 2dup // | next 2drop ;
+: m1  z d5 // g2 g4 4 seq  f5# a4 3 1/8  g5 b4 3 1/8
+   e5 c5 3 1/8 | ;
+: m2  d5 b5 3 1/8  g2 g4 4 seq  d5 b4 3 1/8  e5 c5 3 1/8
+   c5 a4 3 1/8 | ;
+: m3  b4 g4 3 1/8 | z g4 //  g2 b4 d5 2-1  b2 g5 d5 2-1
+   g2 g5 // g2 a5 b5 2=1 | ;
+: m4  d3 a5 g5 2-1  e3 f5# e5 2-1  f3# d5 /  d3 c5 / | ;
+: m5  g3 b4 g4 2-1 | g2 g4 g5 2-1 |  g2 g5 g4 2-1 |
+   f3# g4 g5 2-1 | ;
+: m6  e3 g5 c5# 2-1 | a2 c5# g5 2-1 |  a2 g5 c5# 2-1 |
+   c3# c5# g5 2-1 | ;
+: p1   m1 m2 m3 m4 m5 m6 ;
+: m7  d3 f5# /  f3# e5 d5 2-1  a3 4 1/128
+   d5 c5# tr  a2 c5# d5 2-1 | ;
+: m8  d3 d5 //  a3 a4 2 seq  f3# f4# 2 seq  a3 a4 2 seq
+   f3# f4# // | ;
+: m9  d3 d4 5 1/1 | ;
+: p2  m7 m8 m9 ;
+: m10  d2 d5 a4 2-1 |  d2 a4 2 seq  d2 d5 f4# 2-1 |
+   d2 f4# 2 seq ;
+: m11  d2 d5 // |  d2 d4 4 seq  d2 d4 //  e2 f4# g4 2-1 | ;
+: m12  f2# a4 g4 2-1  d2 a4 b4 2-1  d2 c5 b4 2-1
+   e2 c5 // f2# d5 // | ;
+: m13  g2 c5 b4 2-1  d3 a4 b4 2-1  g3 g4 d5 2-1
+   d3 e5 f5# 2-1 | ;
+: p3  m10 m11 m12 m13 ;
+: m14  g2 g5 d5 2-1 | g2 d5 2 seq g2 g5 b4 2-1 | g2 b4 2 seq ;
+: m15 g2 g5 // |  g2 g4 3 seq  g2 g4 a4 2-1  a2 b4 c5 2-1 | ;
+: m16  b2 d5 c5 2-1  g2 d5 e5 2-1  g2 f5 e5 2-1
+   a2 f5 // b2 g5 // | ;
+: m17  c3 f5 e5 2-1 g3 d5 e5 2-1 c4 c5 b4 2-1 g3 c5 d5 2-1 | ;
+: m18  c3 e5 c5 2-1 |  c3 c5 a4 2-1 |  z a4 f5# 2-1
+   | c3 f5# g5 2-1 | ;
+: m19  b2 d5 b4 2-1 |  z b4 g4 2-1 |  z g4 f5# 2-1 |
+   b2 f5# g5 2-1 | ;
+: m20 a2 c5 / g2 b4 a4 2-1 d3 4 1/128 b4 a4 tr d2 a4 g4 2-1 ;
+: m21 g2 g4 // d3 d4 2 seq b2 b3 2 seq d3 d4 2 seq b2 b3 // ;
+: m22  g2 g3 5 1/1 | ;
+: p4  m14 m15 m16 m17 m18 m19 m20 m21 m22 ;
+: march-2   15 fudge ! p1 p2 p1 p2 p3 p4 p3 p4 ;
+
+\ menuet-6                                            27jan86cht
+
+: m1  d3 a4 /  d3 f5 e5 2-1  e3 d5 c5# 2-1 | ;
+: m2  f3 d5 /  f3 a4 /  g3 b4b / | ;
+: m3  a3 c4# e4 2-1  a3 g4 b4b 2-1  a2 a4 g4 2-1 | ;
+: m4  d3 f4 /  a2 e4 f4 2-1  d2 d4 / | ;
+: m5  d3 f4 /  c3 b4b a4 2-1  b2b d5 c5 2-1 | ;
+: m6  a2 d5 5 1/32 e5 1 1/32 f5 1 3/16  a2 e5 d5 2-1
+   e3 c5 b4b 2-1 | ;
+: m7  f3 a4 // b4b 1 1/16 c5 1 1/16  a2 f4 /  c3 e4 / | ;
+: m8  f2 f4 /  f3 f4 e3 1-2  d3 f4 c3# 1-2 | ;
+: m9  f3 f4 /  c3 4 1/4  f2 4 1/4 | ;
+: p1  m1 m2 m3 m4 m5 m6 m7 ;
+: m10  f3 a5 /  a3 f4 a5 2-1  b3b g5 f5 2-1 | ;
+: m11  c4 e5 f5 2=1 g5 1 1/8  c4 c5 g3 1-2  e3 c5 c3 1-2 | ;
+: m12  d3 f5 /  c3 d4 f5 2-1  b2b e5 d5 2-1 | ;
+: m13  a2 c5# d5 2=1 b2 e5 //  c3# a4 d3 2-1 e3 a4 f3 2-1 | ;
+: m14  g3 a4 b4 2-1  e3 c5# d5 2-1  c3# e5 f5 2-1 | ;
+: m15  a2 g5 e5 2-1  a3 c5# b5b 2-1  c4# a5 g5 2-1 | ;
+: m16  d4 f5 e5 2=1  d5 1 1/8  g3 e5 /  a3 c5# / | ;
+: m17  d3 d5 /  d2 d5 a2 1-2  d3 d5 e3 1-2 | ;
+: m25  d3 d5 /  a2 d5 /  d2 d5 / | ;
+: p2  m10 m11 m12 m13 m14 m15 m16 ;
+: menuet-6   15 fudge ! p1 m8  p1 m9   p2 m17 p2 m25 ;
+
+\ march-3                                             28jan86cht
+
+: /3 ( n1 n2 n3)   swap rot 2 for 1 1/12 next ;
+
+: m1  e3b e4b g4 2-1  g3 b4b /  a3b c5 // f3 d5 //
+   g3 e5b b4b 2-1  e3b g5 / | ;
+: m2  b2b g5 f5 2-1  b3b e5b d5 2-1  e3b e5b /
+   a3b a4b c5 7 1/4 | ;
+: m3  b3b a4b c5 7 1/4  g4 b4b 3 1/4  b2b 4 1/4
+   f4 a4b 3 1/4 | ;
+: m4  e3b 4 1/128 g4 f4 e4b /3  g3 e4b f3 1-2  g3 e4b /
+   e3b g5 / | ;
+: m5  d3 4 1/128 f5 e5b d5 /3 |  b3b d5 2dup // | //
+   b2b d5 f5 2-1  b3b e5b d5 2-1 | ;
+: m6  f2 4 1/128 e5b d5 c5 /3 |  2 for  f3 a3 c5 7 1/8 |
+   next  e5b 1 1/8  f3 a3 d5 7 1/8 c5 1 1/8 | ;
+: /4 ( n1 n2 n3 n4)   1 for   4dup 15 1/8  z z 3 1/128
+   2dup 3 1/8  z z 3 1/128  next  2drop 2drop ;
+: m7  f3 b3b 6 1/128 d5 e5b f5 /3 |  f3 a3b d5 f5 /4
+   | f3 b3b b5b 13 1/8 d5 1 1/8 | ;
+: m8  f3 a3 6 1/128 c5 d5 e5b /3 |  f3 a3 c5 e5b /4 |
+   f3 a3 c6 13 1/8  e5b 1 1/8 | ;
+: m9  b3b 4 1/128 d5 b5b a5 /3 |  e3b 4 1/128 g5 f5 e5b /3
+   f3 4 1/128 d5 c5 b4b /3  f2 d5 c5 2=1  f2 d5 c5 2=1 ;
+: m10  b2b b4b /  f2 b4b /  b1 b4b / | ;
+: p1  m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 ;
+: m11  b2b b4b d5 2-1 | b2b f4 /  c3 e5b d5 2-1
+   d3 c5 b4b 2-1  b2b a5b / | ;
+: m12  e2b b5b 5 1/32  a5b b5b tr  e3b g5 d3 1-2
+   e3b g5 f3 1-2  e3b g4 d3 1-2 | ;
+: m13  c3 4 1/128  e5b d5 c5 /3  d3 4 1/128  f5 e5b d5 /3
+   e3b 4 1/128  g5 f5 e5b /3  f3 a5b c5 2-1 | ;
+: m14  g2 d5 5 1/32  c5 d5 tr  g3 b4 f3# 1-2  g3 b4 /
+   g2 g4 // |  g2 g4 // | ;
+: m15  g2 b4 g4 2-1 |  g2 d5 g4 2-1 |  g2 g4 f4 2-1 |
+   g2 f4 // |  g2 f4 // | ;
+: m16  g2 b4 g4 2-1 |  g2 d5 f4 2-1 |  c3 f4 e4b 2-1 |
+   c3 c5 e5b 2-1 | ;
+: p2   m11 m12 m13 m14 m15 m16 ;
+: m17  e3b g5 c5 2-1  a3b 4 1/128 f5 e5b d5 /3
+   g3 e5b 5 1/32  e5b d5 tr  g2 d5 / | ;
+: m18  c3 c5 /  c4 c5 /  b3b c5 a3b 2-1  g3 e5b // f3 d5 // | ;
+: m19  g3 e5b b4b 2-1  e3b g5 f3 1-2  g3 g5 /  e3b d5b / | ;
+: m20  a2b e5b 5 1/32  d5b e5b tr  a3b c5 g3 1-2
+   a3b c5 /  f3 d5 / | ;
+: m21  g3 4 1/128 e5b f5 g5 /3  d3 4 1/128 a5b g5 f5 /3
+   e3b 4 1/128 g5 f4 e5b /3  g3 b5b e5b 2-1 | ;
+: m22  b3b 4 1/128 d5 c5 b4b /3 |  b2b b4b c3 1-2
+   d3 b4b /  b2b a4b / | ;
+: m23  e3b 4 1/128 g4 a4b b4b /3 |  e3b z g4 b4b /4
+   e2b e5b g4 2-1 | ;
+: p3   m17 m18 m19 m20 m21 m22 m23 ;
+: m24  b2b 4 1/128 f4 g4 a4b /3 |  b2b d3 f4 a4b /4
+   | b2b d3 f5 13 1/8  a4b 1 1/8 | ;
+: m25  b2b e3b 12 1/128  g4 a4b b4b /3 |  b2b e3b g4 b4b
+   15 1/8 |  b2b e3b g4 a4b 15 1/8 |  b2b e3b g5 13 1/8
+   b4b 1 1/8 |  b2b e3b a4b 13 1/8 g4 1 1/8 | ;
+: m26  b2b d3 12 1/128  f4 g4 a4b /3 |  b2b d3 f4 a4b
+   15 1/8 |  b2b d3 f4 a4b 15 1/8 |  b2b d3 f5 13 1/8
+   a4b 1 1/8 |  b2b d3 g4 13 1/8 f4 1 1/8 | ;
+: m27  e3b 4 1/128 g4 e5b d5 /3  a3b 4 1/128 c5 b4b a4b /3
+   a3b 4 1/128 g4 f4 e4b /3  b2b g4 5 1/32 f4 g4 tr | ;
+: m28  e3b e4b /  b2b e4b /  e2b e4b / | z 1 1/4 ;
+: p4   m24 m25 m26 m27 m28 ;
+: march-3   15 fudge ! p1 p1   p2 p3 p4   p2 p3 p4 ;
+
+\ menuet-7                                            02feb86cht
+
+: m1  c3 c5 / |  c3 c5 / |  z d5 / | ;
+: m2  c3 e5b / | c3 e5b / |  d3 f5 / | ;
+: m3  e3b g5 / |  e3b g5 / |  c3 a5b / | ;
+: m4  d3 4 1/128   2 for g5 1 1/12
+      f5# 1 1/12 next
+      c3 4 1/128  f5# e5 g5 f5# 2dup 5 for 1 1/12 next
+      b2 g5 / | ;
+: m5  b2b g5 a5b 2-1  b2b f5 e5 2-1  a2 f5 / | ;
+: m6  a2b f5 g5 2-1  b2b e5b d5 2-1  g2 e5b / | ;
+: m7  a2b c5 b4 2-1  a2b c5 /  f2 d5 / | ;
+: m8  g2 g4 /  g3 g4 f3 1-2  e3b g4 d3 1-2 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: m9  c3 g4 / |  e3 g4 / |  f3 a4b / | ;
+: m10  g3 b4b a4b 2-1  e3 g4 a4b 2-1  c3 b4b / | ;
+: m11  e3 c4 /   c3 e4 /  e3 4 1/128  g4 a4b b4b /3 | ;
+: m12  f3 a4b g4 2-1  f3 f4 g3 1-2  f3 f4 e3b 1-2 | ;
+: m13  d3 f4 / |  b2b f4 / |  e3b g4 / | ;
+: m14  f3 a4b g4 2-1  d3 f4 g4 2-1  c3 a4b / | ;
+: m15  d3 b3b /  b2b d4 /  d3 4 1/128  f4 g4 a4b /3 | ;
+: m16  e3b g4 f4 2-1  e3b e4b f3 1-2  e3b e4b d3 1-2 | ;
+: m17  c3 g4 / |  f3 a4b / |  e3b a4 / | ;
+: m18  d3 b4b / |  g3 b4 / |  e3b c5 / | ;
+: m19  d3 b4 / |  c3 c5 / |  b2 d5 / | ;
+: m20  c3 e5b / |  b2b e5 / |  a2 f5 / | ;
+: m21  b2 d5 / |  c3 e5b / |  b2b e5 / | ;
+: p2   m9 m10 m11 m12 m13 m14 m15 m16 m17 m18 m19
+   m20 m21 ;
+: m22  a2 f5 / |  a2b f5# / |  g2 g5 / | ;
+: m23  e3b g4 / |  f3 f5 e5b 2-1 |  g3 d5 e5b 2-1 | ;
+: m24  c3 c5 5 3/4 | z 1 1/4 ;
+: p3   m22 m23 m24 ;
+: menuet-7   15 fudge ! p1 p1   p2 p3  p2 p3 ;
+
+\ prelude 1, c major                                  02jan86cht
+
+: cord ( n1 n2 n3)   swap rot   2 for   1 1/16   next ;
+: k1   g4 c5 e5 cord ;
+: m1   c4 z z 7 1/16   e4 2 1/16   k1 k1 | ;
+: k2   a4 d5 f5 cord ;
+: m2   c4 z z 7 1/16   d4 2 1/16   k2 k2 | ;
+: k3   g4 d5 f5 cord ;
+: m3   b3 z z 7 1/16   d4 2 1/16   k3 k3 | ;
+: k4   a4 e5 a5 cord ;
+: m4   c4 z z 7 1/16   e4 2 1/16   k4 k4 | ;
+: k5   f4# a4 d5 cord ;
+: m5   c4 z z 7 1/16   d4 2 1/16   k5 k5 | ;
+: k6   g4 d5 g5 cord ;
+: m6   b3 z z 7 1/16   d4 2 1/16   k6 k6 | ;
+: p1   m1 m1   m2 m2   m3 m3   m1 m1   m4 m4   m5 m5   m6 m6 ;
+: lead ( n1 n2)   swap z z 7 1/16   2 1/16 ;
+: k7   e4 g4 c5 cord ;
+: m7   b3 c4 lead   k7 k7 | ;
+: m8   a3 c4 lead   k7 k7 | ;
+: k9   d4 f4# c5 cord ;
+: m9   d3 a3 lead   k9 k9 | ;
+: k10   d4 g4 b4 cord ;
+: m10   g3 b3 lead   k10 k10 | ;
+: k11   e4 g4 c5# cord ;
+: m11   g3 a3# lead   k11 k11 | ;
+: k12   d4 a4 d5 cord ;
+: m12   f3 a3 lead   k12 k12 | ;
+: k13   d4 f4 b4 cord ;
+: m13   f3 g3# lead   k13 k13 | ;
+: p2   m7 m7 m8 m8 m9 m9 m10 m10 m11 m11 m12 m12 m13 m13 ;
+: k14   c4 g4 c5 cord ;       : m14   e3 g3 lead k14 k14 | ;
+: k15   a3 c4 f4 cord ;       : m15   e3 f3 lead k15 k15 | ;
+: m16   d3 f3 lead   k15 k15 | ;
+: k17   g3 b3 f4 cord ;       : m17   g2 d3 lead k17 k17 | ;
+: k18   g3 c4 e4 cord ;       : m18   c3 e3 lead k18 k18 | ;
+: k19   a3# c4 e4 cord ;      : m19   c3 g3 lead k19 k19 | ;
+: k20   a3 c4 e4 cord ;       : m20   f2 f3 lead k20 k20 | ;
+: k21   a3 c4 d4# cord ;      : m21   f2# c3 lead k21 k21 | ;
+: k22   b3 c4 d4 cord ;       : m22   g2# f3 lead k22 k22 | ;
+: k23   g3 b3 d4 cord ;       : m23   g2 f3 lead k23 k23 | ;
+: k24   k18 ;                 : m24   g2 e3 lead k18 k18 | ;
+: k25   g3 c4 f4 cord ;       : m25   g2 d3 lead k25 k25 | ;
+: k26   g3 b3 f4 cord ;       : m26   g2 d3 lead k26 k26 | ;
+: p3   m14 m14 m15 m15 m16 m16 m17 m17 m18 m18 m19 m19
+    m20 m20 m21 m21 m22 m22 m23 m23 m24 m24 m25 m25 m26 m26 ;
+: k27   a3 c3 f3# cord ;       : m27   g2 d3# lead k27 k27 | ;
+: k28   g3 c4 g4 cord ;        : m28   g2 e3 lead k28 k28 | ;
+: k29   g3 c4 f4 cord ;        : m29   g2 d2 lead k29 k29 | ;
+: k30   g3 b3 f4 cord ;        : m30   g2 d2 lead k30 k30 | ;
+: k31   g3 a3# e4 cord ;       : m31   c2 c3 lead k31 k31 | ;
+: 14notes   13 for 1 1/16 next ;
+: k32   d3 f3 d3 f3 a3 f3 a3 c4 a3 c4 f4 c4 a3 f3 14notes | ;
+: m32   c2 c3 lead k32 ;
+: k33   d4 e4 f4 d4 b4 g4 b4 d5 b4 d5 f5 d5 b4 g4 14notes | ;
+: m33   c2 b2 lead k33 ;
+: finale c2 1 1/16 c3 8 1/16 e4 4 1/16 g4 2 1/16 c5 1 1/1 ;
+: p4   m27 m27 m28 m28 m29 m29 m30 m30 m31 m31 m32 m33
+   finale | ;
+: prelude-1   30 fudge ! p1 p2 p3 p4 ;
+
+\ aria, bist du bei mir                               02feb86cht
+
+: m1  e3b g4 b4b 7 1/4  c3 e5b /  f3 a4 6 1/8  f5 1 1/8 | ;
+: m2  b2b b4b d5 7 1/4  b3b 4 1/4   a3b  z z 7 1/4 | ;
+: m3  g3 e4b e5b 7 1/4  f3 f4 a4b 7 1/4 |  e3b f4 a4b
+   7 1/4 | ;
+: m4  d3 f4 a4b 7 1/4  b2b d4 6 1/4  e2b e4b g4 7 1/4 | ;
+: m5  e2 g4 6 1/8 b4b 1 1/8 |  e2 g4 d5 7 1/8 b4b 1 1/8 |
+   e2 g4 a4 7 1/8 b4b 1 1/8 | ;
+: m6  f2 f4 f4 7 1/8 b4b 1 1/8 |  f2 f4 d5 7 1/8 b4b 1 1/8 |
+   f2 f4 a4 7 1/8 b4b 1 1/8 | ;
+: m7  g2 e4b e4b 7 1/4  a2 c4 c5 7 1/4  f2 a4 6 1/8
+   d5 1 1/32  e5b 1 1/32 | ;
+: m8  b2b b4b d5 7 3/16 c5 1 1/16  e2b g4 b4b 7 3/16 c5 1 1/16
+   f2 f4 f4 7 3/16 a4 1 1/16 | ;
+: m9  b2b d4 b4b 7 1/4  f3 g3 a3b b3b 3 for 4 1/8 next | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 m9 ;
+: m10  g3 b4b e5b 7 1/4  e3b g5 e5b 2-1  g3 d5b c5 2-1 | ;
+: m11  a3b b4b c5 7 1/4  a4b 2 1/4  g3 4 1/4 | ;
+: m12  f3 a4b a5b 7 1/4  a3b c5 f5 7 1/4  f3 a4b 6 1/8
+   e5b 1 1/8 | ;
+: m13  b2b f4 e5b 7 1/32  d5 e5b d5 2 for 1 1/16 next  b2 e5b
+   5 1/32 d5 c5 d5 2 for 1 1/32 next   c3 e4b e5b 7 1/4 | ;
+: m14  a2 c5 6 1/8 e5b 1 1/8 |  a2 c5 g5 7 1/8 e5b 1 1/8 |
+   a2 c5 d5 7 1/8 e5b 1 1/8 | ;
+: m15  b2b g4 b4b 7 1/8 e5b 1 1/8 |  b2b g4 g5 7 1/8 e5b 1 1/8 |
+   b2b g4 d5 7 1/8 e5b 1 1/8 | ;
+: m16  c3 e4b a4b 7 1/4  d3 a4b f5 7 1/4  b2b d5 6 1/8
+   g5 1 1/16 a5b 1 1/16 | ;
+: m17  e3b e5b g5 7 3/16 f5 1 1/16  a2b c5 e5b 7 3/16 f5 1 1/16
+   b2b b4b b4b 7 3/16 d5 1 1/16 | ;
+: m18  e2b g4 e5b 7 1/4  d3 e3b f3 g3 3 for 4 1/8 next | ;
+: p2   m10 m11 m12 m13 m14 m15 m16 m17 m18 ;
+: m19  c3 e5b g5 7 1/4  c4 e5b 5 1/4  c3 b4b 6 1/8
+   d5 1 1/8 | ;
+: m20  f3 a4 c5 7 1/4  f2 4 1/4 |  e2b 4 1/4 | ;
+: m21  d2 b4b f5 7 1/4  g2 b4b 5 1/4  e2b g4 6 1/8
+   c5 1 1/8 | ;
+: m22  f2 f4 a4 7 1/4  b3b g4 3 1/8 a4 1 1/8
+   z a3 f4 7 1/4 | ;
+: m23  f2# a4 6 1/8 c5 1 1/8 |  f2# a4 e5b 7 1/8 c5 1 1/8 |
+   f2# a4 b4 7 1/8 c5 1 1/8 | ;
+: m24  g2 g4 g4 7 1/8 c5 1 1/8 |  g2 g4 e5b 7 1/8 c5 1 1/8 |
+   g2 g4 b4 7 1/8 c5 1 1/8 | ;
+: m25  a3b f4 f4 7 1/8 e4 1 1/8  f4 1 1/4  b2 a4b d5 7 3/16
+   e5b 1 1/32 f5 1 1/32 | ;
+: p3  m19 m20 m21 m22 m23 m24 m25 ;
+: m26  c3 g4 e5b 7 3/16 d5 1 1/16 |  e2b g4 c5 7 3/16 d5 1 1/16
+   | g2 g4 g4 7 3/16  b4 1 1/16 | ;
+: m27  c2 e4b c5 7 1/4  e4b 4 1/4  b3b 4 1/4 | ;
+: m28  a3 f4 f4 7 1/4  c5 e5b 3 1/4  f3 a4 6 1/8 f5 1 1/8 | ;
+: m29  m2 ;
+: m30  m3 ;
+: m31  m4 ;
+: m32  m5 ;
+: m33  m6 ;
+: m34  g2 e4b e4b 7 1/8 d4 1 1/8  a2 c4 e4b 7 1/4
+   f2 a4 c5 7 3/16  d5 1 1/32 e5b 1 1/32 | ;
+: m35  b2b b4b d5 7 3/16 c5 1 1/16  d2 f4 b4b 7 3/16 c5 1 1/16
+   f2 f4 f4 7 3/16 e4b a4 3 1/16 | ;
+: m36  b2b d4 b4b 7 1/4  b3b 4 1/4  a3b 4 1/4 | ;
+: m37  b2b d4 b4b 7 3/4 | ;
+: p4   m26 m27 m28 m29 m30 m31 m32 m33 m34 m35 ;
+: aria   20 fudge ! p1 p1   p2 p3 p4 m36   p2 p3 p4 m37 ;
+
+\ menuet-8                                            02feb86cht
+
+: m1  f3 c5 /  a3 d5 5 1/16 e5 1 1/16 f5 1 1/8  g3 e5 / | ;
+: m2  a3 4 1/128 f5 e5 d5 /3  f3 d5 g3 1-2  a3 c5 f3 1-2 | ;
+: m3  b3b 4 1/128 d5 e5b d5 /3  c4 4 1/128 c5 d5 c5 /3
+   c3 4 1/128 b4b c5 b4b /3 | ;
+: m4  f3 b4b /  c3 a4 d3 1-2  e3 g4 c3 1-2 | ;
+: m5  f3 a4 c5 2-1  a2 f4 c5 2-1  g2 g4 c5 2-1 | ;
+: m6  f2 a4 c5 2-1  g2 b4b c5 2-1  e2 g4 c5 2-1 | ;
+: m7  f2 a4 c5 2-1  a2 f4 c5 2-1  g2 g4 c5 2-1 | ;
+: m8  f2 a4 c5 2-1  g2 b4b c5 2-1  e2 g4 c5 2-1 | ;
+: m9  f2 a4 c5 2-1  f3 d5 e5 2-1  d3 f5 d5 2-1 | ;
+: m10  g3 c5 b4 2-1  e3 a4 g4 2-1  a3 c5 5 1/16
+   b4b c5 d5  2 for 1 1/16 next | ;
+: m11  f3 c5 f5 2-1  g3 e5 /  g2 d5 5 1/64  d5 e5 d5 2 for
+   1 1/64 next c5 1 1/16 d5 1 1/8  c3 c5 5 3/4 | z 1 1/4 ;
+: p1  m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 ;
+: m13  c3 g5 /  g3 f5 e5 2-1  g2 f5 d5 2-1 | ;
+: m14  c3 e5 g5 2-1  e3 b5b d3 1-2  e3 z c3 1-2 | ;
+: m15 f3 a5 /  b3b g5 f5 2-1  g3 e5 d5 2-1 | ;
+: m16  a3 d5 /  e3 c5# /  c3# c5# / | ;
+: m17  a2 c5# d5 2-1  a3 e5 c5# 2-1  e3 d5 e5 2-1 | ;
+: m18  c3# a4 d3 1-2 |  e3 a4 c3# 1-2 |  d3 a4 e3 1-2 | ;
+: m19  a2 c5# d5 2-1 |  a2 e5 c5# 2-1 |  a2 d5 e5 2-1 | ;
+: m20  c3# g4 d3 1-2 |  e3 g4 c3# 1-2 |  d3 g4 e3 1-2 | ;
+: m21  g2 c5# d5 2-1 |  g2 e5 c5# 2-1 |  g2 d5 e5 2-1 | ;
+: m22  f2 a4 d5 2-1  f3 c5 b4b 2-1  g3 a4 g4 2-1 | ;
+: m23  a3 f4 /  a3 g4 / |  a2 e4 / | ;
+: m24  d3 d4 //  g3 a3 b3b c4 d4 4 for 4 1/8 next | ;
+: p2   m13 m14 m15 m16 m17 m18 m19 m20 m21 m22 m23 m24 ;
+: m25  a3 c5 f5 2-1  a3 e5 f5 2-1  g3 e5b f5 2-1 | ;
+: m26  f3 a5 f5 2-1  b3b d5 f5 2-1  a3 c5 f5 2-1 | ;
+: m27  b3b d5 g5 2-1  b3b f5# g5 2-1  a3 f5 g5 2-1 | ;
+: m28  g3 b5b g5 2-1  c4 e5 g5 2-1  e3 c5 b4b 2-1 | ;
+: m29  f3 a4 f5 2-1  z g5 a5 2-1  z g5 f5 2-1 | ;
+: m30  g3 b4b g5 2-1  z a5 b5b 2-1  z a5 g5 2-1 | ;
+: m31  a3 c5 c6 2-1  b3b b5b a5 2-1  c4 g5 a5 2-1 | ;
+: m32  f3 g5 5 1/2  f5 1 1/4 | z 1 1/4 ;
+: p3   m25 m26 m27 m28 m29 m30 m31 m32 ;
+: menuet-8   15 fudge ! p1 p1   p2 p3  p2 p3 ;
+
+\ polonaise-2                                         02feb86cht
+
+: ///  5 1/32 ;
+: n1  g3 g4 /// a3 a4 /// b3b b4b //  a3 a4 /// f3# f4# ///  ;
+: m1  n1   g3 g4 //  e3b e4b / | ;
+: m2  n1   g3 g4 //  d3 d4 / | ;
+: m3  b2b g3 d5 7 1/8 z 1 1/128 d5 1 1/16 g4 1 1/16  c3 c5 e5b
+   7 1/8 b4b d5 3 1/8 | c3 a4 c5 7 1/8 g4 b4b 3 1/8 | ;
+: m4  d3 f4# a4 7 1/8 z z 3 1/128 f4# a4 3 1/16 g4 b4b 3 1/16
+   f4# a4 3 1/16 c3 4 1/16 d3 4 1/16 e3 4 1/16
+   f3# d4 6 1/16 e3 4 1/16 f3# 4 1/16 d3 4 1/16 | ;
+: m5  m1 ;
+: m6  m2 ;
+: m7  m3 ;
+: m8  d3 f4# a4 7 1/8 d2 g4 5 1/16 f4# 1 1/16  b3b g2 d4 g4
+   15 1/8 b2b 4 1/16 d3 4 1/16 g3 4 1/4 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: n9  b3b b4b 6 1/16 c4 c5 6 1/16 d4 d5 6 1/8  c4 c5 6 1/16
+   a3 a4 6 1/16 b3b b4b 6 1/8 ;
+: m9  n9  e3b b4b g5 7 1/4 | ;
+: m10  n9  d3 b4b f5 7 1/4 | ;
+: m11  e3b e5b g5 7 1/8 z z 3 1/128 e5b g5 3 1/8  e2b 4 1/8
+   d5 f5 3 1/8 e3b c5 e5b 7 1/8  b4b d5 3 1/8 | ;
+: m12  f3 c5 5 1/8 z 1 1/128 c5 1 1/16 d5 1 1/16  a4 c5 3 1/16
+   e3b 4 1/16 f3 4 1/16 g3 4 1/16  f3 f4 6 1/16
+   e3b 4 1/16 f3 4 1/16 d3 4 1/16 | ;
+: m13  c3 c5 e5b 7 1/16 b4 d5 3 1/16 c5 e5b 3 1/8
+   c4 c5 e5b 7 1/16 b4 d5 3 1/16 c5 e5b 3 1/8  z z 3 1/128
+   c5 e5b 3 1/16  b3b 4 1/16 a3b 4 1/16 g3 4 1/16 | ;
+: m14  a2b c5 e5b 7 1/16 b4 d5 3 1/16 c5 e5b 3 1/8 |
+   a3b c5 e5b 7 1/16 b4 d5 3 1/16 c5 e5b 3 1/8 z z 3 1/128
+   c5 e5b 3 1/16 g3 4 1/16 f3 4 1/16 e3b 4 1/16 | ;
+: m15  f3 c5 d5 7 1/8 b4 d5 3 1/16 a5b 1 1/16  g3 c5 e5b 7 1/8
+   e5b 1 1/16 f5 1 1/16  g2 b4 d5 7 1/8 d5 1 1/16 e5b 1 1/16 ;
+: m16  e4b c2 g4 c5 15 1/8 4 1 1/128 c5 1 1/16 b4 1 1/16
+   e4b g4 c5 11 1/16  b3 a3 g3 f3 e3b d3 c3
+   6 for 4 1/16 next | ;
+: m17  c4 g4 /// c5 1 1/16 b3b e5b //  a3 f4 /// c5 1 1/16
+   f3 e5b // |  b2b d5 /// f3 4 1/16 b3b 4 1/8 | ;
+: m18  b3b f4 /// b4b 1 1/16 a3 d5 //  g3 e4b /// b4b 1 1/16
+   e3b d5 //  a2 c5 /// e3b 4 1/16 a3 4 1/8 | ;
+: m19  a3 e4b /// a4 1 1/16 g3 c5 //  f3# d4 /// a4 1 1/16
+   d3 c5 //  g2 4 1/16  b4b 1 1/16 g3 a4 /// g4 1 1/16 | ;
+: m20  d3 c5# /// d5 1 1/16 b4b 1 1/16 g4 1 1/16  d2 a4 ///
+   f4# 1 1/16 g4 1 1/16 a4 1 1/16  d4 1 1/16 c4 4 1/16
+   b3b 4 1/16 a3 4 1/16 | ;
+: p2 m9 m10 m11 m12 m13 m14 m15 m16 m17 m18 m19 m20 ;
+: m21  m1 ;
+: m22  m2 ;
+: m23  m3 ;
+: m24  m8 ;
+: p3   m21 m22 m23 m24 ;
+: polonaise-2   25 fudge ! p1 p1   p2 p3  p2 p3 ;
+
+\ polonaise-3                                         02feb86cht
+
+: //4  2swap  3 1/16  3 1/16 ;
+: m1  g2 b4b g5 7 1/8 z z 3 1/128 b4b g5 a4 f5# //4
+   z b4b g5 7 1/8 |  b2b 4 1/16 g2 4 1/16 d3 4 1/4 | ;
+: m2  c5 a5 3 1/8 |  c5 a5 b4b g5 //4  c5 a5 3 1/8 |
+   f2# 4 1/16 d2 4 1/16  d3 4 1/4 | ;
+: m3  g2 d5 b5b 7 1/8 c5 a5 b4b g5 //4  g3 d5 b5b 7 1/8
+   c5 a5 b4b g5 //4  c3 c5 a5 7 1/8 d3 4 1/128
+   b4b g5 a4 f5# //4 | ;
+: m4  g2 b4b g5 7 1/8 z z 3 1/128 b4b d5 c5 e5b //4 |
+   b4b d5 3 1/8 a4 c5 3 1/8 | a4 c5 3 1/8 g4 b4b 3 1/8 | ;
+: m5 m1 ;   : m6 m2 ;   : m7 m3 ;
+: m8  g3 b4b g5 7 1/8 b3b b4b 6 1/16 d4 d5 6 1/16  g3 g4 6 1/8
+   b3b b4b 6 1/16 d4 d5 6 1/16 g3 g4 6 1/16 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: m9  b2b d3 2dup 2dup 12 1/8 z z 12 1/128  12 1/16
+   a2 c3 12 1/16  12 1/8 |  d5 b5b c5 a5 //4
+   d5 b5b 3 1/8 |  z 1 1/8 ;
+: m10  m9 ;
+: m11  b2b 4 1/128 d5 f5 e5b g5 //4  z d5 f5 7 1/8 b3b d5 f5
+   7 1/8  c5 e5b 3 1/16 a3 4 1/16 b3b b4b d5 7 1/8 | ;
+: m12  f3 b4b d5 7 1/16 b4b 1 1/16 b4b d5 a4 c5 //4
+   a4 c5 3 1/16  e3b f3 d3 e3b f3 g3 e3b
+   6 for 4 1/16 next | ;
+: m13  d3 a4 f5 7 1/16 c3 e5b 5 1/16 e3b g5 5 1/16 d3 f5 5 1/16
+   | c3 a4b f5 7 1/16 b2 g4 6 1/16 d3 b4b 6 1/16 c3 a4b 6 1/16
+   b2 g4 6 1/16 a2 4 1/16 c3 4 1/16 b2 4 1/16 | ;
+: m14  c3 g4 e5b 7 1/16 b2 d5 5 1/16 d3 f5 5 1/16 c3 e5b 5 1/16
+   | b2b g4 e5b 7 1/16 a2 f4 6 1/16 c3 a4 6 1/16 b2b g4 6 1/16
+   a2 f4 6 1/16 g2 4 1/16 b2b 4 1/16 a2 4 1/16 | ;
+: m15  b2b f4 d5 7 1/16 c5 1 1/16 b3b e5b 5 1/16 d5 1 1/16
+   a3 4 1/16 c5 1 1/16 a2 e5b 5 1/16 d5 1 1/16
+   g2 b4b 6 1/16 c5 1 1/16 g3 e5b 5 1/16 d5 1 1/16 | ;
+: m16  f3 b4b d5 7 1/16 c5 1 1/16 f2 e5b 5 1/16 d5 1 1/16
+   e2 c5 5 1/8 e3b a4 g5 7 1/8  d3 b4b f5 7 1/8
+   c3 c5 e5b 7 1/8 | ;
+: m17  b2b c5 d5 7 1/16 a4 2 1/16 g3 b4b 6 1/16 d5 1 1/16
+   e3b b4b c5 7 1/16 a4 2 1/16 c3 b4b 6 1/16 g4 2 1/16
+   f3 a4 c5 7 1/16 z 1 1/128 c5 1 1/16 f2 f4 6 1/16
+   e4b 2 1/16 | ;
+: m18  b2b d4 c5 7 1/16 f4 1 1/16 f3 d4 b4b 7 1/16
+   c4 a4 3 1/16  b3b d4 b4b 7 1/8 f3 4 1/8
+   b2b 4 1/8 a2 4 1/2 | ;
+: p2  m9 m10 m11 m12 m13 m14 m15 m16 m17 m18 ;
+: polonaise-3   25 fudge ! p1 p1   p2 p1 ;
+
+\ menuet-9                                            03feb86cht
+
+: m1  e4 1 1/4 |  a4 1 3/16 b4 1 1/16  c5 1 1/4  e3 b4 / | ;
+: m2  a3 c5 5 3/16 b3 4 1/16  c4 a4 /  b3 e5 / | ;
+: m3  d4 e5 / | a3 e5 d5 2-1  e4 c5 b4 2-1 | ;
+: m4  e4 c5 / |  e4 a4 d4 1-2  c4 f5 b3 1-2 | ;
+: m5  a3 f5 / |  a3 e5 / | a3 d5# / | ;
+: m6  g3# e5 / | g3# b4 / |  g3# e5 / | ;
+: m7  g3 e5 / |  g3 d5 / |  g3 c5# / | ;
+: m8  f3# d5 / |  f3# a4 / |  f3# d5 / | ;
+: m9  f3 d5 / |  f3 c5 / |  f3 b4 / | ;
+: m10  e3 c5 / |  e3 g4 / |  e3 c5 / | ;
+: m11  d3 b4 c5 2-1 |  d3 d5 b4 2-1 |  d3 f5 a4 2-1 | ;
+: m12  e3 g4# /  e2 g4# / | z z / ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 m9 m10 m11 m12 ;
+: m13  z g4 / |  c5 1 3/16 d5 1 1/16  z e5 /  g3 d5 / | ;
+: m14  c4 e5 5 3/16 d4 4 1/16  e4 c5 /  d4 g5 / | ;
+: m15  e4 g5 / |  c4 g5 f5 2-1  g4 e5 d5 2-1 | ;
+: m16  g4 e5 / |  g4 c5 f4 1-2  e4 a5 d4 1-2 | ;
+: m17  c4 a5 / |  c4 g5 / |  c4 f5# / | ;
+: m18  b3 g5 / |  g3 d5 / |  c4 e5 / | ;
+: m19  a3 f5 /  e3 d5 /  g3 d5 / | ;
+: m20  c3 c5 /  c2 d5 / |  z e5 / | ;
+: m21  z f5 / |  f5# g5 2dup 3 for 1 1/16 next  a2 g5 5 1/16
+   f5# 1 1/16 e5 1 1/16 f5# 1 1/16 | ;
+: m22  b2b g5 / |  c3 d5 5 1/16 b2 4 1/16 a2 4 1/16 b2 4 1/16
+   c3 f5# / | ;
+: p2   m13 m14 m15 m16 m17 m18 m19 m20 m21 m22 ;
+: m23  b2 g5 /  e2 a5 5 1/16 g5# 1 1/16 a5 1 1/16
+   g5# 1 1/16  b2 a5 5 1/16 g5# 1 1/16 f5# 1 1/16 g5# 1 1/16 ;
+: m24  c3 a5 /  d3 e5 5 1/16 c3# 4 1/16 b2 4 1/16 c3# 4 1/16
+  a2 a5 / | ;
+: m25  d3 f5 /  e3 e5 /  f3 d5 / | ;
+: m26  c3 e5 /  c3 e4 /  f3 a4 / | ;
+: m27  d3 d5 /  e3 c5 5 1/16 b4 1 1/16 c5 1 1/16 b4 1 1/16
+   e2 c5 5 1/16 b4 1 1/16 a4 1 1/16 b4 1 1/16 | ;
+: m28  a2 a4 5 1/2 | z z / ;
+: p3   m23 m24 m25 m26 m27 m28 ;
+: menuet-9   15 fudge ! p1 p1 p2 p3 p2 p3 ;
+
+: //  5 1/8 ;
+: /// 5 1/16 ;
+\ polonaise-4                                         03feb86cht
+
+: m1  g3 b4 d5 7 1/4 |  g3 c5 e5 7 1/4 |  g3 a4 f5# 7 1/4 | ;
+: m2  g3 b4 g5 7 1/4 |  g3 c5 d5 7 1/4 |  g3 e5 5 1/32
+   d5 1 1/32 e5 1 3/16 | ;
+: m3  g3 d5 5 1/8 g5 1 1/16 b4 1 1/16  f3# c5 5 1/8 e5 1 1/16
+   a4 1 1/16  g3 b4 5 1/8 d5 1 1/16 g4 1 1/16 | ;
+: m4  d3 b4 5 1/16 a4 1 1/16 g4 1 1/16 f4# 1 1/16  e4 1 1/16
+   d2 4 1/16 f2# 4 1/16 a2 4 1/16  d3 4 1/4 | ;
+: m5  d3 d4 // g3 g4 /// f3# f4# ///  g3 g4 // d3 d4 // |
+   d3 d4 / | ;
+: m6  d3 d4 // a3 a4 /// g3 g4 ///  a3 a4 // d3 d4 // |
+   d3 d4 / | ;
+: m7  b2 g5 /  c3 4 1/16 f5# 1 1/16 e5 1 1/16 d5 1 1/16
+   a2 c5 5 1/16 b4 1 1/16 a4 1 1/16 g4 1 1/16 | ;
+: m8  d3 f4# 5 1/16 c5 1 1/16 a4 1 1/16 f4# 1 1/16  g2 f4# /
+   a4 g4 a4 2 for 1 1/12 next  g4 1 1/8 | ;
+: //3   2 for 1 1/16 next ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: m9  g3 b4 d5 7 1/4 |  g3 c5# e5 7 1/4 |  f3# d5 f5# 7 1/4 ;
+: m10  e3 e5 g5 7 1/8 b5 1 1/16 g5 1 1/16 |  c3# e5 a5 7 1/16
+   g5 a5 g5 //3  a2 a5 5 1/16   g5 f5# g5 //3 | ;
+: m11  d3 d5 f5# 7 1/16 a5 g5 f5# //3 | g3 b5 5 3/16 a5 1 1/16
+   e3 g5 /// f5# e5 d5 //3 | ;
+: m12  a3 c5# /// a5 e5 c5# //3  a3 b4 /// a2 4 1/16 c3#
+   4 1/16 e3 4 1/16  a3 4 1/4 | ;
+: m13  a3 a4 // d4 d5 /// c4# c5# ///  d4 d5 // a3 a4 // |
+   a3 a4 / | ;
+: m14  a3 a4 // e4 e5 /// d4 d5 ///  e4 e5 // a3 a4 // |
+   a3 a4 / | ;
+: p2   m9 m10 m11 m12 m13 m14 ;
+: m15  f3# d6 /  g3 4 1/16 c6# b5 a5 //3  e3 g5 ///
+   f5# e5 d5 //3 | ;
+: m16  a3 c5# /// g5 e5 c5# //3  d3 c5# /  d3 4 1/16
+   c4 4 1/16 b3 4 1/16 a3 4 1/16 | ;
+: m17  g3# b4 d5 7 1/16 c5 e5 3 1/16 d5 f5 3 1/16 |
+   g3# d5 g5 7 1/16 f5# g5 g5# //3  g3# 4 1/16
+   f5# e5 d5 //3 | ;
+: m18  a3 c5 /// a5 e5 c5 //3  b4 1 1/16 a2 4 1/16 c3 4 1/16
+   e3 4 1/16  a3 a4 / | ;
+: m19  f3# a4 c5 7 1/16 b4 d5 3 1/16 c5 e5 3 1/8 |
+   f3# c5 f5# 7 1/16 e5 f5# e5 //3  f3# 4 1/8
+   d5 1 1/16 c5 1 1/16 | ;
+: m20  g3 b4 /// g5 d5 b4 //3  a4 1 1/16 g2 4 1/16 b2 4 1/16
+   d3 4 1/16  g3 4 1/16 g4 a4 g4 //3 | ;
+: p3   m15 m16 m17 m18 m19 m20 ;
+: m21  g3 b4 d5 7 3/16 g5 1 1/32 a5 1 1/32  g3 b5 //
+   b4 d5 3 1/8 |  g3 c5 d5 7 1/8 e5 1 1/8 | ;
+: m22  m21 ;
+: m23  g3 b4 d5 7 3/16 c5 1 1/32 d5 1 1/32 |  c3 e5 5 3/16
+   d5 1 1/16  a2 c5 5 1/16 b4 a4 g4 //3 | ;
+: m24  d3 f4# /// d5 a4 f4# //3  d3 e4 /// d2 4 1/16 f2# 4 1/16
+   a2 4 1/16   d3 e4 /// d4 e4 d4 //3 | ;
+: m25  m5 ;
+: m26  m6 ;
+: m27  m7 ;
+: m28  d3 f4# /// c5 a4 f4# //3  g2 f4# /  g4 1 1/2 | z z / ;
+: p4   m21 m22 m23 m24 m25 m26 m27 m28 ;
+: polonaise-4   20 fudge ! p1 p1   p2 p3 p4   p2 p3 p4 ;
+
+\ musette-2                                           04feb86cht
+
+: ///  5 1/16 ;
+: m1  d2 a5 d3 1-2 | d2 g5 f5# 2=1 | d3 e5 d5 2=1 | ;
+: m2  m1 ;
+: m3  f3# f4# /// g3 g4 /// a3 a4 // |  g3 g4 // | f3# f4#
+   // | ;
+: m4  e3 e4 // a3 a4 // f3# f4# // | d3 d4 // | ;
+: m5  m1 ;   : m6  m1 ;   : m7  m3 ;
+: m8  e3 e4 // a3 a4 //  d3 d4 / | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+: n9  a2 c5# d5 2=1 | a3 e5 // | ;
+: m9  n9 n9 ;
+: n10  a2 a5 // | a3 e5 // | ;
+: m10  n10  a2 e5 a3 1-2 | ;
+: m11  n10 n10 ;
+: m12  a2 d5 c5# 2=1 | a3 b4 a4 2=1 |  e2 b4 // | e3 e4 // | ;
+: m13  e2 e5 // | e3 d5# // |  e2 e3 // |  e3 d5 // | ;
+: m14  e2 d5 // | e3 c5# // |  e2 a5 // |  e3 g5# // | ;
+: m15  m13 ;
+: m16  m14 ;
+: m17  1 for  e2 e5 d5# 2=1 | e3 c5# d5# 2=1 | next ;
+: m18  e2 e5 // | d3 g4# // |  c3# a4 // | d3 d5 // | ;
+: m19  e3 c5# d5 2=1 e5 1 1/8  a2 a4 // | d3 d4 // | ;
+: m20  c3# c4# /// d3 d4 /// e3 e4 //  a2 a3 / | ;
+: p2   m9 m10 m11 m12 m13 m14 m15 m16 m17 m18 m19 m20 ;
+: musette-2  20 fudge ! p1 p1   p2 p1  p2 p1 ;
+
+: all      musette-1 
+  | 5000 ms little 
+  | 5000 ms tobacco    
+  | 5000 ms polonaise-1 
+  | 5000 ms menuet-1      
+  | 5000 ms content      
+  | 5000 ms schaff         
+  | 5000 ms menuet-2      
+  | 5000 ms menuet-3      
+  | 5000 ms march-1       
+  | 5000 ms menuet-4      
+  | 5000 ms menuet-5      
+  | 5000 ms march-2       
+  | 5000 ms menuet-6      
+  | 5000 ms march-3       
+  | 5000 ms menuet-7      
+  | 5000 ms prelude-1               
+  | 5000 ms aria            
+  | 5000 ms menuet-8      
+  | 5000 ms polonaise-2   
+  | 5000 ms polonaise-3   
+  | 5000 ms menuet-9      
+  | 5000 ms polonaise-4   
+  | 5000 ms musette-2  | ;  
+
+[[ all ]]
+

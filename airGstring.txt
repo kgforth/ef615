@@ -1,0 +1,172 @@
+\ air                                                 02feb86cht
+\ 2 8 thru ( notes and cords )
+\ 9 16 thru ( air on the g-string )
+\ 18 19 thru ( doxology )
+\ 24 27 thru ( prelude in c major, version 1 )
+\ 30 34 thru ( prelude in c major, version 2 )
+\ muliple notes                                       04jan86cht
+decimal
+0 constant bass
+0 constant tenor
+0 constant alto
+0 constant soprano
+0 constant flute
+0 constant pedal
+0 constant z
+: | z to bass z to tenor z to alto z to soprano z to pedal z to flute ;
+
+variable fudge 30 fudge ! ( quater note )
+: notes ( duration -- )
+  >r 0.1 bass tenor alto soprano pedal flute r> poly ;
+hex
+: play ( n1 n2 n3 n4 n5 n6 bits duration -- )
+  >r >r 
+  r@ 1 and if to soprano then  
+  r@ 2 and if to alto then
+  r@ 4 and if to tenor then
+  r@ 100 and if to flute then
+  r@ 200 and if to bass then
+  r@ 400 and if to pedal then
+  r> drop r> notes ;
+
+decimal
+: ppqn   constant   does 0 q@ fudge @ * play ;
+192 ppqn 3/2
+128 ppqn 1/1    64 ppqn 1/2    32 ppqn 1/4   16 ppqn 1/8
+  8 ppqn 1/16    4 ppqn 1/32    2 ppqn 1/64   1 ppqn 1/128
+ 96 ppqn 3/4    48 ppqn 3/8    24 ppqn 3/16  12 ppqn 3/32
+ 12 ppqn 1/12'  10 ppqn 1/12   22 ppqn 1/6
+  6 ppqn $.      5 ppqn $       3 ppqn ]      2 ppqn [
+hex
+: | z z z z z z 707 1/128 ;
+decimal
+
+\ air for the g-string                                01feb86cht
+hex
+: // ( n1 n2 n3 n4 )   701 1/16 ;
+: //. ( n1 n2 n3 n4 )   // z 400 1/16 ;
+: $ ( n )   400 1/16  z 400 1/16 ;
+
+\ air for the g-string                                28mar86cht
+: m1  c3 g4 c5 e4 //.  c4 $  b3 $  b2 $  a2 a4 c5 e4 //.
+   a3 $ g3 $ g2 $ ;
+: m2  f2 a4 c5 e4 //.  f3 a4 401 1/16 z f4 401 1/16
+   f3# d4 a4 d4 701 1/16  z c4 401 1/16  f2# b3 401 1/16
+   z c4 401 1/16  g2 d4 g4 b3 //.  g3 400 1/16 z a3 401 1/16
+   f3 g3 401 1/16 z 400 1/16  f2 $  ;
+: m3  e2 e4 g4 g4 //.  e3 c4# b4b g4 //  z a4 500 1/16
+   d3 b4b 500 1/16 z 400 1/16 d2 g5 500 1/16 z d4 b4b 700 1/16
+   c2# e4 a4 g4 // z e4 401 1/16
+   c3# z z b3b // z a3 401 1/16  a2 d4 401 1/16 z c4# 401 1/16
+   a3 g4 401 1/16 z f4 401 1/16  ;
+: m4  d2 d4 a4 f4 //.  d3 a4 d5 700 1/16 z c5 500 1/16
+   c3 d5 500 1/16 z e5 500 1/16  c2 f5 500 1/16 z d5 500 1/16
+   b1 d4 g4 f4 // z d4 401 1/16  b2 z z a3 // z g3 401 1/16
+  g2 c4 401 1/16 z b3 401 1/16 g3 f4 401 1/16 z e4 401 1/16  ;
+\ air for the g-string                                02feb86cht
+: m5  c3 c4 g4 e4 //.  c4 $ b3 $  b2 d4 g4 f4# // z g4 401 1/16
+   a2 e4 g4 c4 //.  a3 c4 f4# c4 701 1/32 d4 1 1/32
+   z g4 e4 501 1/16  f3# a3 a4 e4 // z d4 401 1/16
+   d3 d4 f4# d4 //  z c4 401 1/16  ;
+: n6  g3 d4 g4 b3 // z a3 401 1/16   c3 e4 g4 a3 701 1/32
+   b3 1 1/32 z c4 401 1/16   d3 a3 g4 c4 //.
+   d2 d4 f4# b3 // z a3 401 1/16 ;
+: m6  n6
+   g2 g3 g4 g3 //  a2 400 1/16 b2 400 1/16 c3 400 1/16
+   d3 400 1/16 f3 400 1/16 e3 400 1/16 d3 400 1/16  ;
+: m7  n6 g2 g3 g4 g3 701 3/8   z 1 1/8 ;
+: p1   m1 m2 m3 m4 m5 m6 ;
+: p2   m1 m2 m3 m4 m5 m7 ;
+\ air for the g-string                                28mar86cht
+: m8  g2 d4 g4 b3 //.  g3 $ f3 400 1/16 z c4 401 1/32
+   b3 1 1/32 f2 a3 401 1/32 b3 1 1/32 z g3 401 1/16
+   e2 d4 g4 g4 // z a4 500 1/16 e3 c4# b4b g4 // z d4 600 1/16
+   d3 e4 600 1/16 z a4 500 1/16  d2 g4 b3b 501 1/16
+   f4 100 1/16  ;
+: m9  c2# e4 e4 a3 // f4 f4 300 1/16  c3# g4 g4 a4 //
+   z e4 e4 700 1/16  e3 c4# c4# a4 // z g4 401 1/16
+   a2 a4 c5# f4 // z e4 401 1/16 
+   d3 a4 d5 f4 //.  d4 $ c4 a3 d4 f4 701 1/32 e4 1 1/32
+   z d4 401 1/32 c4 1 1/32  c3 b3 401 1/16 z a3 401 1/16  ;
+: m10  b2 b3 d4 g3# // z c4 a3 601 1/16  b3 d4 z b3 //
+   z e4 z b3 // a3 f4 d5 b3 // z e4 d5 c4 // a2 f4 d5 d4 //
+   z d4 600 1/16  g2# e4 d5 d4 // z c5 e4 501 1/16
+   a2 d4 b4 f4 // z c4 a4 700 1/16  b2 b3 g4# f4 //
+   z a4 500 1/16 g2# e4 b4 e4 //.  ;
+\ air for the g-string                                28mar86cht
+: m11  a2 e4 a4 d4 // z c4 401 1/16 f3 d4 a4 b3 // z c4 a3
+  601 1/16  d3 f4 a4 b3 // z c4 401 1/32 d4 1 1/32
+   e3 e4 g4# c4 // z d4 b3 601 1/16   a2 c4 e4 a3 //.
+   a3 $ g3 $ g2 $  ;
+: m12  f2# a3 d4 c4 //. f3# a4 600 1/16 z 400 1/16
+   e3 e4 g4 c4 // z f4# e4 501 1/16 e2 e4 g4 d4 //
+   z c4 401 1/16   d2 a3 f4# a4 //.  d3 d4 600 1/16
+   z e4 e4 700 1/16  c3 d4 f4# a4 // z g4 500 1/16
+   c2 d4 a4 g4 // z f4# 401 1/16  ;
+: m13  b1 d4 a4 e4 701 1/32 d4 1 1/32  z g4 401 1/16
+   b2 d4 g4 g3 //.  c3 e4 g4 a3 //.
+   d3 d4 f4# a3 // z b3 401 1/32 c4 1 1/32
+   g2 d4 g4 b3 //.  g3 400 1/16 z c4 a4 601 1/16
+   f3 b3 g4 g3 // z c4 600 1/16  f2 d4 600 1/16 z b3 600 1/16
+   | ;
+\ air for the g-string                                28mar86cht
+: m14  e2 g4 g4 c4 //.  e3 c4 a4 c4 // z b4b 500 1/16
+   f3 a4 500 1/16 z b4 500 1/16  f2 a4 c5 e4 // z d4 401 1/16
+   | f2# a4 c5 d4 //.  f3# d4 b4 d4 // z a4 500 1/16
+   g3 b4 500 1/16 z c5# 500 1/16  g2 b4 d5 f4 // e4 1 1/16 | ;
+: m15  g2# b4 d5 e4 //.  g3# e4 c5# 700 1/16 z b4 500 1/16
+   a3 c5# 500 1/16 z d5 500 1/16 a2 c5# e5 g4 // z f4 401 1/16 |
+   d3 a4 e5 f4 // z c5# 500 1/16  d4 z d5 700 1/16 z a4 500 1/16
+   c4 d4 500 1/16 z a4 500 1/16  c3 f4 500 1/16 z d4 500 1/16 ;
+: m16  b2 d4 g4 g3 // z b3 600 1/16  b3 d4 f4 700 1/16
+   z g4 600 1/16  g3 e4 b4 g3 // z b3 401 1/16  b3 d4 g4 d4 //
+   z f4 401 1/16 |  c4 c4 g4 f4 // z d4 401 1/16  c3 c4 b4 e4 //
+   z c5 500 1/16  b2b c4 g4 e4 //.  z 1 1/128 b3b e4 401 1/16
+   z f4 401 1/32 g4 1 1/32 | ;
+\ air for the g-string                                28mar86cht
+: m17  a3 c4 g4 c4 //.  a2 d4 f4 c4 //.  g2 e4 g4 c4 //
+   z e4 401 1/16  g3 g4 401 1/16 z b4b 401 1/16 |
+   f3 c4 f4 b4b //.  f2 a4 401 1/16 z 400 1/16 e2 $
+   e3 c4 401 1/16 z 400 1/16 | ;
+: m18  d3 d4 f4 b3 // z a3 d4 601 1/16  d2 d4 a4 f4 //
+   z f4 600 1/16  c2 a4 d5 f4 // z g4 600 1/16
+   c3 f4 a3 601 1/16 z e4 600 1/16   b2 d4 d5 g3 701 1/16
+   z c5 500 1/16  g2 g4 b4 d4 701 1/32
+   e4 1 1/32  z a4 f4 501 1/16  c3 g4 g4 f4 // z e4 401 1/16
+   f3 f4 a4 700 1/16 z d4 401 1/16 | ;
+: m19  g3 e4 g4 c4 701 1/32 b3 1 1/32 z a3 401 1/16
+   f3 400 1/16 z b3 401 1/16 | g3 d4 f4 b3 // z e4 500 1/16
+   g2 g3 f4 b3 // z c4 401 1/16 |  c3 g3 e4 c4 //.
+   g2 $ e2 $ c2 $ | ;
+\ air for the g-string                                28mar86cht
+: m20  g2 g3 e4 g4 c4 703 1/32 b3 1 1/32 z z a4 601 1/16
+   f2 f3 600 1/16 z z b3 601 1/16  g2 g3 d4 f4 b3 703 1/16
+   z z 600 1/32   a3 1 1/32  g1 g2 g3 b3 // c4 1 1/16
+   c2 c3 g3 e4 702 1/4 | ;
+: p3  m8 m9 m10 m11 m12 m13 m14 m15 m16 m17 m18 ;
+decimal
+: air   50 fudge ! p1 p2 p3 m19  p3 20 fudge +! m20 ;
+
+\ doxology                                            03jan86cht
+: m1   g3 b3 d4 g4 263 1/4 |   g3 b3 d4 g4 263 1/4
+   d3 a3 d4 f4# 263 1/4   e3 g3 b3 e4 263 1/4
+   b2 f3# b3 d4 263 1/4 |   e3 g3 b3 g4 263 1/4
+   d3 f3# d4 a4 263 1/4   g2 g3 d4 b4 263 1/2 | ;
+: m2   g3 g3 d4 b4 263 1/4 |   g3 b3 d3 b4 263 1/4
+   g3 g3 d4 b4 263 1/4   d3 f3# d4 a4 263 1/4
+   e3 g3 b3 g4 263 1/4 |   c3 g3 e4 c5 263 1/4
+   g2 g3 d4 b4 263 1/4   d3 f3# d4 a4 263 1/2 | ;
+: m3   g3 b3 d4 g4 263 1/4   f3# a3 d4 a4 263 1/4
+   g3 g3 d4 b4 263 1/4   d3 f3# d4 a4 263 1/8   c3 256 1/8
+   b2 g3 d4 g4 263 1/4 |   c3 g3 c4 e4 263 1/4
+   a2 a3 c4 f4# 263 1/4   g2 d3 b3 g4 263 1/2 | ;
+\ doxology                                            03jan86cht
+: m4   g3 b3 g4 d5 263 1/4 |   g3 g3 d4 b4 263 1/4
+   e3 b3 e4 g4 263 1/4   d3 d4 f4# a4 263 1/4
+  a2 c4 e4 c5 263 1/8 f4# 2 1/8   b2 d4 g4 b4 263 1/8 c3 256 1/8
+   d3 d4 f4# a4 263 1/8 c4 z 1/8   g2 b3 g4 g4 263 1/2 | ;
+: amen   c3 c4 e4 g4 263 1/2   g2 b3 d4 g4 263 1/2 | ;
+: doxology 30 fudge !  m1 m2 m3 m4 z 1 1/4   amen ;
+
+[[ air ]]
+

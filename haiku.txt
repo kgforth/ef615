@@ -1,0 +1,49 @@
+( see real haikus on https://forthsalon.appspot.com/ )
+( ------------------------------------------------------------ )
+: france
+   x 66 > 255 *
+   x 66 > x 133 < and 255 *
+   x 133 < 255 *
+   ;
+' france is proto haiku
+( ------------------------------------------------------------ )
+: germany 
+   y 66 > 255 *
+   y 133 > 255 *
+   0 ;
+' germany is proto haiku
+( ------------------------------------------------------------ )
+: switzerland
+   255
+   x 66 / sin 0.95 > y 66 / sin 0.95 > or
+   x 66 / sin 0.5 > and y 66 / sin 0.5 > and
+   255 *
+   dup ;
+' switzerland is proto haiku
+( ------------------------------------------------------------ )
+: 4spire x 100 / 23 * sin y 100 / 1 swap - max x 100 / 
+   over / sin y 100 / 1 swap -
+   rot / sin 2dup / sin 255 * rot 255 * rot 255 * rot ;
+' 4spire is proto haiku
+( ------------------------------------------------------------ )
+( mandelbrot set )
+: z+ rot + >r + r> ;
+: z* 3 pick 2 pick * 3 pick 2 pick * - >r
+  >r * swap r> * + r> swap ;
+: coloring ( n -- r g b )
+  dup 1 and 255 *
+  swap dup 2 and 127 *
+  swap 4 and 63 * ;
+: z^2 2dup z* ;
+: len dup * swap dup * + ;
+: layer
+  push push push z^2
+  pop pop 2dup push push z+
+  2dup len 4 <
+  pop pop rot pop + ;
+: mandel 
+  0 0 x 100 - 50 / y 100 - 50 / 0 
+  layer layer layer layer layer layer layer layer 
+  push drop drop drop drop pop coloring ;
+' mandel is proto haiku
+( ------------------------------------------------------------ )

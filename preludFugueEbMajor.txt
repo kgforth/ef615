@@ -1,0 +1,1126 @@
+\ toccata et fuga in d minor, no. 4, vol. iv          29oct86cht
+\ kalmus organ series, 3073
+\ johann sebastian bach
+\ complete organ works in nine volumes
+\ vol. 4
+\ balwin mills publishing corp.
+\ p. 27-35
+\ praeludium et fuga in eb major, st. ann's fugue     22mar87cht
+\ 2 53 thru ( prelude )
+\ 54 94 thru ( fugue )
+\ tools                                               19mar87cht
+decimal
+0 constant bass
+0 constant tenor
+0 constant alto
+0 constant soprano
+0 constant flute
+0 constant pedal
+0 constant z
+: init z to bass z to tenor z to alto z to soprano z to pedal z to flute ;
+
+variable fudge 30 fudge ! ( quater note )
+: notes ( duration -- )
+  >r 0.1 bass tenor alto soprano pedal flute r> poly ;
+hex
+: play ( n1 n2 n3 n4 n5 n6 bits duration -- )
+  >r >r 
+  r@ 1 and if to soprano then  
+  r@ 2 and if to alto then
+  r@ 4 and if to tenor then
+  r@ 100 and if to flute then
+  r@ 200 and if to bass then
+  r@ 400 and if to pedal then
+  r> drop r> notes ;
+
+decimal
+: ppqn   constant   does 0 q@ fudge @ * play ;
+192 ppqn 3/2
+128 ppqn 1/1    64 ppqn 1/2    32 ppqn 1/4   16 ppqn 1/8
+  8 ppqn 1/16    4 ppqn 1/32    2 ppqn 1/64   1 ppqn 1/128
+ 96 ppqn 3/4    48 ppqn 3/8    24 ppqn 3/16  12 ppqn 3/32
+ 12 ppqn 1/12'  10 ppqn 1/12   22 ppqn 1/6
+  6 ppqn $.      5 ppqn $       3 ppqn ]      2 ppqn [
+hex
+: | z z z z z z 707 1/128 ;
+: init-fudge ( n -- ) fudge ! ;
+decimal
+
+ hex
+: t1 ( 6n ) over >r >r   507 1/32 r> 1 1/32 r> 1 1/8 ;
+: p1 ( 3n ) swap rot 3 1 - for 1 1/16 next ;
+: k1 ( 5n ) 507 1/8 ;
+: k2 ( 5n ) 507 1/2 ;
+: k3 ( 5n ) 507 3/16 ;
+: p2 ( 3n ) swap rot 400 1/16 400 3/16 400 1/16 ;
+: p3 ( 3n ) swap rot 1 1/16 1 3/16 1 1/16 ;
+: p4 ( 7n ) >r >r >r 2swap  102 1/16
+   z swap 105 1/8   z 400 1/16   r> r> r>     502 1/16 ;
+: p5 ( 4n ) 2swap swap 100 1/16 100 1/8
+   z 400 1/16   500 1/16 ;
+: p6 ( 7n ) >r >r 507 3/16 r> 1 1/16 r> 1 3/16 ;
+: p6' ( 7n ) >r >r 507 3/16 r> 1 1/16 r> 1 1/8 z 400 1/16 ;
+\ l1                                                  02jan86cht
+: m1 e3b e4b g3 b3b b4b a4b t1 b4b 1 1/8   a4b g4 f4 p1
+   | e4b 1 3/8   g3 b4b b3b e4b e5b k1 ;
+: m2 f3 a4b b3b f4 e5b k2   d5 1 3/16  a3b g3 a3b p2 ;
+: m3 d3 a4b b3b f4 f5 f5 t1   e5b d5 c5 p3 |
+   b4b 1 3/8   b2b d4 f4 f3 b3b a4b 707 1/8 ;
+: m4 e3b d4 f4 e3b b3b a4b 707 1/2  e4b e4b g4 301 1/32
+   d4 d4 300 1/32 e4b e4b 300 1/8   b2b g2 b2b p2 ;
+: m5 e2b z z z g5 f5 t1 a5b 1 1/16 g5 1 3/16 g3 f5 3 1/16
+   | c4 g5 3 3/16 e5 1 1/16 d5 1 1/32 e5b 1 1/32 d5 1 1/8
+   e3b g3 c5 405 1/16 ;
+: m6 d3 z f3 c4 f5 e5b t1  g5 1 1/16 f5 1 1/8 z 100 1/16
+   c4 e5b 3 1/16 |
+   b3b f5 3 3/16 d5 1 1/16 c5 1 1/32 d5 1 1/32 c5 1 1/8
+   d3 f3 b4b 405 1/16 ;
+\ l1                                                  02jan86cht
+: m7 g3 c3 b3b z e5b 507 3/16 f5 1 1/16 e5b 1 1/8 z 4 1/16
+   f3 d5 5 1/16 |   b3b g3 e5b 105 3/16
+   a3 c5 g3 b4b c3 f3 a4 p4 ;
+: l1   m1 m2 m3 m4 m5 m6 m7 ;
+\ l2                                                  19mar87cht
+: m8 b2b g4 z b3b e5b f5 e5b p6  f3 d5 5 1/16
+   z g4 g3 b3b e5b e5b t1  b4b d4 a4 c4 b2b g4 b3b p4 ;
+: m9 a2 f4 z c4 e5b f5 e5b p6  f3 d5 5 1/16
+   z c3 e5b 405 3/16  g4 b3b a4 a3 c3 b4b g3 p4 ;
+: m10 f2 a4 z f3 e5b f5 e5b p6  f2 d5 5 1/16
+   z f3 e5b 405 3/16  a4 e3b 102 1/16 b4b d3 102 1/8 z 4 1/16
+   a2 c5 f3 c3 506 1/16 ;
+: m11 b2b f4 b2b f3 e5b e5b d5 p6'  a2 c5 401 1/16
+   b2b z z d5 407 3/16
+   f3 2 1/16 e3b 2 1/8 z 400 1/16 d2 f3 402 1/16 ;
+: m12 e2b f4 z g3 d5 507 3/16 b2b 4 1/16 c3 4 1/8 z z 500 1/16
+   b2b f4 d3 504 1/16
+   c3 e4b e3b g3 c5 507 1/32 f4 100 1/32 e4b 100 3/16
+   f3 2 1/8   z z 500 1/16 e2b d4 g3 502 1/16 ;
+\ l2                                                  19mar87cht
+: m13 f2 c4 e3b a3 c5 507 1/4 z d5 101 1/8 z 400 1/16
+   c3 e5b 401 1/16   d3 z d3 z f5 507 3/16
+   f4 g4 f2 a4 p5 ;
+: m14 g2 b4b d3 z f5 507 3/16  d4 100 1/16 e4b z 102 1/8
+   z 400 1/16   d3 f4 500 1/16
+   e3b b4b z g4 e5b 507 3/16  g3 b4b a3 c5 g2 b3b d5 p4 ;
+: l2   m8 m9 m10 m11 m12 m13 m14 ;
+\ l3                                                  02jan86cht
+: m15 a2 c5 c4 z e5b 507 3/16 f4 2 1/16 g4 2 1/8 z 400 1/16
+   f3 a4 402 1/16   d3 z f4 b4b z 507 3/16 c5 1 1/16
+   d5 1 1/8 z 400 1/16 b2b e5b 401 1/16 ;
+: m16 f3 c5 f4 b4b z d5 e5b p6 g5 1 1/16
+   f2 a4 f5 403 3/16  e5b d5 e5b p3 ;
+: m17 b2b b4b f3 f4 d5 507 1/4 c3 d3 e3b f3 4 1 - for 4 1/16
+   next |   b2b 4 3/8  b2b d5 a3b f4 f5 507 1/8 ;
+: m18 b2 d5 a3b f4 f5 k2   g3 g4 6 3/16 d3 400 1/16 c3 400 1/8
+   z 100 1/16 d3 c5 500 1/16 ;
+\ l3                                                  02jan86cht
+: m19 g2 b4b d4 g4 f5 507 1/32 c5 100 1/32 b4b 100 1/4
+   a3 b3 c4 3 1 - for 4 1/16 next |   g3 4 3/8
+   b2 g4 f3 d4 d5 k1 ;
+: m20 c3 g4 f3 g3 d5 k2   e3b c5 5 3/16 e3b d3 e3b p2 ;
+: m21 f2 a4b e3b f3 c5 507 3/16 b4b 100 1/16 a4b 100 1/8
+   z 4 1/16 g4 e3b 104 1/16 |   a4b d3 b4b 105 3/16 f4 100 1/16
+   e4b 100 3/16 b2b d4 f3 502 1/16 ;
+: m22 e2b g4 e3b g3 b4b 507 3/16 f4 2 1/16 e4b 2 3/16
+   d4 2 1/16   z z e4b 406 3/16 b3b 2 1/16 a3b 2 3/16
+   e3b g3 402 1/16 ;
+: l3   m15 m16 m17 m18 m19 m20 m21 m22 ;
+\ l4                                                  31dec86cht
+: m23 a2 g4 z c4 b4b 507 3/16 g3 4 1/16 f3 4 1/8 z z 101 1/16
+   g4 e3b b4b 105 1/16 z f4 f3 a4b 505 1/32 b4b 1 1/32
+   a4b 1 1/8 c3 4 1/16 d3 4 1/8 z z z 103 1/16
+   a2 e4b e3b c4 g4 507 1/16 ;
+: m24 b2b e4b b2b b3b g4 507 3/16 e3b 4 1/16 g3 4 1/8 z 2 1/16
+   a3 c4 6 1/16 d4 b3b d4 f4 107 3/16 d3 400 1/16 c3 400 1/8
+   z z 5 1/16 e3b b3b g4 405 1/16 ;
+: t3 ( 10n)  c4 swap 405 1/32 b3b 1 1/32 2 1 - for c4 1 1/32
+   b3b 1 1/32 next c4 swap 5 1/32 b3b 4 1/32  c4 swap 5 1/32
+   b3b 4 1/32   2 1 - for c4 1 1/32 b3b 1 1/32 next
+   c4 swap 5 1/32 b3b 1 1/32
+   z c4 rot 405 1/32 b3b 1 1/32 2 1 - for c4 1 1/32 b3b 1 1/32
+   next   c4 swap 5 1/32 b3b 1 1/32   c4 swap 5 1/32
+   b3b 1 1/32 2 1 - for c4 1 1/32 b3b 1 1/32 next c4 swap 405 1/32
+   b3b 1 1/32 ;
+\ l4                                                  02jan86cht
+: m25 b2b a4b b4b f5 a4b g4 a4b b4b d3 a4b t3 ;
+: m26 b2b f4 g4 e5b g4 f4 g4 a4b g4 e3b t3 ;
+: m27 g3 e4b 401 3/16  a3b f4 5 1/16 g3 e4b 5 3/16 f3 d4 5 1/16
+   | g3 e4b 401 3/16   e3b c5 5 1/16 d3 f4 5 1/32 e3b 4 1/32
+   d3 4 1/16 z 400 1/16   a2 c3 e4b 405 1/16 ;
+: m28 b2b b2b d4 405 3/16 g3 e4b 5 1/16 f3 d4 5 3/16 e3b c4
+   5 1/16   z f3 d4 405 3/16 b3b 1 1/16 d4 1 3/16
+   a2b f4 401 1/16 ;
+: m29 g2 f3 b4b 405 3/16 c5 1 1/16 b4b 1 1/8 z 4 1/16
+   f3 a4b 5 1/16   z e3b b4b 405 3/16 e4b 1 1/16 g4 1 1/8
+   z z 5 1/16   g2 g3 b4b 405 1/16 ;
+: l4   m23 m24 m25 m26 m27 m28 m29 ;
+\ l5                                                  31dec86cht
+: m30 c3 z a3b e5b 505 3/16 c4 100 1/16 d4 100 1/16 d5 1 1/16
+   c5 1 1/16 e4b b4b 101 1/16 |   f4 a4b 101 3/16 f5 1 1/16
+   b4b 1 3/16 d3 f3 b3b a4b 407 1/16 ;
+: m31 e3b g3 b3b g4 407 3/16 a4b 1 1/16  g2 e4b g3 b3b b4b
+   507 3/16 e4b 1 1/16   a2b c4 e3b a3b g4 507 3/16 f4 1 1/16
+   b2b b3b b2b a3b e4b 507 1/32 f4 1 1/32 e4b 1 1/8
+   d4 1 1/16 ;
+: m32 e2b b3b b2b a3b d4 k2   g3 e4b 3 1/4 e4b 1 1/16
+   g4 f4 e4b p1 ;
+: m33 | b4b 1 1/4 | e4b a3b c5 105 1/4 | d4 f3 a4b 105 1/32
+   b4b 1 1/32 a4b 1 3/16 |   e4b e3b g4 105 1/4 |
+   a3b d3 104 1/32 b3b 100 1/32 a3b 100 3/16 | g3 e3b 104 1/4 |
+   e2b 400 1/4 | ;
+: m34 a4b 1 1/16 g4 f4 e4b p1 m33 ;
+\ l5                                                  02jan86cht
+: m36 | e5b 1 1/16 d5 c5 b4b p1 |   f5 1 1/4 | b4b e4b g5
+   105 1/4 | a4 c4 e5b 405 1/32 f5 1 1/32 e5b 1 3/16 |
+   b4b b3b d5 405 1/4 |   e4b a3 104 1/32 f4 100 1/32
+   e4b 100 3/16 |  d4 b3b 104 1/4 | b2b 400 1/4 | ;
+: l5   m30 m31 m32 m33 m34 m36 ;
+\ l6                                                  02jan86cht
+: m39 m36 ;
+: m41 f4 b3b 104 1/8 d5 1 1/8   g4 e4b 104 1/8 b4 1 1/8
+   f4 d4 104 1/8 c5 1 1/8 g4 e4b 104 1/16 e5b f5 g5 p1
+   z c4 f5 105 1/16 e5b d5 c5 p1 ;
+: m42 f4 d4 104 1/8 a4 1 1/8 e4b c4 104 1/8 b4b 1 1/8
+   f4 d4 104 1/16 d5 e5b f5 p1  z b3b e5b 105 1/16
+   d5 c5 b4b p1 ;
+: m43 e4b c4 104 1/8 g4 1 1/8   d4 b3b 104 1/8 a4 1 1/8
+   e4b c4 104 1/16 b4b c5 d5 p1 z g3 c5 105 1/16 b4b a4 g4 p1 ;
+: m44 c4 a3 104 1/8 e4 1 1/8 b3b g3 104 1/8 f4 1 1/8 c4 a3 104
+   1/8 e5b 1 1/8 a3 f3 104 1/8 d5b 1 1/8 ;
+: m45 b3b b2b 104 1/16 b4b a4 b4b p1 z c3 b4b 105 1/8 f5 1 1/8
+   d3b 4 1/16 f5 e5 f5 p1 b3b b2b g5b 105 1/16 f5 e5 f5 p1 ;
+: l6   m39 m41 m42 m43 m44 m45 ;
+\ l7                                                  02jan86cht
+: m46 c4 f3 b4b 105 1/8 a4 1 1/8 z g3 104 1/16 b4b c5 a4 p1
+   a3 f4 5 1/8 e5b 1 1/8  f4 f3 104 1/8 d5b 1 1/8 ;
+: m47 f4 b3b 104 1/16 b4b a4 b4b p1  z c4 b4b 105 1/8 f5 1 1/8
+   d4b 4 1/16 f5 e5 f5 p1   d4b b3b g5b 105 1/16
+   f5 e5 f5 p1 ;
+: m48 e4b c4 b4b 105 1/8 a4 1 1/8 d4b b3b 104 1/16 b4b c5 a4
+   p1   c4 a3 f4 105 1/8 e5b 1 1/8 a3 f3 104 1/8 d5b 1 1/8 ;
+: m49 f4 b3b 104 1/16 d5b c5 b4b p1   e4b e3b c5 105 1/8
+   g4 1 1/8   d4b f3 b4b 105 1/4  c4 a4 101 1/32 g4 1 1/32
+   a4 1 1/8 b4b 1 1/16 ;
+\ l7                                                  31dec86cht
+: m50 z b2b b3b b4b 107 3/16 e4b g4 300 1/16 d4 f4 300 3/16
+   c4 e4b 300 1/16   d4 f4 z 304 3/16 c4 e4b g3 302 1/16
+   b3b d4 f3 302 3/16 a3 c4 e3b 302 1/16 ;
+: m51 b2b b3b d4 f3 702 1/4 f3 2 1/16 e3b 2 1/16 d3 2 1/16
+   c3 2 1/16 | b2b 2 3/8   b2b b3b d4 700 1/8 ;
+: l7   m46 m47 m48 m49 m50 m51 ;
+\ l8                                                  19mar87cht
+: m52 c3 z z b3b e4b g5 707 3/16 f5 e5b d5 p3 a3 c5 5 1/32
+   b3b 4 1/32 a3 4 1/8 e3b 400 1/16   d3 400 1/8
+   z z z 301 1/16   e3b c5 f5 c6 701 1/16 ;
+: m53 f2 c5 f5 c4 e4b b5b 707 3/16 b3b 4 1/16 a3 4 3/16
+   g3 4 1/16   z f3 z a5 407 3/8  f2 e3b 404 1/8 ;
+: p7 ( nn # ) 1 - for 1 1/16 next ;
+: p8 ( nn # ) 1 - for 4 1/16 next ;
+: m54 b2b b4b f5 e3b z b5b 707 1/8 z z a5 301 1/16
+   c5 d5 e5b f5 g5 5 p7   d3 b4b 5 1/32 e3b 4 1/32 d3 4 1/16
+   a4 1 1/16 d3 g4 401 1/16 c3 f4 401 1/16 d4 e4b 2 p7
+   e3b c4 401 1/16 ;
+: m55 | d3 b3b 401 1/8 g3 f3 e3b d3 c3 b2b 6 p8 a3b 4 3/16
+   c3 400 1/16 d3 b4b d5 f5 701 3/16 b2b 400 1/16 ;
+\ l8                                                  02jan86cht
+: m56 | e3b b4b d5 a3b f5 705 1/8 a3b g3 2 p8 g4 b4b b3b e5b
+   305 1/16 f3 g3 a3b 3 p8   z z g3 304 1/16 d5 e5b 2 p7
+   g3 c5 401 1/16 f3 z b4b 405 1/16 g4 a4b 2 p7
+   a3b f4 401 1/16 ;
+: m57 g3 z e4b 405 1/8 c4 b3b a3b g3 f3 e3b 6 p8 z z d4b 4
+   305 3/16 f3 400 1/16 g3 e5b g5 b5b 701 3/16 e3b 400 1/16 ;
+: m58 | a3b e5b g5 d4b b5b 705 1/8 d4b c4 2 p8 c5 e5b e4b a5b
+   305 1/16 b3b c4 d4b 3 p8 z z c4 z 305 3/16
+   b3b d4 404 1/16 g3 e4b b4b b3b e5b 705 3/16 a3b 400 1/16 ;
+: l8   m52 m53 m54 m55 m56 m57 m58 ;
+\ l9                                                  02jan86cht
+: m59 f3 f4 a4b c4 e5b 705 3/16 b4b 100 1/16 a4b 100 1/8
+   z 1 1/16
+   g4 e5b 101 1/16 |   a4b d5 101 3/16 f4 100 1/16 e4b 100 3/16
+   f3 d4 a3b b3 506 1/16 ;
+: m60 e3b g4 g3 b3 506 3/16 a4b 100 1/16 g4 100 1/8 z 1 1/16
+   f4 d5 101 1/16 |   g4 c5 101 3/16 e4b 100 1/16 d4 100 3/16
+   e3b c4 g3 c4 506 1/16 ;
+: m61 d3 f4 f3 d4 c5 507 3/16 g4 100 1/16 f4 100 3/16
+   e4b 100 1/16   z f4 z 504 3/16 b4 1 1/16 c4 a4 5 3/16
+   d3 g3 b3 g4 407 1/16 ;
+: m62 c3 f4 a3b c4 c5 507 3/16 g4 100 1/16 f4 100 1/8 z 4 1/16
+   e4b g3 104 1/16 | e4b a3b c5 105 3/16 c4 e5b 3 1/16
+   d4 d5 3 3/16 c3 e4b c5 403 1/16 ;
+\ l9                                                  02jan86cht
+: m63 b2 f4 a3b d4 d5 507 3/16 g4 100 1/16 f4 100 1/8 z 4 1/16
+   e4b g3 104 1/16   z f4 a3b 504 3/16 c5 1 1/16
+   b4 1 1/8 z 4 1/16 d3 f3 a4 405 1/16 ;
+: m64 g2 f4 g3 d4 b4 507 3/16 g4 e4b 102 1/16 f4 d4 102 3/16
+   e4b c4 102 1/16 | f4 d4 b4 103 3/16 b4 1 1/16
+   c5 1 3/16 b2 d3 g3 d5 407 1/16 ;
+: m65 c3 f4 e3b g3 g4 507 3/16 f4 100 1/16 e4b 100 1/8
+   z 400 1/16 b2 d4 500 1/16   c3 e4b z 504 3/16 g4 1 1/16
+   f4 1 1/8 z 400 1/16 e2b g4 401 1/16 ;
+: l9   m59 m60 m61 m62 m63 m64 m65 ;
+\ l10                                                 02jan86cht
+: m66 f2 e4b z g3 a4 507 3/16 c3 4 1/16 d3 4 1/8 z 400 1/16
+   c3 e3b 404 1/16 d3 d4 f3 f3 506 3/16 a4 1 1/16 g4 1 1/8
+   z z 404 1/16 f2 e3b a4 405 1/16 ;
+: m67 g2 d4 d3 f3 b4 507 3/16 d4 100 1/16 e4b 100 1/8 z 400
+   1/16 d3 f4 500 1/16 e3b g4 e3b z 506 3/16 g3 b4 3 1/16
+   a3 c5 3 1/8 z 400 1/16 g2 b3 d5 403 1/16 ;
+: m68 a2b g4 e3b c4 c5 507 3/16 e3b 4 1/16 f3 4 1/8 z 400 1/16
+   e3b g3 404 1/16 f3 f4 a3b 504 3/16 e4b c5 5 1/16
+   z d4 d5 7 1/8 z 400 1/16 a2 c4 e5b 405 1/16 ;
+: m69 b2 f4 z g4 d5 507 3/16 g3 b3 6 1/16 a3 c4 6 1/8 z 400 1/16
+   g3 b3 d4 406 1/16  e3b e4b c4 g3 506 3/16 b4 1 1/16
+   c5 1 1/8 z 400 1/16 c3 400 1/16 ;
+\ l10                                                 02jan86cht
+: p9 ( nn #)   1 - for 100 1/16 next ;
+: m70 g3 d4 g3 d4 c5 507 3/16 e4b 100 1/16 f4 100 3/16
+   a4b 100 1/16  g2 g4 b4 501 3/16 f4 100 1/16 e4b 100 3/16
+   d4 100 1/16 ;
+: m71 c3 e4b g3 c4 c5 507 1/8 c5 z 101 1/8 z d3 z 406 1/8
+   c5 100 1/8 e3b 4 1/16 g4 a4b b4b 3 p9 f4 f3 104 1/16
+   c4 d4 e4b 3 p9 ;
+: m72 d4 b3 d4 b3 4 p9  c4 e3b 104 1/16 e4b c4 e4b 3 p9
+   c4 d3 104 1/16 f4 c4 f4 3 p9   b3 g3 104 1/16
+   f4 b3 f4 3 p9 ;
+: l10   m66 m67 m68 m69 m70 m71 m72 ;
+\ l11                                                 01jan86cht
+: p10 ( 6n)   >r >r >r 105 1/16 r> 1 1/16 r> 1 1/16
+   r> 1 1/16 ;
+: m73 | e4b c4 z 105 1/8 g5 1 1/8 d4 b3b 104 1/4
+   c4 a3 g5 f5 e5b d5 p10   d4 b3b c5 b4b a4 g4 p10 ;
+: m74 e4b c4 f4# a4 f4# a4 p10   d4 b3b g4 b4b g4 b4b p10
+   c4 a3 g4 c5 g4 c5 p10   d4 d3 f4# c5 f4# c5 p10 ;
+: m75 d4 g3 b4b a4 g4 f4# p10   d4 b3b g4 b4b g4 b4b p10
+   c3 e5b 5 1/16 b3 c4 d4 3 p9   c4 z 104 1/16
+   g3 a3 b3b 3 p9 ;
+: m76 a3 f3 e5b b4b a4 g4 p10 c4 e3b a4 c5 a4 c5 p10
+   d3 f5 5 1/16 c4 d4 e4b 3 p9   d4 z 104 1/16
+   a3 b3 c4 3 p9 ;
+\ l11                                                 02jan86cht
+: p11 ( 5n )   >r >r 105 1/16 r> r> 101 1/16 ;
+: m77 b3 g3 f5 b3 a5b p11 c4 g3 g5 c4 f5 p11
+   d4 g3 g5 d4 f5 p11  b3 g3 e5b b3 d5 p11
+   c4 g3 e5b a4b f5   p11  g4 z e5b f4 d5 p11
+   g4 z e5b f4 d5 p11  e4b z c5 d4 b4 p11 ;
+: l11   m73 m74 m75 m76 m77 ;
+\ l12                                                 01jan86cht
+: p12 ( 6n) >r >r >r 105 1/16 r> 4 1/16 r> 4 1/16 r> 4 1/16 ;
+: p13 ( 7n) >r >r >r >r 105 1/16 r> 4 1/16
+   r> r> 5 1/16 r> 4 1/16 ;
+: p14 ( 3n) >r 104 1/16 r> 4 1/16 ;
+: p15 ( nn # )   1 - for 4 1/16 next ;
+: m78 | e4b c5 101 1/8 c4 4 1/8 f4 d5 101 1/4 g4 c4 e5b b3b a3b
+   g3 p12   a4b f3 f5 e3b d3 c3 p12 ;
+: m79 g4 b2 f5 d3 b2 d3 p12   g4 c3 e5b e3b c3 e3b p12
+   a4b c3 d5 f3 c3 f3 p12   g4 b2 g5 f3 b2 d5 f3 p13 ;
+: m80 g4 c3 e5b f3 e3b d3 p12   c5 e3b g3 p14 g4 e3b g3 p14
+   a4b f2 e5b g3 f3 e5b e3b p13
+   a4b f3 c5 a3b f3 f5 a3b p13 ;
+\ l12                                                 01jan86cht
+: m81 a4b b2b d5 e3b d3 c3 p12   f4 d3 f3 p14 b4b d3 f3 p14
+   g4 e2b 104 1/16 d3 e3b f3 3 p15
+   e3b d5b 5 1/16 g3 e3b g3 3 p15 ;
+: m82 g4 a2b c5 105 1/16   e4b c3 f4 d3 g4 e3b a4b f3 g4 e3b
+   a4b f3 b4b g3 7 1 - for 104 1/16 next   d4 b2b 104 1/16
+   f3 a4b g3 b4b a3b c5   3 1 - for 5 1/16 next
+   z g3 b4b 105 1/16   d3 f4 e3b g4 f3 a4b 3 1 - for 5 1/16 next ;
+: l12   m78 m79 m80 m81 m82 ;
+\ l13                                                 01jan86cht
+: p16 ( 6n) >r >r >r 105 1/16 r> 100 1/16 r> 100 1/16
+   r> 100 1/16 ;
+: p17 ( 6n) >r >r >r >r 104 1/16 r> 100 1/16 r> r> 104 1/16
+   r> 100 1/16 ;
+: m83 a3b c5 g3 e4b a3b f4 b3b g4 c3 e4b 5 1 - for 5 1/16 next
+   e3b f3 g3 3 p15 f3 a4b g3 a4b a3b f5 b3b f5
+   a3b c5 b3b d5 c4 e5b d3 c5 8 1 - for 5 1/16 next ;
+: m84 z e3b g4 105 1/8 e5b 100 1/8 f3 a4b 5 1/4 e5b g3 b4b
+   d5 c5 b4b p16   a4b a3b c5 g4 f4 e4b p16 ;
+: m85 d4 a3b b4b f4 d4 f4 p16   e4b g3 b4b g4 e4b g4 p16
+   e4b f3 c5 a4b e4b a4b p16   d4 b3b b4b a4b d4 a4b p16 ;
+\ l13                                                 01jan86cht
+: m86 g4 e3b a4b g4 b3b f4 p17 |   g4 e4b b4b d4 g4 b4b p17
+   e4b c4 d5 c5 e4b b4b p17   c5 a3 e5b c5 c4 e5b p17 ;
+: m87 a4 f3 b4b a4 c4 g4 p17   a4 f4 c5 a4 e4b c5 p17
+   f4 d4 e5b d5 f4 c5 p17   d5 b3b f5 d5 d4 f5 p17 ;
+: m88 b4b g3 z 105 1/8 b5b 1 1/8 c5 e3b 104 1/4
+   d5 f3 b5b a5 g5 f5 p10   e5b g3 e5b d5 c5 b4b p10 ;
+: l13   m83 m84 m85 m86 m87 m88 ;
+\ l14                                                 02jan86cht
+: p18 ( 7n) >r >r >r >r 105 1/16 r> 1 1/16 r> r> 101 1/16
+   r> 1 1/16 ;
+: p19 ( 7n) >r >r >r >r 105 1/16 r> 1 1/16 r> r> 5 1/16
+   r> 1 1/16 ;
+: m89 e5b f3 a4 c5 b2b a4b c5 p19  z d4 b4b d5 f4 b4b d5 p19
+   g4 d4 b4b e5b b4b e5b p10   f4 c4 a4 e5b e4b a4 e5b p18 ;
+: m90 f4 b3b d5 c5 b4b a4 p10   f4 z b4b d5 d4 c5 b4b p19
+   f4 e4b g5 a5b d4 g5 f5 p19   e4b c4 g5 f5 b3b e5b d5 p19 ;
+: m91 e4b a3 c5 d5 b3b c5 b4b p19   e4b a3 c5 e5b g3 d5 c5 p19
+   d4 f3# a5 b5b d3 a5 g5 p19   d4 e3 f5# e5 f3# d5 c5 p19 ;
+: m92 d4 g3 b4b d5 g4 b4b d5 p19 a4 g4 c5 e5b g4 c5 e5b p19
+   b4b g4 d5 f4 e4b d4 p12   c5 c4 e5b b3b a3 g3 p12 ;
+: m93 c5 f3# d5 a3 f3# a3 p12   b4b g3 d5 b3b g3 b3b p12
+   a4 g3 e5b c4 g3 c4 p12   a4 f3# d5 c4 f3# c4 p12 ;
+: l14   m89 m90 m91 m92 m93 ;
+\ l15                                                 02jan86cht
+: p20 ( 9n) >r >r >r >r >r >r 105 1/16 r> r> 104 1/16
+   r> r> 104 1/16 r> r> 104 1/16 ;
+: p21 ( 4n) >r >r >r 104 1/16 r> 100 1/16 r> 100 1/16
+   r> 100 1/16 ;
+: m94 b4b g3 d5 a4 c4 g4 b3b f4# a3 p20   g4 b3b d5 b4b d4
+   g4 b3b b4b d4 p20   e4b c3 d5 105 1/16 |
+   e4b g5 c4 e5b e4b g5 c4 e5b b3b d5 c4 e5b d4 f5
+   7 1 - for 5 1/16 next ;
+: m95 z f3 a5b g5 b3b f5 a3b d5 g3 p20 f5 a3b c4 a3b c4 p21
+   f5 e3b a5b e5b c4 d5 b3b c5 a3b p20 d5 b3b d4 b3b d4 p21 ;
+: m96 d5 e3b g5 f5 a3b e5b g3 d5 f3 p20 e5b g3 b3b g3 b3b p21
+   e5b a2b g5 d5 b3b c5 a3b b4 g3 p20 c5 a3b c4 a3b c4 p21 ;
+\ l15                                                 02jan86cht
+: m97 c5 d3b f5 e5b g3 d5b f3 c5 e3 p20 d5b f3 a3b f3 a3b p21
+   d5b g2 f5 c5 a3b b4b g3 a4b f3 p20 b4b g3 b3b g3 b3b p21 ;
+: m98 b4b c3 e5 105 1/16 c5 z 104 1/16
+   d4 e4 f4 g4 a4b b4b 6 p9 | c4 100 3/8
+   e3 c5 b3b g4 g5 507 1/8 ;
+: l15   m94 m95 m96 m97 m98 ;
+: tt4  e5b 1 1/32 2 1 - for f5 1 1/32 e5b 1 1/32 next ;
+: tt5 e5b 1 1/32 ;
+\ l16                                                 19mar87cht
+: m99 f3 c5 b3b c4 g5 k2  a3b f5 5 3/16  a3b g3 a3b p2 ;
+: m100 b2b d5b a3b b3b f5 507 3/16 e5b 100 1/16 d5b 100 1/8
+   z 4 1/16 c5 a3b 104 1/16 | d5b g3 e5b 105 3/16 b4b 100 1/16
+   a4b 100 3/16 e3b g4 b3b 504 1/16 ;
+: m101 a2b c5 a3b c4 e5b 507 3/16 b4b 2 1/16 a4b 2 3/16
+   g4 2 1/16 z z a4b 406 3/16 e4b 2 1/16 d4b 2 3/16 a3b c4 402
+   1/16 ;
+: m102 d3b c5 z f4 e5b 507 3/16 c4 4 1/16 b3b 4 1/8 z z 101 1/16
+   c5 a3b e5b 105 1/16   z b4b b3b d5b 505 3/16 f3 4 1/16
+   g3 4 1/8 z z z 103 1/16 d3 a4b a3b f4 c5 507 1/16 ;
+\ l16                                                 02jan86cht
+: m103 e3b a4b e3b e4b c5 507 3/16 a3b 4 1/16 c4 4 1/8
+   z 2 1/16 d4 f4 6 1/16   g4 e4b g4 b4b 107 3/16 g3 400 1/16
+   f3 400 1/8 z z 5 1/16 a3b c4 e5b 405 1/16 ;
+: m104 | g3 d4b f5 405 1/32 tt4 c5 e4b f5 105 1/32 tt5
+   b4b d4b f5 105 1/32 tt4 a4b c4 f5 105 1/32 tt5 |
+   b4b d4b f5 105 1/32 tt4 z b4b f5 105 1/32 tt5  e4b f5 5 1/32
+   tt4 e3b d4b f5 405 1/32 tt5 ;
+: m105 | a3b c4 f5 405 1/32 tt4 b4b d4b f5 105 1/32 tt5
+   a4b c4 f5 105 1/32 tt4 g4 b3b f5 105 1/32 tt5
+   | a4b c4 f5 105 1/32 tt4 z a4b f5 105 1/32 tt5
+   c4 f5 5 1/32 tt4 d3b b3b f5 405 1/32 tt5 ;
+: l16   m99 m100 m101 m102 m103 m104 m105 ;
+\ l17                                                 01jan86cht
+: m106 c3 z a3b e5b 505 3/16 d4b b3b 104 1/16 c4 a3b 104 3/16
+   b3b g3 104 1/16   z c4 a3b 504 3/16 z f4 d5 105 1/16
+   b3b e5b 5 3/16 d3 a3b f5 405 1/16 ;
+: m107 e3b z g3 b4b 505 3/16 f4 a3b 104 1/16 e4b g3 104 3/16
+   d4 f3 104 1/16   z e4b g3 504 3/16 e3b 4 1/16 z g3 104 3/16
+   d3b b3b 404 1/16 ;
+: m108 c3 z e4b b4b 505 3/16 f4 4 1/16 e4b 4 1/8 z 1 1/16
+   d4b b4b 5 1/16   z e4b a4b 405 3/16 a3b 4 1/16 c4 4 1/8
+   z 1 1/16 c3 c5 e4b 504 1/16 ;
+: m109 f2 d5b a4b z 505 3/16 f5 1 1/16 g5 1 1/16 g4 4 1/16
+   f4 4 1/16 e4b a5b 5 1/16 |   d4b b5b 5 3/16 b4b 4 1/16
+   e4b 4 3/16 g2 d4b 404 1/16 ;
+\ l17                                                 19mar87cht
+: m110 a2b z c4 b5b 505 3/16 d4b 4 1/16  c3 e5b e4b a5b 505 3/16
+   a3b 4 1/16 d3b c4 f5 405 3/16 d5b b3b 104 1/16
+   e3b c5 a3b 504 1/8 z 1 1/16 g3 b4b e4b e5b 505 1/16 ;
+: m111 a2b b4b g3 e4b d5b k2   a4b a3b c5 105 1/4 z 100 1/16 ;
+: m111'   a4b b4b c5 3 p7 ;
+: m112 | e5b 1 1/4 | a4b d4b f5 105 1/4 | g4 b3b d5b 105 1/32
+   e5b 1 1/32 d5b 1 3/16 |   a4b a3b c5 105 1/4 |
+   d4b g3 104 1/32 a3b 4 1/32 g3 4 3/16 | c4 a3b 104 1/4 |
+   a2b 400 1/4 ;
+: l17   m106 m107 m108 m109 m110 m111 m111' m112 ;
+\ l18                                                 01jan86cht
+: m113 | d5b 1 1/16 m111' ;
+: m114 m112 ;
+: m115 | e4b f4 g4 a4b 4 p9 | b4b 100 1/4 | c5 a3b e5b 105 1/4 |
+   a4b f3 d5 105 1/32 g3 4 1/32 f3 4 3/16 | g4 e3b e5b 105 1/4 |
+   a3b d3 104 1/32 b3b 100 1/32 a3b 100 3/16 |
+   g3 e3b 104 1/4 | e2b 400 1/4 ;
+: m117 m115 ;
+: m119 | b4b e4b 102 1/8 g5 1 1/8   c5 a4b 102 1/8 e5 1 1/8
+   b4b g4 102 1/8 f5 1 1/8    c5 a4b 102 1/16 c6 b5b a5b 3 p7
+   z f4 b5b 103 1/16 f5 g5 a5b 3 p7 ;
+: l18   m113 m114 m115 m117 m119 ;
+\ l19                                                 01jan86cht
+: m121 b4b g4 f5 103 1/8 d5 1 1/8   a4b f4 102 1/8 e5b 1 1/8
+   b4b g4 102 1/16 b5b a5b g5 3 p7  z e4b a5b 103 1/16
+   e5b f5 g5 3 p7 ;
+: m122 a4b f4 e5b 103 1/8 c5 1 1/8  g4 e4b 102 1/8 d5 1 1/8
+   a4b f4 102 1/16 g5 f5 e5b 3 p7   z c4 f5 103 1/16
+   c5 d5 e5b 3 p7 ;
+: m123 f4 d4 c5 103 1/8 a4 1 1/8 e4b c4 102 1/8 b4b 1 1/8
+   f4 d4 102 1/8 a5b 1 1/8 d4 b3b 102 1/8 g5b 1 1/8 ;
+: m124 e4b e3b g5b 103 1/16 e5b d5 e5b 3 p7   z f3 b5b 103 1/4
+   g3b 2 1/8 b5b a5 2 p7   e4b e3b b5 103 1/16 b5b a5b b5b
+   3 p7 ;
+: m125 f4 b3b e5b 103 1/8 d5 1 1/8 z c4 102 1/16 d5 f5 e5b 3 p7
+   z d4 b4b 103 1/8 a5b 1 1/8 b4b b3b 102 1/8 g5b 1 1/8 ;
+: l19   m121 m122 m123 m124 m125 ;
+\ l20                                                 01jan86cht
+: p22 ( 3n) 3 1 - for 2 1/16 next ;
+: m126 b4b e4b g5b 103 1/16 e5b d5 e5b 3 p7 z f4 b5b 103 1/4
+   g4b 2 1/8 b5b a5 2 p7 g4b e4b b5 103 1/16 b5b a5 b5b 3 p7 ;
+: m127 a4b f4 e5b 103 1/8 d5 1 1/8 g4b e4b 102 1/16 d5 f5 e5b
+   3 p7   f4 d4 b4b 103 1/8 a5b 1 1/8 d4 b3b 102 1/8
+   g5b 1 1/8 ;
+: m128 b4b e4b g5b 103 1/8 e5b f5 2 p7   a4b a3b f5 103 1/8
+   c5 1 1/8   g4b b3b e5b 103 1/4 f4 d5 101 1/32 e5b 1 1/32
+   d5 1 1/8 e5b 1 1/16 ;
+: m129 z e3b e4b e5b 107 3/16 a4b c5 300 1/16 g4 b4b 300 3/16
+   f4 a4b 300 1/16   g4 b4b z 304 3/16 f4 a4b c4 302 1/16
+   e4b g4 b3b 302 3/16 d4 f4 a3b 302 1/16 ;
+: m130 e2b e4b g4 b3b e5b 703 1/8 z e4b 202 1/8 f2 z z 501 1/4
+   g2 400 1/16 b3b c4 d4 p22 a2b a3b 402 1/16 e3b f3 g3 p22 ;
+: l20   m126 m127 m128 m129 m130 ;
+\ l21                                                 02jan86cht
+: m131 | a2b d3 402 1/16 f3 d3 f3 p22 g2 e3b 402 1/16
+   g3 e3b g3 p22   f2 e3b 402 1/16 a3b e3b a3b p22
+   b2b d3 402 1/16 a3b d3 a3b p22 ;
+: m132 e2b g3 402 1/8 b4b 100 1/8 d2 f3 402 1/8 b4b 100 1/8
+c2 e3b 402 1/16 f4 g4 a4 3 p9 c3 e4b 500 1/16 b3b c4 d4 3 p9 ;
+: m133 f2 a3 e3b 502 1/16 c4 a3 c4 3 p9 g2 b3b d3 502 1/16
+   d4 b3b d4 3 p9   c2 b3b c3 502 1/16 e4b b3b e4b 3 p9
+   f2 a3 402 1/16 e4b a3 e4b 3 p9 ;
+: m134 b2b d4 b2b 502 1/16 a3 b3b c4 3 p9 d2 b3b f3 502 1/16
+   d4 b3b d4 3 p9 e2b g4 500 1/16 d3 e3b f3 3 p9
+   g2 e3b 402 1/16 g3 e3b g3 3 p9 ;
+: m135 a2b g4 c4 502 1/16 e4 f4 g4 3 p9  a3b f4 500 1/16
+   a4b f4 a4b 3 p9 d4 b3b 102 1/16 d4 e4b f4 3 p9
+   g3 e4b 500 1/16 g4 e4b g4 3 p9 ;
+: l21   m131 m132 m133 m134 m135 ;
+\ l22                                                 02jan86cht
+: m136 g3 c4 a3b z 503 1/8 e5b 1 1/8 f3 a4b 500 1/4
+   g3 g4 b3b 502 1/16 b4b c5 d5 3 p7  a3b f4 c4 a4b 503 1/16
+   c4 e4b d4 f4 e4b g4 3 1 - for 101 1/16 next ;
+: m137 a3b b3b f3 d4 503 1/16 f4 d4 f4 3 p7  g3 g3 e4b 403 1/16
+   g4 e4b g4 3 p7  f3 c4 a3b e4b 503 1/16 a4b e4b a4b 3 p7
+   b2b b3b f3 d4 503 1/16 a4b d4 a4b 3 p7 ;
+: m138 e3b b3b e3b g4 503 1/16 d4 e4b f4 3 p7 g2 e4b 401 1/16
+   g4 e4b g4 3 p7  a2b c5 401 1/16 g3 a3b b3b 3 p9 c3 a3b 402
+   1/16 c4 a3b c4 3 p9 ;
+\ l22                                                 19mar87cht
+: m139 d3 f3 d3 c5 503 1/16 c4 d4 e4b 3 p7 f2 d4 401 1/16
+   f4 d4 f4 3 p7  g2 b4b 401 1/16 f3 g3 a3b 3 p9
+   b2b g3 500 1/16 b3b g3 b3b 3 p9 ;
+: m140 c3 e3b c3 b4b 503 1/16 b3b c4 d4 3 p7  e2b c4 401 1/16
+   e4b c4 e4b 3 p7  f2 a4 401 1/16 e3b g4 f3 a4 g3 b4b
+   3 1 - for 101 1/16 next | f3 a4 101 1/16 a3 c5 101 1/16
+   f3 f3 a4 103 1/16 a3 c5 101 1/16 ;
+: l22   m136 m137 m138 m139 m140 ;
+\ l23                                                 02jan86cht
+: p23 ( 10n) >r >r >r >r >r >r 503 1/16 r> r> 101 1/16
+   r> r> 101 1/16 r> r> 101 1/16 ;
+: p24 ( 7n) >r >r >r 503 1/16   r> 1 1/16 r> 1 1/16 r> 1 1/16 ;
+: p25 ( 9n) >r >r >r >r >r 503 1/16 r> 1 1/16
+   r> r> r> 103 1/16 r> 1 1/16 ;
+: p26 ( 6n) >r >r >r >r 102 1/16 r> 100 1/16 r> r> 102 1/16
+   r> 100 1/16 ;
+: p27 ( 8n) >r >r >r 507 1/16 r> 400 1/16 r>
+   400 1/16   r> 400 1/16 ;
+: p28 ( 10n) >r >r >r >r >r 507 1/16 r> 400 1/16
+   r> r> r> 406 1/16 r> 400 1/16 ;
+: p29 ( nn #) 1 - for 400 1/16 next ;
+\ l23                                                 02jan86cht
+: m141 a2b b3b f3 d5 c4 e5b b3b d5 a3 c5 p23  z b3b f3 d5
+   d4 f5 b3b d5 d4 f5 p23  g2 e4b z b5b a5 g5 f5 p24
+   c3 e4b g3 e5b d5 c5 b4b p24 ;
+: m142 f2 e4b f3 a4 c5 a4 c5 p24  g2 d4 b3b b4b d5 b4b d5 p24
+   c2 c4 g3 b4b e5b b4b e5b p24  f2 c4 f3 a4 e5b a4 e5b p24 ;
+: m143 b2b b3b f3 d5 e5b z a2 d5 c5 p25
+   z z b2b d5 c5 e3b c3 b4b a4 p25   z f3 d3 b4b c5 z b2b b4b
+   a4 p25  z z c3 b4b a4b b3b d3 g4 f4 p25 ;
+: m144 b3b e3b g4 103 1/16 a4b 100 1/16 g4 d3 z 103 1/16
+   f4 100 1/16  g4 e3b f4 e4b f3 d4 p26  e4b g3 f4 e4b e3b d4
+   p26  e4b f3 d4 c4 g3 b3 p26 ;
+: m145 z z a3b c4 z c4 b3b c4 p27 a3b g3 b3b a3b 4 p29
+   f3 z a3b c4 a5b g3 e3b f3 p27
+   d3 f5 z b3 a5b e3b c3 z c4 d3 p28 ;
+: l23   m141 m142 m143 m144 m145 ;
+\ l24                                                 02jan86cht
+: p30 ( 6n) >r >r >r >r 201 1/16 r> 1 1/16
+   r> r> 201 1/16 r> 1 1/16 ;
+: m146 b2 f5 z d4 g5 d3 b2 d3 p27  c3 e5b g3 e4b g5 e3b c3 e3b
+   p27  c3 d5 a3b f4 f5 f3 c3 f3 p27  b2 d5 g3 g4 f5 g3 b2 g3
+   p27 ;
+: m147 c3 c4 c5 g3 g4 e5b 707 1/16 f5 1 1/16  b3 z z z e5b
+   307 1/16 d5 1 1/16 | c4 e5b d5 d4 c5 b4 p30
+   e4b c5 d5 c4 c5 b4 p30   d4 c5 b4b e4 a4 g4 p30 ;
+: m148 | f4 a4 101 1/16 b4b 100 1/16 a4 c4 z 103 1/16 g4 100
+   1/16  a4 f3 g4 f4 g3 e4 p26  f4 a3 g4 f4 f3 e4 p26
+   f4 g3 e4b d4 a3 c4 p26 ;
+\ l24                                                 02jan86cht
+: m149 | b3b d4 6 1/16 g3 f3 a3 g3 b3b a3 b3b 7 p29
+   e3b z b3b d4 g5 f3 d3 g3 f4 e3b p28
+   c3 e5b a3 e4b g5 d3 b2b b3b d4 c3 p28 ;
+: m150 a2 e5b c4 c4 f5 c3 a2 c3 p27  b2b d5 f3 d4 f5 d3 b2b d3
+   p27  b2b c5 g3 e4b e5b e3b b2b e3b p27
+   a2 c5 f3 f4 e5b f3 a2 f3 p27 ;
+: l24   m146 m147 m148 m149 m150 ;
+\ l25                                                 02jan86cht
+: p31 ( nn #) 1 - for 2 1/16 next ;
+: m151 b2b b4b b3b f4 d5 507 1/16 e4 f4 g4 3 p31
+   | d5b g5 f4 b5b 303 1/16 e4 f4 g4 3 p31   c5 f4 a5b 203 1/16
+   e4b 2 1/16 f5 d4b 102 1/16 c4 2 1/16  d5b b3b 102 1/16
+   a3b 2 1/16 b4b g3 202 1/16 f3 2 1/16 ;
+: m152 b4b d5 e3 g5 303 1/16 g3 2 1/16 c5 e3 102 1/16
+   g3 2 1/16  a4b f3 z 203 1/16 a3b f3 a3b 3 p31 |
+   d5b f3 102 1/16 b3b 2 1/16 b4b f3 202 1/16 b3b 2 1/16
+   g4 e3 202 1/16 b3b 2 1/16 c5 e3 102 1/16 b3b 2 1/16 ;
+: m153 | f4 c5 a3b 302 1/16 f3 e3b g3 f3 a3b g3 a3b 7 p29
+   d3b f5 401 1/16 e3b 400 1/16 c3 e5b 500 1/16 d3 400 1/16
+   b2b g4 d5b d4b 702 1/16 c3 400 1/16 a2b a4b c5 700 1/16
+   b2b 400 1/16 ;
+\ l25                                                 02jan86cht
+: p32 ( nn #) 1 - for 4 1/16 next ;
+: m154 g2 b4b d4b b4b e5b b2b g2 b2b p27  a2b a4b c4 e4b e5b
+   c3 a2b c3 p27  a2b b4b b3b f4 d5b d3b a2b d3b p27
+   g2 e4b 402 1/16 e3b g2 e3b 3 p29 ;
+: m155 a2b b4b c4 e4b c5 507 1/16 g4 a4b b4b 3 p9  f4 a3b c4
+   106 1/16 a4b f4 a4b 3 p9  b2b d4 b3b d5 503 1/16
+   c4 z 6 1/16 f4 b3b 104 1/16 a3b 4 1/16  b4b g3 104 1/16
+   b3b g3 b3b 3 p32 ;
+: l25   m151 m152 m153 m154 m155 ;
+\ l26                                                 01jan86cht
+: m156 | c3 b4b e3b e5b 505 1/16 d5b 100 1/16 c5 g3 104 1/16
+   b4b 100 1/16  a4b c4 104 1/16 c5 a4b c5 3 p9  d3 f4 f5
+   501 1/16 e4b 4 1/16 g4 d4 104 1/16 c4 4 1/16
+   a4b b3b 104 1/16 f3 g3 a3b 3 p32 ;
+: m157 e3b g4 e3b f5 505 1/16 b4b 1 1/16 e5b 1 1/16 a4b f3
+   104 1/16  d3 b4b g3 504 1/16 d5 1 1/16 e5b 1 1/16
+   b3b 100 1/16  c3 c4 a3b 504 1/16 b4b c5 d5 3 p7
+   f3 a4b 401 1/16 e4b f4 g4 3 p7 ;
+: m158 b2b b3b a3b d4 505 1/16 f4 d4 f4 3 p7  c3 e3b g3 e4b
+   505 1/16 g4 e4b g4 3 p7  f2 c4 f3 e4b 505 1/16
+   a4b e4b a4b 3 p7  b2b b3b d4 501 1/16 a4b d4 a4b 3 p7 ;
+\ l26                                                 01jan86cht
+: p33 ( 2nn #) 1 - for 104 1/16 next ;
+: p34 ( 2nn #) 1 - for 5 1/16 next ;
+: m159 e2b b3b e3b g4 505 1/16 d4 b2b e4b c3 f4 d3 3 p33
+   z e4b c3 504 1/16 b3b g2 c4 a2b d4 b2b 3 p33
+   a3b f2 104 1/16 c3 e4b d3 f4 e3b g4 3 p34
+   z z d3 f4 505 1/16 c4 a2b d4 b2b e4b c3 3 p34 ;
+: m160 e3b g4 d3 b3b e3b c4 f3 d4 g2 b3b 5 p34
+   b2b c3 d3 3 p29  a2 400 1/16 c3 e4b d3b e4b e3b c5 f3 c5
+   e3b g4 f3 a4 g3b b4b 7 p34 ;
+: l26   m156 m157 m158 m159 m160 ;
+\ l27                                                 02jan86cht
+: p35 ( 6n) >r >r >r >r 104 1/16 r> 100 1/16
+   r> r> 104 1/16 r> 100 1/16 ;
+: m161 b2b z d4b 105 1/8 b4b 100 1/8 c3 e4b 5 1/4  d3b f4 5 1/16
+   f4 g4b a4b 3 p9 e4b e3b g4b 105 1/16 b3b c4 d4b 3 p9 ;
+: m162 a3 e3b f4 105 1/16 c4 a3 c4 3 p9 b3b d3b 104 1/16
+   d4b b3b d4b 3 p9  b3b c3 g4b 105 1/16 e4b b3b e4b 3 p9
+   a3 f3 f4 105 1/16 e4b a3 e4b 3 p9 ;
+: m163 d4b b2b e4b d4b f3 c4 p35 | d4b b3b f4 d4b a3b f4 p35
+   b3b g3 a4b g4 b3b f4 p35  g4 e3 b4b g4 g3 b4b p35 ;
+: m164 e4 c3 f4 e4 g3 d4 p35  e4 c4 g4 e4 b3b g4 p35
+   c4 a3b b4b a4b c4 g4 p35  a4b f3 c5 a4b a3b c5 p35 ;
+: m165 f4 d3b 104 1/8 f5 1 1/8 g4 b2b 104 1/4  a4b c3 104 1/16
+   c5 d5b e5b 3 p7  b4b d3b b4b 105 1/16 f4 g4 a4b 3 p7 ;
+: l27    m161 m162 m163 m164 m165 ;
+\ l28                                                 02jan86cht
+: m166 b4b c3 e4 105 1/16 g4 1 1/16 f2 e4 5 1/16 g4 1 1/16
+   c4 a3b f4 105 1/16 a4b f4 a4b 3 p7  d4b f4 101 1/16
+   b4b f4 b4b 3 p7  c4 g3 e4 105 1/16 b4b 1 1/16
+   b3b e4 101 1/16 b4b 1 1/16 ;
+: m167 c4 f3 a4b 105 1/16 e4 f4 g4 3 p7 z f4 5 1/16 a4b 1 1/16
+   a3b g4 5 1/16 f4 1 1/16  b3b d5 101 1/16 c5 d5 e5b 3 p7
+   g3 d5 5 1/16 c5 1 1/16 f3 b4b 5 1/16 a4b 1 1/16 ;
+: m168 | d2 f5 e2b g5 f2 a5b g2 f5  a2 e5b b2 d5 c3 c5 d3 b4
+   e3b c5 f3 b4 g3 a4 e3b g4  d3 f4 e3b g4 f3 a4b e3b g4
+   10 1 - for 5 1/16 next ;
+\ l28                                                 19mar87cht
+: m169 c5 c2 e5b 105 1/16 g5 1 1/16 c4 e5b 5 1/16 g5 1 1/16
+   d5 f5 101 1/16 a5b f5 a5b 3 p7  e5b g5 101 1/16
+   g3 a3b b3b 3 p32  f5 f3 a5b 105 1/16 c3 d3 e3b 3 p32 ;
+: m170  f5 b2 g5 105 1/16 d3 b2 d3 3 p32  e5b c3 104 1/16
+   e3b c3 e3b 3 p32  d5 c3 a5b 105 1/16 f3 c3 f3 3 p32
+   b2 g5 5 1/16 g3 4 1/16 b2 f5 5 1/16 g3 4 1/16 ;
+: l28   m166 m167 m168 m169 m170 ;
+\ l29                                                 02jan86cht
+: p36 ( 2nn #) 1 - for 104 1/16 next ;
+: m171 d5 c3 e5b 105 1/16 c5 e3b b4 d3 c5 e3b d5 f3 4 p36
+   g3 e3b g3 3 p32  f2 4 1/16 a4b f3 g4 e3b a4b f3 b4b g3 4 p36
+   a3b f3 a3b 3 p32 ;
+: m172 a4b b2b d5b 105 1/16 b4b d3b a4b c3 b4b d3b c5 e3b 4 p36
+   f3 d3b f3 3 p32  e2b 4 1/16 g4 e3b f4 d3b g4 e3b a4b f3 4 p36
+   g3 e3b g3 3 p32 ;
+: m173 g4 a2b c5 105 1/16 a4b c3 g4 b2b a4b c3 b4b d3b 4 p36
+   e3b c3 e3b 3 p32  d2 4 1/16 f4 d3 e4b c3 f4 d3 g4 e3b 4 p36
+   f3 d3 f3 3 p32 ;
+: m174 f4 g2 b4 105 1/16 e4b f4 g4 3 p9 d4 z 104 1/16
+   a3 b3 c4 3 p9 | g3 100 3/8   g2 g4 b4 g3 f4 d5 707 1/8 ;
+: m175 c3 g4 b4 g3 f4 d5 707 1/2 c5 e4b c5 103 1/32 b4b 1 1/32
+   c5 1 1/8 c3 d3 e3b p2 ;
+: l29   m171 m172 m173 m174 m175 ;
+\ praeludium                                          02jan86cht
+: fine e3b f4 g3 b3b g4 507 3/16 a4b 1 1/16
+   g2 e4b g3 b3b b4b 507 3/16 e4b 1 1/16
+   a2b c4 e3b a3b g4 507 3/16 f4 1 1/16
+   b2b a3b b3b b2b f3 e4b 707 3/16 d4 1 1/16
+   e2b a3b b3b b2b e3b d4 707 1/2  g3 e4b 101 1/2 | ;
+: dc  m3 m4 m5 m6 m7 l2 l3 l4 m30 ;
+: prelude   10 fudge !
+   m1 m2 dc   m31 m32 m33 m34 m36
+   l6 l7 l8 l9 l10 l11 l12 l13 l14 l15
+   l16 l17 l18 l19 l20 l21 l22 l23 l24 l25 l26 l27 l28
+   l29 dc   5 fudge +!  fine ;
+decimal
+
+\ praeludium et fuga in eb major, st. ann's fugue     22mar87cht
+\ fuga                                                03jan86cht
+ hex
+\ l1                                                  02jan86cht
+: m1 b3b 2 1/1 g3 2 1/2 c4 2 1/2 ;
+: m2 b3b 2 1/2 e4b 2 1/1 d4 2 1/2 ;
+: m3 e3b e4b 6 1/4 f4 2 1/4 g4 2 1/4 a4b 2 1/4  d3 b4b 6 1/4
+   b3b 2 1/4 g3 e4b 6 1/4 f4 2 1/4 ;
+: m4 e3b g4 6 1/4 f4 2 1/4 b3b e4b 6 1/4 d4 2 1/4
+   e4b 2 1/4 c4 2 1/4 a3 f4 6 1/4 e4b 2 1/4 ;
+: m5 b3b d4 6 1/4 c4 4 1/4 d4 b4b 6 1/4 e4b 4 1/4 f4 4 1/4
+   f3 4 1/4 c4 a4b 6 1/4 d4 4 1/4 ;
+: m6 e4b 4 1/4 e3b 4 1/4 f3 g4 6 1/4 g3 4 1/4
+   a3b 4 1/4 c4 2 1/4 f4 2 1/4 e4b 2 1/4 ;
+: m7 d4 b4b 3 1/4 g3 b3b 6 1/4 a3b c4 6 1/4 b3b d4 6 1/4
+   c4 e4b g4 7 1/4 b3b 4 1/4 c4 a4b c5 7 1/4 d4 4 1/4 ;
+: m8 e4b g4 b4b 7 1/4 d4 4 1/4 c4 e5b 5 1/4 b3b 4 1/4
+   a3b f4 6 1/4 f3 4 1/4 b3b d5 5 1/4 a3b 4 1/4 ;
+: l1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+\ l2                                                  02jan86cht
+: m9 e4b g3 b3b e5b 107 1/4 f3 a3b 6 1/4 g3 b3b b4b 7 1/4
+   a3b c4 6 1/4  d4 b3b d4 106 1/4 b2b a4b 5 1/4
+   g4 e3b b3b g4 107 1/4 f3 a4b 5 1/4 ;
+: m10 e4b g3 b4b 105 1/4 f3 a3b c5 7 1/4 b4b e3b g3 d5 107 1/4
+   d3 f3 6 1/4 e3b g3 c5 7 1/4 c3 4 1/4
+   a4 f3 f3 106 1/4 e3b 4 1/4 ;
+: m11 b4b d3 b4b 105 1/4 c3 c5 5 1/4 b2b d5 5 1/4 c3 e5b 5 1/4
+   d3 f5 5 1/4 e3b g3 6 1/4 a4b f3 a3b c5 107 1/4 b3b d5 3 1/4
+   ;
+: m12 c3 c4 e5b 7 1/4 d3 f5 5 1/4 g4 e3b b3b g5 107 1/4
+   a4b f3 104 1/4 b4b g3 e4b 106 1/4 c5 a3b 104 1/4
+   d5 b3b d4 106 1/4 f5 1 1/4 ;
+\ l2                                                  02jan86cht
+: m13 g4 c4 e5b 103 1/4 c5 1 1/4 f4 a3b f5 105 1/4 e5b 1 1/4
+   b3b d5 3 1/4 b4b 1 1/4 g4 g3 e5b 105 1/4 e3b 4 1/4 ;
+: m14 b2b f4 f3 504 1/4 e4b 100 1/4 f4 d5 101 1/4 b2b 4 1/4
+   g2 g4 e3b e5b 505 1/4 f3 4 1/4 c3 f4 g3 c4 506 1/4
+   e4b a3 104 1/4 ;
+: m15 b2b d4 f3 b3b z 507 1/4 b5b 1 1/4 e3b e4b z a5b 505 1/4
+   g5 1 1/4 f4 c4 a5b 103 1/4 f5 1 1/4
+   d3 b3b b5b 403 1/4 a5b 1 1/4 ;
+: l2   m9 m10 m11 m12 m13 m14 m15 ;
+\ l3                                                  03jan86cht
+: m16 e3b e4b g5 501 1/4 e5b 100 1/4 f3 d5 z z a5b 507 1/4
+   c5 100 1/4 b2b d5 500 1/4 b4b 100 1/4 c3 e5b g5 501 1/4
+   d5 100 1/4 ;
+: m17 a2b c5 500 1/4 b4b 2 1/4 a4b f5 3 1/4
+   g4 2 1/4 b2b d5 a4b 502 1/4
+   f4 a5b 3 1/4 b4b g5 3 1/4 a4b f5 3 1/4 ;
+: m18 c3 g4 e5b 403 1/4 b3b 400 1/4 a3 c5 500 1/4 g3 b4b 500 1/4
+   a3 c5 f4 502 1/4 f3 400 1/4 b3b d5 401 1/4 a3 400 1/4 ;
+: m19 g3 b4b g4 502 1/4 f4 4 1/4 c4 c5 e4b e5b 505 1/4
+   d4 4 1/4 a3 e4b f4 f5 407 1/4 e5b c4 104 1/4
+   f3 d5 f4 a4 506 1/4 c5 e4b 104 1/4 ;
+\ l3                                                  03jan86cht
+: m20 b3b d5 d4 b4b 506 1/4 f3 a4 a5 403 1/4 g3 g4 b5b 403 1/4
+   e3b c5 g3 e5b 505 1/4 f3 a3 f4 d5 407 1/4 b4b b3b 104 1/4
+   f2 c4 c5 405 1/4 a4 100 1/4 ;
+: m21 b2b b4b d4 b4b 505 1/4 b3b 2 1/4 | b4b c4 102 1/4
+   d4 2 1/4 g4 e4b 102 1/4 d4 2 1/4 c5 e4b e5b 103 1/4
+   f4 2 1/4 ;
+: m22 b4b g4 d5 103 1/4 f4 2 1/4 e5b g4 g5 103 1/4 a4b 2 1/4
+   b3b b4b f5 7 1/4 f4 2 1/4 d5 b5b 101 1/4 d4 2 1/4 ;
+: l3   m16 m17 m18 m19 m20 m21 m22 ;
+\ l4                                                  03jan86cht
+: m23 e5b g3 b3b 106 1/4 g5 100 1/4 f5 c4 e4b a5b 107 1/4 e5b
+   100 1/4 f5 b3b d4 106 1/4 d5 100 1/4 e5b e4b z g5 107 1/4
+   b4b 2 1/4 ;
+: m24 c5 a4b f5 103 1/4 g4 2 1/4 b4b d4 a4b 106 1/4 f4 2 1/4
+   e4b g4 6 1/4 e5b 1 1/4 a4b f4 f4 d5 107 1/4 c5 1 1/4 ;
+: m25 b3b d5 5 1/4 b4b 1 1/4 g4 c4 e4b e5b 107 1/4 b3b c5 5 1/4
+   a3b c5 5 1/4 g4 e4b 102 1/4 f4 d4 102 1/4 e4b c4 102 1/4 ;
+: m26 f4 d4 b4b 103 1/4 d4 b3b 102 1/4 g4 g3 e4b 106 1/4
+   f4 d4 102 1/4 e4b c4 a4b 103 1/4 f3 4 1/4
+   f4 e3b d4 106 1/4 d3 4 1/4 ;
+\ l4                                                  03jan86cht
+: m27 e3b g4 5 1/4 f3 2 1/4 e4b g3 c5 103 1/4 f3 a3b 6 1/4
+   d4 g3 b3b b4b 107 1/4 a3b 2 1/4 g4 b3b e5b 103 1/4
+   a3b c4 6 1/4 ;
+: m28 f4 b3b d4 106 1/4 e4b 2 1/4 b4b f4 d5 103 1/4
+   a3b 2 1/4 g3 g4 e5 7 1/4  g3 2 1/4
+   a4b f3 a3b f5 107 1/4 b3b 2 1/4 ;
+: m29 g4 c3 c4 106 1/4 g3 2 1/4 c4 e5b 3 1/4 b3b 2 1/4
+   f4 d3 a3 106 1/4 c3 4 1/4 d3 b3b d5 7 1/4
+   e3b 4 1/4 ;
+: l4   m23 m24 m25 m26 m27 m28 m29 ;
+\ l5                                                  02jan86cht
+: m30 f3 c5 5 1/4 c3 4 1/4 f3 a3b 6 1/4 e3b 4 1/4 d3 b4b 5 1/4
+   d4 b2b 104 1/4 e4b e3b g3 106 1/4 f4 a3b 102 1/4 ;
+: m31 b2b g4 b3b 502 1/4 d3 b4b 5 1/4 f4 e3b c5 105 1/4
+   f3 d5 5 1/4 g2 e4b g3 e5b 505 1/4 f4 d5 101 1/4
+   c3 g4 e3b e4b e5b 507 1/4 a4b f5 101 1/4 ;
+: m32 b2b b4b b3b d4 g5 507 1/4 a4b f5 101 1/4 e3b b4b g4 g5
+   503 1/4 c5 a5b 101 1/4 d5 f4 b5b 103 1/4 e5b c6 101 1/4
+   d3b f5 b4b b5b 503 1/4 a5b 1 1/4 ;
+: m33 e5b e4b b4b g5 107 1/4 e3b e5b 401 1/4 d3b c5 a5b 501 1/4
+   c3 a3b 404 1/4 d3b f5 f3 b4b 506 1/4 b2b 400 1/4
+   e3b e5b g3 g5 505 1/4 d3b 400 1/4 ;
+\ l5                                                  02jan86cht
+: m34 c3 c4 a4b 406 1/4 b2b 400 1/4 c3 b4b z f5 505 1/4
+   d3 f3 404 1/4 e3b g3 g4 406 1/4 f3 d5 a3b 504 1/4
+   g3 e5b b3b e5b 505 1/4 e3b b4b e4b 504 1/4 ;
+: m35 a3b c5 c4 f4 506 1/4 f3 a3b 404 1/4 b3b b4b d4b d5b
+   505 1/4 a3b c4 404 1/4 g3 b3b e4b 406 1/4 e3b g3 404 1/4
+   a3b a4b c4 c5 505 1/4 c5 a3b a4b f5 107 1/4 ;
+: m36 b4b b3b f4 d5 107 1/4 b4b 1 1/4 g3 b4b g4 e5b 503 1/4
+   e3b 400 1/4 b3b b4b f4 502 1/4 c4 4 1/4
+   b2b b3b d5 405 1/4 a3b 4 1/4 ;
+: l5   m30 m31 m32 m33 m34 m35 m36 ;
+\ l6                                                  02jan86cht
+: q1 ( nn #) 1 - for 4 1/8 next ;
+: q2 ( 4n) 2swap 6 1/8 6 1/8 ;
+: q3 ( 3n) >r 6 1/8 r> 2 1/8 ;
+: m37 e2b b4b g3 e4b e5b 507 1/4 f3 e3b d3 e3b 4 q1 |
+   a3b g3 a3b g3 f3 g3 6 q1 ;
+: m38 b3b a3b b3b a3b g3 a3b  g3 f3 g3 f3 e3b f3 0c q1 ;
+: m39 f3 g3 2 q1 e3b b3b f3 a3 q2 g3 b3b a3 c4 q2
+   b3b d4 c4 q3 f3 d4 e4b q3 b3b d4 e4b q3 ;
+: m40 b3b c4 b3b q3 a3 c4 g3 d4 q2 a3 c4 b3b d4 q2
+   c4 e4b d4 q3 g3 e4b f4 q3 a3 e4b f4 q3 ;
+: m41 b3b d4 e4b q3 f3 d4 e3b c4 q2 f3 d4 g3 b3b q2
+   a3b c4 b3b q3 e3b c4 d4 q3  f3 c4 d4 q3 ;
+: m42 g3 b3b c4 q3 d3 b3b c3 a3b q2 d3 b3b e3b g3 q2
+   f3 a3b g3 q3  c3 a3b b3b q3  d3 a3b b3b q3 ;
+: l6   m37 m38 m39 m40 m41 m42 ;
+\ l7                                                  03jan86cht
+: q4 ( 4n) >r 106 1/8 r> 100 1/8 ;
+: q5 ( 3n) >r 104 1/8 r> 100 1/8 ;
+: m43 e3b g3 f3 q3 e4b g3 102 1/8 d4 a3b 102 1/8 e4b d3 g3
+   106 1/8 f4 f3 102 1/8  g4 c3 e3b f4 q4 g4 c4 e4b a4b q4
+   g4 b3b a4b q5 ;
+: m44 f4 a3b e4b q5 f4 g3 g4 q5 f4 a3b g4 q5
+   a4b f3 g4 q5  a4b b3b d4 b4b q4  a4b b2b b4b q5 ;
+: m45 e3b g4 e4b 106 1/8 d3 4 1/8 e3b g4 e4b b4b 107 1/8
+   f3 a4 5 1/8 g3 b4b 5 1/8 a3 c5 5 1/8  f4 b3b d4 d5 107 1/8
+   c5 1 1/8 b4b g4 d5 103 1/8 e5b 1 1/8
+   a4 f4 d5 103 1/8 e5b 1 1/8 ;
+\ l7                                                  02jan86cht
+: m46 g4 e4b c5 103 1/8 d4 b4b 3 1/8 e4b c5 3 1/8 f4 d5 3 1/8
+   e4b c5 3 1/8 d4 d5 3 1/8  c4 e5b 3 1/8 d5 1 1/8 f4 a3 e5b
+   105 1/8 f5 1 1/8 e5b 1 1/8 f5 1 1/8 ;
+: m47 b3b b3b d5 7 1/8 c5 1 1/8 | b4b d5 101 1/8 c5 e5b 101 1/8
+   b4b f5 101 1/8 a4b d5 101 1/8 g4 e5b 101 1/8 a4b 100 1/8
+   g4 b5b 101 1/8 f4 100 1/8 g4 d5b 101 1/8 e4b 100 1/8 ;
+: l7   m43 m44 m45 m46 m47 ;
+\ l8                                                  03jan86cht
+: m48 a4b 100 1/8 b4b 100 1/8 a4b c5 101 1/8 g4 b4 101 1/8
+   a4b c5 101 1/8 g4 e5b 101 1/8   f4 d5 101 1/8 g4 100 1/8
+   f4 a5b 101 1/8 e4b 100 1/8 f4 c5 101 1/8 d4 100 1/8 ;
+: m49 g4 100 1/8 a4b 100 1/8 g4 e4b b4b 103 1/8 f4 d5 3 1/8
+   e4b c5 3 1/8 d4 b4b 3 1/8 c4 e5b 3 1/8 d4 2 1/8 c4 a4b
+   102 1/8 b3 2 1/8 c4 g4 102 1/8 a3 2 1/8 ;
+: m50 f4 d4 102 1/8 e4b 2 1/8 d4 f5 3 1/8 c4 2 1/8 d4 e5b 3 1/8
+   c4 2 1/8  b3 d5 3 1/8 c4 2 1/8 g4 b3 102 1/8 a3 2 1/8
+   f4 b3 102 1/8 g3 2 1/8 ;
+\ l8                                                  03jan86cht
+: m51 e4b c4 102 1/8 g4 1 1/8 f4 a3b d4 c5 107 1/8 b3b 4 1/8
+   g4 a3b e4b b4 107 1/8 g3 4 1/8  a4b f3 a3b c5 107 1/8
+   g3 4 1/8 f3 f4 d5 7 1/8 e3b 4 1/8 f3 c5 5 1/8 d3 4 1/8 ;
+: m52 g4 g3 b4b 105 1/8 a3b 4 1/8 g3 e4b 6 1/8 f3 4 1/8
+   g3 d4 6 1/8 f3 4 1/8 e3 c4 6 1/8 f3 4 1/8 e3 c5 5 1/8
+   d3 4 1/8 e3 b4b 5 1/8 c3 4 1/8 ;
+: m53 f3 a4b 5 1/8 g4 100 1/8 f4 100 1/8 e4 100 1/8
+   f4 d4b b4b 103 1/8 g4 100 1/8  a4b c4 c5 103 1/8
+   g4 100 1/8 a4b f4 102 1/8 b4b 100 1/8
+   a4b f3 d5 105 1/8 b4b 100 1/8 ;
+: l8   m48 m49 m50 m51 m52 m53 ;
+\ l9                                                  02jan86cht
+: m54 g4 g3 b3b e5b 107 1/8 a4 c4 g4 b3b a4 c4 g4 b3b f4 a3
+   5 1 - for 102 1/8 next  b4b d4 d5 103 1/8 c4 2 1/8 d4 g5 3 1/8
+   e4b 2 1/8 d4 e5b 3 1/8 e4b 2 1/8 ;
+: m55 a3 c4 f5 7 1/8 b3b 2 1/8 f4 c4 102 1/8 d4 2 1/8
+   a4 c4 102 1/8 d4 2 1/8  c5 e4b 102 1/8 b4b d4 102 1/8
+   c5 e4b 102 1/8 d5 f4 102 1/8 c5 e4b 102 1/8 d5 f4 102 1/8 ;
+: m56 b4b b3b d4 106 1/8 e4b g5 d4 f5 e4b g5 d4 f5 c4 e5b
+   5 1 - for 3 1/8 next   | f4 a5b 3 1/8 g5 1 1/8 f5 d3 b3b a5b
+   107 1/8 b5b 1 1/8 b2b a5b 5 1/8 b5b 1 1/8 ;
+\ l9                                                  02jan86cht
+: m57 e5b e3b g5 105 1/8 f5 1 1/8 | g4 b5b f4 a5 e4b g5 f4 a5
+   e4b g5 5 1 - for 3 1/8 next  a5 1 1/8 g5 e3 c4 b5b 107 1/8
+   c6 1 1/8 c3 b5b 5 1/8 c6 1 1/8 ;
+: m58 f3 a5 5 1/8 g5 100 1/8 f5 d3 104 1/8 e5b 100 1/8
+   d5 g3 b3b b5b 107 1/8 c5 100 1/8  d5 e3b g3 106 1/8
+   e5b 100 1/8 c5 f3 z a5 107 1/32 b5b 1 1/32 a5 1 1/16
+   a3 2 1/8 c4 2 1/8 f4 2 1/8 ;
+: l9   m54 m55 m56 m57 m58 ;
+\ l10                                                 03jan86cht
+: m59 d5 b3b b5b 105 1/4 b2b z 6 1/8 c3 b2b a2 3 q1 |
+   c3 d3 2 q1 d3 b3b 6 1/8 d3 c3 e3b 3 q1 ;
+: m60 e3b g3 6 1/8 d3 4 1/8 e3b c4 6 1/8 f3 e3b f3 3 q1 g3 b3b
+   6 1/8 f3 4 1/8 g3 e4b 6 1/8 a3b g3 a3b 3 q1 ;
+: m61 a3b b3b 2 q1 b3b d4 6 1/32 e4b 2 1/32 d4 2 1/16 a3b b3b
+   c4 3 q1 g3 e4b 6 1/8 a3b 4 1/8  b3b e3b d3 q3 g3 e3b f3 q3 ;
+: m62 e3b g3 f3 q3 e4b z g3 106 1/8 a3 2 1/8 c3 g3 a3 q3 d4 g3
+ b3b 106 1/8 a3 2 1/8 g4 z b3b 106 1/8 c4 2 1/8 e3b b3b c4 q3 ;
+: m63 f4 b3b d4 106 1/8 c4 2 1/8 b4b z d4 106 1/8 e4b 2 1/8
+   g3 d4 e4b q3 d3 f4 e4b q3 a4 e3b f4 106 1/8 g4 2 1/8
+   f3 f4 e4b q3 ;
+: m64 b4b b2b d4 106 1/8 c4 2 1/8 a3b d4 c4 e4b q2 z b3b f4
+   106 1/8 a3b 4 1/8 b4b g3 104 1/8
+   a3b 4 1/8 g3 e4b 6 1/8 f3 4 1/8 a4b g3 d4 106 1/8
+   f3 4 1/8 ; : l10   m59 m60 m61 m62 m63 m64 ;
+\ l11                                                 02jan86cht
+: m65 g4 e3b e4b 106 1/8 g3 d4 c4 e4b q2 d4b f4 c4 g4 q2
+   b3b 4 1/8 c5 a3b 104 1/8 b3b 4 1/8 a3b f4 6 1/8 g3 4 1/8
+   b4b a3b e4 106 1/8 g3 4 1/8 ;
+: m66 f3 f4 6 1/8 g3 4 1/8 a4b f3 c4 106 1/8 e3b 4 1/8
+   g4 f3 104 1/8 e3b 4 1/8  f4 d3b 104 1/8 e3b 4 1/8
+   d3b b3b 6 1/8 c3 4 1/8 d3b a3b 6 1/8 c3 4 1/8 ;
+: m67 b2b g3 6 1/8 a2b 4 1/8 e4 b2b 104 1/8 d3b 4 1/8
+   g4 c3 104 1/8 b2b 4 1/8  c4 a2b 104 1/4  d3b f3 f4 7 1/8
+   e4 1 1/8 b3b f4 101 1/8 g4 1 1/8 ;
+\ l11                                                 03jan86cht
+: q6 ( 5n ) >r 107 1/8 r> 1 1/8 ;
+: m68 c4 c3 e3 a4b g4 q6
+   c4 f3 f3 a4b b4b q6  f4 f3 d4b a4b b4b q6
+   g4 f3 g3 c5 b4b q6
+   g4 e3 g3 c5 d5b q6  g4 e3 c4 c5 b4b q6 ;
+: m69 g4 f3 c4 a4b g4 q6
+   f4 f3 z a4b b4b q6 f4 g3 z a4b b4b q6
+   e4b a3b z c5 b4b q6 a4b z z c5 d5 q6 a4b f3 z c5 d5 q6 ;
+: l11   m65 m66 m67 m68 m69 ;
+\ l12                                                 02jan86cht
+: q7 ( 4n) 2swap 101 1/8 101 1/8 ;
+: q8 ( 3n) >r 101 1/8 r> 100 1/8 ;
+: m70 g4 c4 z e5b d5 q6 c5 z z e5b f5 q6 c5 a3b z e5b f5 q6
+   c5 e3b z g5 f5 q6 b4 f3 z g5 a5b q6 b4 g3 z g5 f5 q6 ;
+: m71 c5 c3 z e5b d5 q6 | c5 e5b d5 f5 q7 c5 g5 b4b q8
+   a4b g5 b4b q8 a4b f5 g4 q8 a4b e5b g4 q8 ;
+: m72 f4 100 1/8 c5 1 1/8 b4b d5 c5 e5b q7 b4b f5 a4b q8
+   g4 f5 a4b q8 g4 e5b f4 q8 g4 a5b f4 q8 ;
+: m73 e4b a5b f4 q8 e4b c4 g5 103 1/8 d4 100 1/8 e4b f5# c4 q8
+   d4 z b3 g5 f5 q6 z z e4b g5 a5b q6 g4 g5 101 1/8 f5 1 1/8 ;
+: m74 c5 z c4 e5b f5 q6 c5 z g4 e5b d5 q6 b4b z g4 e5b d5 q6
+   a4 z g4 c5 b4b q6 a4 z f4# c5 e5b q6 d5 1 1/8 c5 1 1/8 ;
+: l12   m70 m71 m72 m73 m74 ;
+\ l13                                                 03jan86cht
+: q9 ( 4n) >r 103 1/8 r> 2 1/8 ;
+: q10 ( 6n) >r >r 107 1/8 r> r> 102 1/8 ;
+: q11 ( 4n) 2swap 102 1/8 102 1/8 ;
+: m75 a4 g4 b4b f4 q9 g4 e4b b4b f4 q9 g4 e4b b4b d4 q9
+   g4 c4 e5b d4 q9  c5 c4 e5b b3b q9  c5 c4 e5 b3b q9 ;
+: m76 c5 a3 f5 c4 q9  a4 f4 f5 g4 q9  a4 f4 c5 e4b q9
+   a4 d4 f5 e4b q9  d5 d4 f5 c4 q9  d5 d4 f5# c4 q9 ;
+: m77 d5 z b3 g5 c5 a3 q10  d5 g3 b3 g5 e5b c4 q10 a3 c5 b3 d5
+   q11  e5b e3b c4 g5 d5 b3 q10  e5b a3b c4 c6 f5 d4 q10
+   c4 e5b d4 f5 q11 ;
+: m78 g5 g3 e4b b5b g5 d4 q10  g5 c4 e4b a5b c5 f4 q10
+   e4b f5 f4 e5b q11  d5 c4 g4 a5b d5 f4 q10
+   d5 b3 g4 g5 f5 a4b q10  e5b g4 d5 f4 q11 ;
+\ l13                                                 02jan86cht
+: m79 c5 c4 e4b g5 107 1/8 f4 2 1/8 e4b a5b 3 1/8 d4 2 1/8
+   b3b e4b g5 7 1/8 d4 2 1/8  a3b c4 6 1/8 d4b 2 1/8
+   c4 f5 3 1/8 b3b 2 1/8 g3 c4 e5b 7 1/8 b3b 2 1/8 ;
+: l13   m75 m76 m77 m78 m79 ;
+\ l14                                                 02jan86cht
+: q12 ( nn # ) 1 - for 4 1/16 next ;
+: q13 ( nn # ) 1 - for 2 1/8 next ;
+: q14 ( nn # ) 1 - for 2 1/16 next ;
+: m80 c5 f3 a3b e5b 107 1/8 b3b 2 1/8 b4 a3b d5 103 1/8
+   g3 2 1/8 c5 e3b a3b c5 107 1/8 g3 2 1/8  d3 f3 f5 7 1/8
+   g3 2 1/8 b4b f3 102 1/8 e3b 2 1/8 d5 c3 f3 106 1/8
+   e3b 2 1/8 ;
+: m81 g4 b2 d3 106 1/8 f5 1 1/8 b4 g2 g3 e5b 107 1/8 d5 1 1/8
+   c5 c3 e5b 105 1/4 f3 a3b 6 1/8 f5 1 1/8 b4 g3 z d5 107 1/8
+   b3 2 1/8 d4 2 1/8 f4 c5 3 1/8 ;
+\ l14                                                 02jan86cht
+: m82 g4 c3 e4b c5 107 1/8 g3 e3b 2 q1 | f3 c4 b3b c4 4 q1
+   f3 a3b g3 a3b 4 q12  b3b a3b b3b 3 q1 ;
+: m83 e3b 4 1/8 e3b g3 f3 g3 4 q12  b3b g4 f4 q3 g4 2 1/8
+   c4 2 1/8  c4 e4b d4 e4b 4 q14  a3b f4 e4b q3 f4 2 1/8 ;
+: m84 b3b 2 1/8 b3b d4 c4 d4 4 q14 g3 e4b 6 1/16 f3 4 1/16 |
+   a3b g3 f3 e3b 4 q12  b3b d4 6 1/16 c4 2 1/16 |
+   e4b d4 c4 b3b 4 q14  a3b f4 6 1/16 g3 4 1/16 |
+   b3b a3b g3 f3 4 q12 ;
+: l14   m80 m81 m82 m83 m84 ;
+\ l15                                                 22mar87cht
+: m85 | c4 e4b 6 1/16 f4 2 1/16 g4 2 1/16 f4 2 1/16 b3b e4b 6
+   1/16 d4 2 1/16 c5 a3b c4 106 1/8 b4b d4b c5 e4b q11 f4 d4b
+   102 1/8 a4b g3 104 1/16 g4 100 1/16 a4b f3 104 1/16 f4 100
+   1/16 b4b g3 104 1/8 a4b c4 b4b b3b q11 ;
+: m86 e4b c4 102 1/8 g4 f3 104 1/16 f4 100 1/16 g4 e3b 104 1/16
+   e4b 100 1/16 a4b f3 104 1/8 e3b 4 1/8 f3 c4 6 1/8  b2b d4
+   6 1/8 b2b d4 d3 f4 c3 e4b d3 f4 4 1 - for 6 1/16 next
+   g4 e3b b3b 106 1/8 d3 4 1/8 e3b 4 1/8 ;
+: m87 a2 c4 6 1/8 a2 c4 c3 e4b b2b d4 c3 e4b 4 1 - for 6 1/16 next
+   f4# a3 d3 106 1/8 c3 4 1/8 d3 c4 6 1/8 g4 g2 104 1/8 b3b 2
+   1/8 a3 2 1/8 | b3b g5 3 1/8 f5 1 1/8 g5 1 1/8 ;
+\ l15                                                 03jan86cht
+: m88 c5 1 1/8 a3b e5 3 1/16 d5 1 1/16 g3 e5 3 1/16 c5 1 1/16
+   a3b f5 3 1/8 e5b 1 1/8 f5 1 1/8 b4b 1 1/8 g3 d5 3 1/16
+   c5 1 1/16 f3 d5 3 1/16 b4b 1 1/16 g3 e5b 3 1/16
+   a3b g3 f3 e3b f3 5 1 - for 2 1/16 next ;
+: m89 e4b d4 c4 b3b a3b b3b 6 1 - for 2 1/16 next f4 d5 3 1/16
+   b4b a4b g4 f4 e4b 5 1 - for 2 1/16 next ;
+: l15   m85 m86 m87 m88 m89 ;
+\ l16                                                 03jan86cht
+: m90 e4b g5 3 1/16 d5 c5 b4b a4b g4 5 1 - for 100 1/16 next
+   e5b z 102 1/16 b3b c4 d4 e4b f4 5 1 - for 2 1/16 next ;
+: m91 a3 f5 3 1/16 c4 b3b a3 g3 f3 5 1 - for 2 1/16 next
+   d5 d4 b5b 103 1/16 b3b 2 1/16 e5b c4 102 1/16 d4 2 1/16
+   d5 e4b 102 1/16 f4 2 1/16 g4 2 1/16 a4b 2 1/16 e5b g4 102
+   1/16 f4 2 1/16 c5 e4b 102 1/16 d4 2 1/16 c4 e4b a5 7 1/8
+   b4b 100 1/8 c5 100 1/8 ;
+: m92 f4 b3b b5b 105 1/8 g4 z 101 1/16 c5 b4b a4b 3 1 - for
+   100 1/16 next  d5 d4 b5b 103 1/8 a5b 1 1/8 b5b 1 1/8
+   c5 g4 e5b 103 1/8 e5b g5 f5 g5 4 1 - for 1 1/16 next
+   a3b a5b 5 1/8 g5 1 1/8 a5b 1 1/8 ;
+\ l16                                                 22mar87cht
+: m93 b4b f4 d5 103 1/8 d5 f5 e5b f5 4 1 - for 1 1/16 next
+   g3 e5b g3 b4b g5 507 1/8 f3 a3b 404 1/8 g3 b3b 404 1/8
+   c3 c4 404 1/8 e3b 400 1/16 d3 400 1/16 e3b g3 404 1/16
+   c3 400 1/16  f3 c5 a3b a4b f5 507 1/8 e3b g3 404 1/8
+   f3 a3b e5b 405 1/8 ;
+: m94 b2b b4b b3b a4b d5 507 1/8 b2b d3 c3 d3 4 1 - for 400 1/16
+   next | e3b c5 g4 502 1/16 d5 100 1/16 e5b f4 102 1/16
+   d5 100 1/16 c5 g4 102 1/16 b4b 100 1/16  a4 c4 f5 103 1/16
+   b4b 100 1/16 a4 c4 c5 e4b b4b d4 c5 e4b 4 1 - for
+   102 1/16 next  d3b b4b f4 502 1/16
+   c5 100 1/16 d5b e4b 102 1/16 c5 100 1/16
+   b4b f4 102 1/16 a4b 100 1/16 ;
+: l16   m90 m91 m92 m93 m94 ;
+\ l17                                                 03jan86cht
+: m95 g4 b3b e5b 103 1/16 g4 b4b a4b b4b a4b 5 1 - for 100 1/16
+   next c3 a4b e4b 502 1/16 e3b 2 1/16 z f3 d5b 103 1/16
+   g3 2 1/16 a3b e5b 3 1/16 b3b 2 1/16  f3 c4 a4b 403 1/8
+   d5b a4b c5 b4b c5 5 1 - for 1 1/16 next  d3b 2 1/16
+   e3b c5 3 1/16 f3 2 1/16 g3 d5b 3 1/16 a3b 2 1/16 ;
+: m96 e3b g4 b3b z 503 1/16 c4 2 1/16 g4 b3b b4b d4b a4b c4
+   b4b d4b 4 1 - for 102 1/16 next  a3b e5b c4 c5 503 1/16
+   d4b 2 1/16 e4b b4b 3 1/16 d4b 2 1/16 e4b c5 3 1/16 c4 2 1/16
+   d5b b3b f4 103 1/8 f4 a4b g4 a4b 4 1 - for 1 1/16 next
+   g3 b4b 401 1/8 a4b 1 1/8 b4b 1 1/8 ;
+\ l17                                                 03jan86cht
+: q15 ( nn #) 1 - for 1 1/16 next ;
+: m97 a3b a3b e4b 403 1/8 c5 f4 101 1/16 g4 1 1/16 z a4b
+   101 1/16 b4b 1 1/16  f3 c5 401 1/16 e5 d5 c5 b4b a4b 5 q15
+   d3b f5 401 1/16 e5 1 1/16 c4 f5 3 1/16 g5 1 1/16 f4 a5b
+   3 1/16 f5 1 1/16 b4b b5b 101 1/16 c6 1 1/16 e4 b5b 3 1/16
+   a5b 1 1/16 f4 g5 3 1/16 f5 1 1/16 ;
+: m98 c3 g4 e5 403 1/16 c5 d5 e5 f5 g5 5 q15 a4b d4 f4 f5
+   107 1/8 c4 4 1/8 b2 d4 404 1/8 c3 g4 g3 c5 506 1/8
+   g3 b3b a3b b3b 4 q12 c2 c4 b4b e5 407 1/8
+   b3b 4 1/8 c4 4 1/8 ;
+: l17   m95 m96 m97 m98 ;
+\ l18                                                 03jan86cht
+: m99 f2 f4 f3 a4b f5 507 1/8 f3 a3b g3 a3b 4 q12 |
+   d5b b3b 104 1/8 a3b 4 1/8 b3b 4 1/8 e3b g4 6 1/8
+   e3b g3 f3 g3 4 q12 c5 a3b e5b 106 1/8 g3 4 1/8 a3b 4 1/8 ;
+: m100 d3b f4 6 1/8 a3 g3 f3 e3b 4 q12 b4b b3b d5b 105 1/16
+   f3 g3 a3b b3b c4 5 q12 g3 e4b 6 1/16 b3b a3b g3 f3 e3b
+   5 q12  a4b c4 z c5 107 1/16 d4b c4 b3b a3b b3b 5 q12 ;
+: m101 e4b b4b 5 1/8 f5 e5b d5 c5 4 q15  g4 g5 101 1/16
+   d5 e5b f5 g5 a5b 5 q15 a3b c5 5 1/8 g5 f5 e5b d5 4 q15
+   f4 a5b 101 1/16 c5 d5 e5b f5 g5 5 q15 ;
+: m102 g3 b4 5 1/16 g4 a4 b4 c5 d5 5 q15  c3 e4b a3b e5b 505
+   1/8 g3 4 1/8 a3b 4 1/8  f4 d3 d5 105 1/8 f4 d3 a4b f3 g4 e3b
+   a4b f3 4 1 - for 104 1/16 next  b2 d4 g3 504 1/8
+   g4 f3 104 1/8 g3 4 1/8 ;
+: l18   m99 m100 m101 m102 ;
+\ l19                                                 22mar87cht
+: m103 e3b g4 c3 z d5 507 1/16 4 g3 6 1/16 d4 c4 b3 a3 4 q14
+   z z e4b c5 107 1/16 f4 d5 e4b c5 d4 b4 c4 a4 d4 g4 5 1 - for
+   3 1/16 next  c3 g4 e5b 403 1/16 d4 e4b f4 g4 a4b 5 q14
+   g3 c4 402 1/16 d4 2 1/16 c4 d5 3 1/16 b3b 2 1/16
+   a3 e5b 3 1/16 b3b 2 1/16 ;
+: m104 c4 a4 3 1/8 d4 c5 3 1/16 b4b 1 1/16 e4b c5 3 1/16 a4 1
+   1/16 f3# a4 a3 d5 503 1/16 c5 d5 e5b d5 c5 5 q15
+   g3 b3b b4b 403 1/16 d4 c4 b3b a3 g3 5 q14
+   4 g4 z e4b z 507 1/16 f5 e5b d5 c5 b4b 5 q15 ;
+\ l19                                                 03jan86cht
+: m105 c5 g5 101 1/16 g4 f4 e4b d4 c4 5 q14  a4b 2 1/16
+   e5b f5 g5 a5b b5b 5 q15 b4b d5 101 1/16
+   d5 e5b f5 d5 c5 5 q15  e5b c4 g4 e5b 107 1/16 d5 1 1/16
+   b3b e5b 5 1/16 g5 1 1/16 c4 f5 5 1/16 e5b 1 1/16 ;
+: m106 f3 e5b z f4 a5b 507 1/8 f3 a3b g3 a3b 4 1 - for 400 1/16
+   next  b3b d5 500 1/8 a3b 400 1/8 b3b 400 1/8
+   e3b e5b z e4b g5 507 1/16 a5b 1 1/16
+   e3b g5 g3 b5b f3 a5b g3 b5b 4 1 - for 401 1/16 next
+   a3b c4 c6 405 1/16 d5 100 1/16 g3 e5b b3b 504 1/16
+   f5 100 1/16 a3b d5 c4 504 1/16 e5b 100 1/16 ;
+: l19   m103 m104 m105 m106 ;
+\ l20                                                 03jan86cht
+: m107 d3 f5 f3 d4 c6 507 1/8 d3 f3 f3 a3b e3b g3 f3 a3b
+   4 1 - for 404 1/16 next  g3 b3b b5b 405 1/16 e5b 100 1/16
+   f3 f5 a3b 504 1/16 g5 100 1/16 g3 f5 b3b 504 1/16
+   g5 100 1/16  c3 e5b e3b c4 506 1/8 c3 e3b e3b g3 d3 f3 e3b g3
+   4 1 - for 404 1/16 next  f3 a3b a5b 405 1/16 d5 100 1/16
+   e3b e5b g3 504 1/16 f5 100 1/16 f3 e5b a3b 504 1/16
+   f5 100 1/16 ;
+: m108 b2b d5 f3 b3b 506 1/16 e5b 100 1/16 f5 g3 104 1/16
+   e5b 100 1/16 d5 a3b c4 106 1/16 c5 100 1/16
+   z b4b b3b d4 g5 507 1/8 a4b f5 101 1/8 b4b g5 101 1/8
+   g4 e4b c5 103 1/8 c5 e5b d5 e5b 4 q15  a4b a3b c4 f5
+   107 1/8 g4 e5b 101 1/8 a4b f5 101 1/8 ;
+\ l20                                                 03jan86cht
+: m109 f4 d4 b4b 103 1/8 b4b d5 c5 d5 4 q15  e3b b4b g3 g4 e5b
+   507 1/16 b3b a3b g3 f3 e3b 5 q12 c4 z 5 1/16
+   g4 a4b b4b c5 d5b 5 1 - for 100 1/16 next  c3 a4b e5b 501 1/16
+   g3 a3b b3b c4 d4b 5 q12 ;
+: m110 f3 a4b a3b f4 e5b 507 1/16 e3b f3 g3 a3b b3b 5 q12
+   f3 d5 5 1/16 d3 e3b f3 g3 a3b 5 q12  e3b z e3b b3b g5
+   507 1/16  b4b c5 d5b e5b f5 5 1 - for 100 1/16 next
+   a3b c5 z z 506 1/16 e4b f4 g4 a4b b4b 5 q14 ;
+: l20   m107 m108 m109 m110 ;
+\ l21                                                 03jan86cht
+: m111 a3b d5 z b4b f5 507 1/16 c4 d4 e4b f4 g4 5 q12
+   g3 z b3b z b5b 507 1/16 d5 e5b f5 g5 a5b 5 1 - for 100 1/16 next
+   c4 e5b z z 506 1/16 g4 a4 b4b c5 d5 5 q14
+   z c5 a5 7 1/16 c4 d4 e4b f4 g4 5 q12 ;
+: m112 b3b d5 d4 f4 b5b 507 1/16 b4b 100 1/16 c5 z z 106 1/16
+   f5 e5b d5 3 1 - for 100 1/16 next  z g5 500 1/8 f5 100 1/8
+   g5 100 1/8  c5 100 1/8 c5 e5b d5 e5b 4 1 - for 100 1/16 next
+   f5 a5b 101 1/8 e5b 100 1/8 f5 100 1/8 ;
+\ l21                                                 03jan86cht
+: m113 b4b 100 1/8 b4b d5 c5 d5 4 1 - for 100 1/16 next
+   e5b c5 g5 103 1/8 b4b 2 1/8 c5 2 1/8
+   f4 a5b 3 1/8 f4 a4b g4 a4b 4 q14
+   d5 b4b 102 1/8 a4b 2 1/8 b4b 2 1/8 ;
+: m114 | e5b e4b g5 103 1/16 f5 100 1/16 g5 e4b e5b g4 d5 f4
+   e5b g4 4 1 - for 102 1/16 next  c5 f4 a4b 106 1/16 b5b 1 1/16
+   e4b a5b 5 1/16 g5 1 1/16 f4 f5 5 1/16 e5b 1 1/16
+   b4b b3b d5 105 1/16 e5b 1 1/16 b3b d5 d4 f5 c4 e5b d4 f5
+   4 1 - for 5 1/16 next  e4b g4 g5 7 1/16 a5b 1 1/16
+   d4 g5 5 1/16 f5 1 1/16 e4b e5b 5 1/16 d5 1 1/16 ;
+: l21   m111 m112 m113 m114 ;
+\ l22                                                 22mar87cht
+: m115 z c5 a3b g4 c5 507 1/16 c5 e5b d5 e5b d5 5 q15
+   a2b f4 f5 403 1/16 e5b f5 g5 3 q15 e4b d5 3 1/16 c5 1 1/16
+   b3b f4 d4 b4b 107 1/16 e4b c5 3 1/16 z f4 d5 103 1/16
+   d4 b4b f4 d5 e4b c5 3 1 - for 3 1/16 next
+   g2 b4b b3b g4 e5b 507 1/8 a3b 4 1/8 b3b 4 1/8 ;
+: m116 c3 e3b 404 1/8 e3b g3 f3 g3 4 q12  a4b a3b f4 106 1/8
+   g3 4 1/8 a3b e4b 6 1/8  b2b d3 b4b f5 407 1/16
+   f3 e3b d3 c3 b2b 5 q12  e3b g4 g3 e5b 505 1/16
+   b3b a3b g3 f3 e3b 5 q12 ;
+\ l22                                                 22mar87cht
+: m117 e3b f5 c4 a4b a5b 507 1/16 e4b d4 c4 b3b a3b 5 q12
+   d3 f4 b4b 406 1/16 c4 d4 e4b f4 g4 5 q12  e3b b3b 404 1/16
+   d4 2 1/16 e5b e4b g5 103 1/16 f4 2 1/16 f3 d5 g4 f5 503
+   1/16 a4b 2 1/16  g3 g4 402 1/8 e5b e4b e5b 105 1/8
+   a3b c5 a4b f5 503 1/8 ;
+: m118 b3b b4b e4b g4 b4b 507 1/32 a4b 1 1/32 b4b 1 1/16
+   g3 4 1/8 a3b 4 1/8  b2b a4b b3b f4 e5b 507 1/32
+   8 1 - for d5 1 1/32 e5b 1 1/32 next d5 1 1/32 c5 1 1/32
+   d5 1 1/32  e2b g4 b3b e4b e5b 507 3/4 ;
+\ fuga                                                22mar87cht
+decimal
+: l22   m115 m116 5 fudge +! m117 5 fudge +! m118 | ;
+: fugue   
+   10 fudge ! l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13 
+   20 fudge ! l14 l15 l16 l17 l18 l19 l20 l21 l22 ;
+: all date prelude | 5000 ms date fugue | date ;
+
+[[ all ]]

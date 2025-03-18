@@ -1,0 +1,608 @@
+\ toccata et fuga in d minor, no. 4, vol. iv          29oct86cht
+\ kalmus organ series, 3073
+\ johann sebastian bach
+\ complete organ works in nine volumes
+\ vol. 4
+\ balwin mills publishing corp.
+\ p. 27-35
+\ toccata et fuga in d minor                          21feb87cht
+\ 5 beat 1/12
+\ 2 load ( tool )
+\ 3 12 thru ( toccata )
+\ 15 44 thru
+\ tools                                               05apr87cht
+
+decimal
+0 constant bass
+0 constant tenor
+0 constant alto
+0 constant soprano
+0 constant flute
+0 constant pedal
+0 constant z
+: init z to bass z to tenor z to alto z to soprano z to pedal z to flute ;
+
+variable fudge 30 fudge ! ( quater note )
+: notes ( duration -- )
+  >r 0.1 bass tenor alto soprano pedal flute r> poly ;
+hex
+: play ( n1 n2 n3 n4 n5 n6 bits duration -- )
+  >r >r 
+  r@ 1 and if to soprano then  
+  r@ 2 and if to alto then
+  r@ 4 and if to tenor then
+  r@ 100 and if to flute then
+  r@ 200 and if to bass then
+  r@ 400 and if to pedal then
+  r> drop r> notes ;
+
+decimal
+: ppqn   constant   does 0 q@ fudge @ * play ;
+192 ppqn 3/2
+128 ppqn 1/1    64 ppqn 1/2    32 ppqn 1/4   16 ppqn 1/8
+  8 ppqn 1/16    4 ppqn 1/32    2 ppqn 1/64   1 ppqn 1/128
+ 96 ppqn 3/4    48 ppqn 3/8    24 ppqn 3/16  12 ppqn 3/32
+ 12 ppqn 1/12'  10 ppqn 1/12   22 ppqn 1/6
+  6 ppqn $.      5 ppqn $       3 ppqn ]      2 ppqn [
+hex
+: | z z z z z z 707 1/128 ;
+: init-fudge ( n -- ) fudge ! ;
+decimal
+
+variable channel
+: doublet ( n1..n4 code )
+   >r   2swap   r@ 1/16   r> 1/16 ;
+: triplet ( n1..n6 code )
+   channel !   >r >r >r >r    channel @ 1/12
+   r> r> channel @ 1/12   r> r> channel @ 1/12   ;
+: dot ( n n -- )   channel @ 1/32 ;
+: octet ( n1..n5 code )
+   channel !   z 5 pick dot   dup z dot   z 4 pick dot
+   dup z dot   z 3 pick dot   dup z dot
+   z rot dot   z dot   2drop drop ;
+: tr ( n1..n4 code )
+   >r   2over r@ 1/64   r@ 1/64   r@ 3/32  z z r> 1/32 ;
+: quartet ( n1..n4 code )   rot over 4 pick over 7 pick over
+   3 for 1/32 next 2drop ;
+
+\ adagio, l1                                          20feb87cht
+hex
+: m1   a4 a5 g4 g5 3 tr    g4 g5 3 1/64 f4 f5 3 1/64
+   e4 e5 3 1/64 d4 d5 3 1/64 c4# c5# 3 1/32 d4 d5 3 1/16
+   z z 3 3/16   a3 a4 g3 g4 104 tr
+   e3 e4 104 1/32 f3 f4 104 1/32 c3# c4# 104 1/32
+   d3 d4 104 1/16   z z 104 3/16 | ;
+: m2   a2 a3 g2 g3 600 tr   g2 g3 600 1/64
+   f2 f3 600 1/64 e2 e3 600 1/64 d2 d3 600 1/64 c2# c3# 600 1/32
+   d2 d3 600 1/16   z z 600 3/16   d2 400 1/8
+   c3# 200 1/16 e3 100 1/16 g3 4 1/16 b3b 2 1/16 c4# 1 1/16
+   e4 100 1/16   e4 100 1/4  ;
+: m3   d3 d3 a3 d4 303 1/16   e3 4 1/16 f3# 4 1/8 | z 1 1/4
+   z 1 3/16   c3# c4# 600 1/16 ;
+: l1   40 fudge !   m1 m2 m3 | ;
+\ adagio, l2                                          12dec86cht
+: t1   d3 d4 e3 e4 c3# c4# 600 triplet ;
+: t2   f3 f4 g3 g4 e3 e4 600 triplet ;
+: m4   t1 t1 t1   d3 d4 e3 e4 600 doublet
+       t2 t2 t2   f3 f4 g3 g4 600 doublet ;
+: t3   a3 a4 b3b b4b g3 g4 600 triplet ;
+: m5   t3 t3 t3 a3 a4 600 1/4 z z 600 1/2 |   c4# c5# 104 1/16
+       ;
+: t4   d4 d5 e4 e5 c4# c5# 104 triplet ;
+: t5   f4 f5 g4 g5 e4 e5 104 triplet ;
+: m6   t4 t4 t4   d4 d5 e4 e5 104 doublet
+       t5 t5 t5   f4 f5 g4 g5 104 doublet ;
+: l2   10 fudge !   m4 m5 m6 | ;
+\ adagio, l3                                          09nov86cht
+: t6   a4 a5 b4b b5b g4 g5 104 triplet ;
+: m7   t6 t6 t6   a4 a5 104 1/4 | z 1 1/2   a4 a5 3 1/16 ;
+: t7   g4 g5 b4b b5b e4 e5 3 triplet ;
+: t8   f4 f5 a4 a5 d4 d5 3 triplet ;
+: t9   e4 e5 g4 g5 c4 c5 3 triplet ;
+: t10  d4 d5 f4 f5 b3b b4b 3 triplet ;
+: m8   t7 t7 t8 t8 t9 t9 t10 t10 ;
+: t11  c4 c5 e4 e5 a3 a4 3 triplet ;
+: t12  b3b b4b d4 d5 g3 g4 3 triplet ;
+: t13  a3 a4 c4 c5 f3 f4 3 triplet ;
+: t14  g3 g4 b3b b4b e3 e4 3 triplet ;
+: m9   t11 t11 t12 t12 t13 t13 t14 t14 ;
+: l3   m7 m8 m9 ;
+\ adagio, l4                                          14mar87cht
+: t15   f3 f4 a3 a4 d3 d4 3 triplet ;
+: t16   e3 e4 g3 g4 c3# c4# 3 triplet ;
+: t17   8 1 - for f4 4 1/64 e4 4 1/64 next ;
+: m10   t15 t15 t16 t16 | 20 fudge !   d2 400 1/4   c3# 200 1/16
+   e3 100 1/16 g3 4 1/16 b3b 2 1/16   c4# 1 1/16 e4 200 1/16
+   g4 100 1/16 b4b 4 1/16 100 ms |   b4b a4 g4 f4 4 quartet
+   e4 d4 c4# b3 4 quartet
+   c4# 4 1/16 a3 4 1/16 c4# 4 1/16   e4 4 1/32 g4 4 1/32
+   t17    ;
+: m12   d2 d3 f3 a3 d4 f4 707 1/2 | z 1 3/16   a4 1 1/16
+   d5 e5 f5 d5 a4 3 octet   e5 f5 g5 e5 a4 3 octet ;
+: m13   f5 g5 a5 f5 a4 3 octet   g5 a5 b5b g5 a4 3 octet
+   a5 f5 g5 e5 a4 3 octet   f5 d5 e5 c5# a4 3 octet | ;
+: l4   m10 |  20 fudge !    m12 m13 ;
+\ allegro, l5                                         09nov86cht
+: m14   d5 a4 b4b g4 a4 104 octet  a4 f4 g4 e4 a4 104 octet
+   f4 d4 e4 c4# a4 104 octet  f4 d4 e4 c4# a4 104 octet | ;
+: m15  d4 a3 b3b g3 a4 600 octet   a3 f3 g3 e3 a4 600 octet
+   f3 d3 g3 e3 a4 600 octet   f3 d3 e3 c3# a4 600 octet | ;
+: m16  d3 400 1/8 |   d4 f4 b4b f4 1 quartet c4 e4 a4 e4 1
+   quartet  b3b d4 g4 d4 1 quartet  a3 c4# e4 a4 1 quartet
+   d3 d4 z 601 1/16  z f4 b4b 403 1/16  c3 a3 z z 603 1/16
+   z e4 a4 203 1/16  b2b b3b z z 603 1/16  z d4 g4 203 1/16 ;
+: l5   m14 m15 m16 ;
+\ allegro, l6                                         09nov86cht
+: m17   a2 e3 c4# e4 a4 607 1/8 |   d4 f4 b4b f4 100 quartet
+   c4 e4 a4 e4 100 quartet   b3b d4 g4 d4 100 quartet
+   a3 c4# e4 a4 100 quartet   d3 z d4 504 1/16 b4b z f4 106 1/16
+   c3 z a3 z 506 1/16  a4 z e4 106 1/16
+   b2b z b3b z 506 1/16  g4 z d4 106 1/16 ;
+: m18  a2 a4 e3 c4# e4 507 1/4  z z z z 407 1/64
+   a4 g4 f4 e4 100 quartet   d4 c4# b3 c4# 100 quartet
+   a3 b3 c4# d4 100 quartet   e4 f4 g4 a4 100 quartet
+   g4 f4 e4 f4 100 quartet   d4 f4 a4 c5# 100 quartet ;
+: m19   d5 100 1/16   a4 b4 c5# d5 100 quartet
+   e5 f5 g5 a5 100 quartet  b5b 100 1/16 200 ms |   d3 d5 600 1/16
+   z f5 b5b 301 1/16  c3 a4 z z 701 1/16  z e5 a5 301 1/16
+   b2b b4b z z 701 1/16  z d5 g5 301 1/16  a2 e4 c5# e5 a5
+   703 1/8 |   d5 f5 b5b f5 1 quartet ;
+: l6   m17 m18 m19 ;
+\ allegro, l7                                         14mar87cht
+: m20   c5 e5 a5 e5 1 quartet   b4b d5 g5 d5 1 quartet
+   a4 c5# e5 a5 1 quartet   d3 d5 z 601 1/16 z f5 b5b 301 1/16
+   c3 a4 z z 701 1/16  z e5 a5 301 1/16  b2b b4b z z 701 1/16
+   z d5 g5 301 1/16  a2 e4 c5# e5 a5 703 1/8
+   g2# b3 d4 f4 b4 d5 707 1/8 ;
+: m21 g2 a3 e4 e4 a4 c5# 707 3/16  b4 1 1/16 |
+   a4 1 1/16 c5# 1 1/16 e5 1 1/32 g5 1 1/32 b5b 1 1/16 200 ms
+   a5 g5 f5 e5 1 quartet   f5 e5 d5 c5# 1 quartet
+   d5 c5 b4b a4 1 quartet   g4 f4 e4 d4 1 quartet ;
+: t18   e4 c5# g4 e5 e4 c5# 3 triplet ;
+: t19   c4# b4b e4 c5# c4# b4b 3 triplet ;
+: m22   g3 e4 g4 b4b c5# e5 707 1/2 200 ms  |   t18 t19 t18 t19 ;
+: l7   m20 m21 |  10 fudge !    m22 ;
+\ allegro, l8                                         20feb87cht
+: t20   b3b g4 c4# b4b b3b g4 104 triplet ;
+: t21   g3 e4 b3b g4 g3 e4 104 triplet ;
+: t22   e3 c4# g3 e4 e3 c4# 600 triplet ;
+: t23   c3# b3b e3 c4# c3# b3b 600 triplet ;
+: t24   e3 c4# g3 e4 e3 c4# 104 triplet ;
+: m23   t18 t19 t18 t19   |   t20 t21 t20 t21 ;
+: m24   t20 t21 t20 t21   |   t22 t23 t22 t23 ;
+: m25   t22 t23 t22 t23   |   t24 t21 t24 t21 ;
+: l8    m23 m24 m25 ;
+: tt27   g3 b4b e3 g4 g3 b4b 3 triplet ;
+: ttt27   c4# b4b b3b g4 c4# b4b 3 triplet ;
+\ allegro, l9                                         20feb87cht
+: t25   e3 g4 g3 b4b e3 g4 3 triplet ;
+: t26   b3b g4 c4# b4b b3b g4 3 triplet ;
+: t27   e4 c5# c4# b4b e4 c5# 3 triplet ;
+: t28   c4# e5 e4 c5# c4# e5 3 triplet ;
+: t29   e4 c5# c4# e5 e4 c5# 3 triplet ;
+: m26   t24 t21 t24 t21   |   t25 tt27 t26 ttt27 ;
+: m27   t27 t28 t29 t28 | 20 fudge !  g3 a3 c4# c5# e5 g5 707 1/4
+   f3 d4 a4 d5 f5 a5 707 1/4 ;
+: m28    b3b d4 g4 b4b d5 g5 707 1/4   z z z z z 307 1/8
+   a3 400 1/16 g3 400 1/16   a3 c4# e4 c5# e5 g5 707 3/16
+   e3 400 1/16 |   c3# e3 d3 f3 4 1 - for 400 1/16 next ;
+: m29   a2 g2# b2b a2 c3# b2 d3 7 1 - for 400 1/16 next
+   g3 a3 e4 a4 c5# 703 1/16   f3 a3 d4 f4 a4 d5
+   707 1/8  d3 z f4 403 1/8  a2 e4 401 1/8 c4# 100 1/16
+   g3 200 1/16 ;
+\ allegro, l10                                        14mar87cht
+: m30   d2 d3 a3 d4 701 1/8   f3 100 1/16 e3 100 1/16
+   f3 100 1/2 | ;
+decimal
+: l10   m26 m27 m28 50 fudge ! m29 m30 ;
+: toccata   50 fudge !
+   l1 l2 l3 l4 l5 l6 l7 l8  l10 ;
+
+\ fuga, l10                                           20nov86cht
+hex   
+: p1 ( n1 n2 )   swap >r a4 swap over r>
+   4 1 - for 4 1/16 next ;
+: m30   | z 1 1/2   z g4 p1  f4 e4 p1 ;
+: m31   d4 c4# p1  d4 e4 p1  f4 a3 p1  b3 c4# p1 ;
+: p2 ( n1..n5 )   >r   2swap 6 1/16 r@ 2 1/16
+   6 1/16 r> 2 1/16 ;
+: p3 ( n1..n5 )   >r   2swap 6 1/16 r@ 4 1/16
+   6 1/16 r> 4 1/16 ;
+: m32   d4 c4# p1  d4 e4 p1  f4 z f4# c5 d5 p2
+   g4 b4b c4 a4 d5 p2 ;
+: m33   b3b g4 a3 f4# d5 p2  b3b g4 c4 a4 d5 p2
+   d4 b4b f3# d4 d5 p2  g3 e4 a3 f4# d5 p2 ;
+: m34   b3b g4 a3 f4# d5 p2  b3b g4 f3# a4 d5 p2
+   g3 b4b g3 d5 g4 p3  d4 b4b d4 d5 g4 p3 ;
+: l10   m30 m31 m32 m33 m34 ;
+\ fuga, l11                                           18nov86cht
+: p4 ( n1..n4 )   >r >r   over   r> r> swap    p3 ;
+: n35   c4 e5b e4b g4 p4 ;
+: o35   c4 c5 f4 a4 p4 ;
+: n36   b3b d5 d4 f4 p4 ;
+: o36   b3b b4b e4 g4 p4 ;
+: n37   a3 c5# c4# e4 p4 ;
+: o37   f3 a4 d4 f4 p4 ;
+: n38   e3 g4 b3b c4# p4 ;
+: o38   d3 f4 a3 d4 p4 ;
+: l11   n35 n35 o35 o35   n36 n36 o36 o36   n37 n37 o37 o37
+   n38 n38 o38 o38 ;
+: p5 ( n1..n8 )   >r >r >r >r >r   7 1/16   r> 1 1/16
+   r> r> r> 7 1/16   r> 1 1/16 ;
+: p6 ( n1..n6 )   >r >r >r   7 1/16   r> 1 1/16   r> 1 1/16
+   r> 1 1/16 ;
+\ fuga, l12                                           18nov86cht
+: n39   e3 e4 g3 b3b p4 ;
+: m39   n39 n39   f3 a3 z a5 e3 a3 g5 a5 p5
+   d3 a3 f5 a5 g3 a3 e5 a5 p5 ;
+: m40 f3 a3 d5 a5 e3 a3 c5# a5 p5  f3 a3 d5 a5 c3# a3 e5 a5 p5
+   d3 a3 f5 a5 c3# a3 a4 a5 p5   d3 a3 b4 a5 e3 a3 c5# a5 p5 ;
+: m41 f3 a3 d5 a5 e3 a3 c5# a5 p5  f3 a3 d5 a5 c3# a3 e5 a5 p5
+   d3 a3 f5 a5 e5 a5 p6   f3 d4 d5 a5 c5 a5 p6 ;
+: m42   g3 d4 b4b a5 c5 a5 p6   z z d5 g5 b4b g5 p6
+   c3 c4 e5 g5 d5 g5 p6   e3 c4 c5 g5 b4b g5 p6 ;
+: l12   m39 m40 m41 m42 ;
+\ fuga l13                                            18nov86cht
+: m43   f3 c4 a4 g5 b4b g5 p6   z z c5 f5 a4 f5 p6
+   b2b b3b d5 f5 c5 f5 p6   d3 b3b b4b f5 a4 f5 p6 ;
+: m44   e3 b3b g4 f5 a4 f5 p6   z z b4b e5 g4 e5 p6
+   a2 a3 c5# e5 b4b e5 p6   c3# a3 a4 e5 g4 e5 p6 ;
+: m45   d3 a3 f4 e5 g4 e5 p6   z z a4 d5 f3 d4 f4 d5 p5
+  b3b c4# e4 e5 b3b c4# e4 e5 p5   a3 d4 f4 d5 a3 d4 f4 d5 p5 ;
+: m46   g3 e4 b4b c5# b4b c5# p6  z z a4 d5 a3 d4 f4 e5 p5
+   b3b c4# e4 e5 b3b c4# e4 e5 p5 a3 d4 f4 d5 a3 d4 f4 d5 p5 ;
+: l13   m43 m44 m45 m46 ;
+\ fuga l14                                            20feb87cht
+: p7 ( n1..n6 )   >r >r >r 7 1/16   r> r> r> swap rot
+   3 1 - for 2 1/16 next ;
+: p8 ( n1..n8 )   >r >r >r >r >r   7 1/16   r> 2 1/16
+   r> r> r> 7 1/16   r> 2 1/16 ;
+: p9 ( n1..n6 )   >r >r >r   7 1/16   r> r> r> swap rot
+   3 1 - for 4 1/16 next ;
+: m47   g3# e4 z d5 c5# d5 p6   z z b4 d5 c5# b4 p6
+   a3 z c5# a4 g4 a4 p7   z e4 z g4 f4 e4 p7 ;
+: m48   z f4 z d5 c5# d5 p6   z d4 f5 d5 c5# b4 p6
+   z a3 c5# a4 g4 a4 p7   z c4# e5 g4 f4 e4 p7 ;
+: m49   z f4 e5 d4 c4# f4 d5 d4 p8   a3 e4 d5 a3 g3 e4 c5# a3 p8
+ f3# d4 c5 d4 c4# a4 c5 d4 p8   g3 a4 b4b f4 e4b g4 b4b d4 p8 ;
+: m50 c4# g4 a4 e4 a3 c4# p9   d3 f4# a4 e4b d4 c4 p9
+   b3 f4 g4 d4 g3 b3 p9   c3 e4b g4 d4 c4 b3b p9 ;
+: l14   m47 m48 m49 m50 ;
+\ fuga l15                                            20nov86cht
+: m51 a3 e4b f4# c4 f3# d4 a4 a3 p8  d3 f4# a4 c4 b3b c5 e5b a3
+   p8  b3b c5 d5 7 1/16 a4 4 1/16 g4 b4b 6 1/16 f4# a4 6 1/16
+   g4 b4b z b3b a3 b4b g5 g3 p8 ;
+: p10 ( n1..n10 )   >r >r >r >r >r >r   407 1/16   r> 400 1/16
+   r> r> r> r> 407 1/16   r> 400 1/16 ;
+: m52   z d4 a4 g5 d3 c3 d4 a4 f5# d3 p10   b2b z d5 g5 d3
+   a2 d4 c5 g5 d3 p10  g2 d4 b4b b4b d3 f2# d4 a4 d5 d3 p10
+   g2 d4 b4b d5 d3 a2 c4 f4# d5 d3 p10 ;
+: m53   b2b b3b g4 d5 d3 d2 d4 f4# d5 d3 p10   e2 d4 g4 d5 d3
+   f2# c4 a4 d5 d3 p10   g2 b3b b4b d5 d3 f2# d4 a4 d5 d3 p10
+   g2 d4 b4b d5 d3 a2 c4 f4# d5 d3 p10 ;
+\ fuga l15                                            20nov86cht
+: p11 ( n1..n6) >r >r 407 1/16 r> r> 3 1/16 ;
+: m54 b2b b3b g4 d5 b4b g5 p11  b2b b3b a4 f5 b4b g5 p11
+   z z g4 e5 a4 f5 p11  b2 z f4 d5 g4 e5 p11  c3 z e4 c5 c5 a5
+   p11   c3 z b4b g5 c5 a5 p11  z z a4 f5 b4b g5 p11
+   c3# z g4 e5 a4 f5 p11 ;
+: l15   m51 m52 m53 m54 ;
+: m55   d3 z f4 d5 d5 b5b p11  d3 z c5 a5 d5 b5b p11
+   z z b4b g5 c5 a5 p11   d3 z a4 f5 b4b g5 p11
+   e3 z g4 e5 e5 c6 p11   e3 z d5 b5b e5 c6 p11
+   z z c5 a5 d5 b5b p11   e3 z b4b g5 c5 a5 p11 ;
+: m56   f3 z a4 f5 a4 e5b p11   a2 z f4 d5 f4 c5 p11
+   b2b z b4b d5 a4 c5 p11   d3 z g4 b4b f4 a4 p11
+   g2 z g4 b4b b4b d5 p11   g2 z g4 b4b f4 a4 p11
+   z z e4 g4 g4 b4b p11   b2b z e4 g4 d4 f4 p11 ;
+\ fuga l16                                            18nov86cht
+: p12 ( n1..n4 )   2swap 6 1/16 c4 2 1/16 6 1/16 c4 2 1/16 ;
+: m57   b2b z c4 e4 d4 f4 p11   a2 z e4 g4 f4 a4 p11
+   g2 z g4 b4b g4 d5 p11   c3 z e4 c5 e4 b4b p11
+   f2 z f4 a4 407 1/16   c4 4 1/16 b3b 4 1/16 c4 4 1/16
+   |  a3 c5 g3 b4b p12  ;
+: m58   f3 a4 e3 g4 p12   f3 a4 g3 b4b p12   a3 c5 c3 e4 p12
+   d3 f4 e3 g4 p12 ;
+: l16   m55 m56 m57 m58 ;
+: p13 ( n9..n1 )   6 1/16   7 1 - for 2 1/16 next ;
+: m59   f3 a4 e3 g4 p12   f3 a4 g3 b4b p12
+   |   c4 d4 e4b f4 g4 a4 b4b a3 c5 p13 ;
+: m60   d4 e4 f4 g4 a4 b4b c5 b3b d5 p13
+   e4 f4 g4 a4 b4b c5 d5 c4 e5 p13 ;
+\ fuga l17                                            18nov86cht
+: m61   f4 g4 a4 b4b c5 d5 e5 d4 f5 p13
+   g4 a4 b4b c5 d5 e5 f5 e4 g5 p13 ;
+: p14 ( n1..n4 code1 code2)   5 pick 5 pick 3 pick 1/16
+   3 pick over 1/16   z 3 pick 3 pick 1/16   3 pick over 1/16
+   2drop 2drop 2drop ;
+: m62   f4 a5 f5 e5 3 1 p14   c5 c5 f5 e5 3 1 p14
+   f4 a5 f5 e5 300 100 p14   c5 c5 f5 e5 300 100 p14 ;
+: m63   e4 g5 e5 d5 3 1 p14   c5 c5 e5 d5 3 1 p14
+   e4 g5 e5 d5 300 100 p14   c5 c5 e5 d5 300 100 p14 ;
+: l17   m59 m60 m61 m62 m63 ;
+\ fuga l18                                            20nov86cht
+: p15 ( n8..n1 code )   8 1 - for swap over 1/16 next drop | ;
+: n66   d5 f5 a5 f5 d5 b4 g4 b4  ;
+: m66   a4 b4 c5 d5 e5 f5 g5 d4 f5 p13 |   n66 1 p15 ;
+: n67   c5 e5 g5 e5 c5 b4b g4 b4b ;
+: m67   n66 100 p15   n67 1 p15 ;
+: n68   b4b d5 f5 d5 c5 a4 f4 a4 ;
+: m68   n67 100 p15   n68 1 p15 ;
+: l18   m62 m63 m66 m67 m68 ;
+: n69   b4b c5# e5 c5# b4b g4 e4 g4 ;
+: m69   n68 100 p15   n69 1 p15 ;
+: p16 ( n1..n4 )   >r >r 3 1/16   a5 1 1/16   r> r> 3 1/16
+   a5 1 1/16 ;
+\ fuga l19                                            20nov86cht
+: m70   n69 100 p15   a4 z c5# g5 p16   d5 f5 g4 e5 p16 ;
+: m71   f4 d5 a4 c5# p16   b4 d5 c5# e5 p16   d5 f5 c5# a4 p16
+   d5 b4b e5 c5# p16 ;
+: m72   d5 f5 c5# e5 p16   z d5 f5 a4 g4 c5# e5 a4 p8
+   z d5 d5 f4# e4 a4 c5 f4# p8   z g4 b4b d4 c4 f4# a4 d4 p8 ;
+: l19   m69 m70 m71 m72 ;
+\ fuga l20                                            20nov86cht
+: p17 ( n9..n4 code2 n1..n3 code1 )  1/16
+   3 1 - for dup 2swap rot 1/16 next drop ;
+: m73   a3 f4 b3b g4 c4 a4 5 b3b g4 b4b 7 p17
+   d3 b3 e3 c4# f3 d4 5 g3 z e4 7 p17
+   c3# a3 5 1/16 |  e3 g3 b3b g3 e3 c3# a2 7 1 - for 4 1/16 next ;
+: n74   e3 g3 b3b g3 e3 c3# a2 c3# ;
+: n75   f3 a3 d4 a3 f3 d3 a2 d3 ;
+: m74   n74 200 p15   n75 4 p15 ;
+: m75   n75 200 p15   n74 4 p15 ;
+: m76   n74 200 p15   n75 4 p15 ;
+: n77   g3 b3b c4# b3b g3 e3 c3# e3 ;
+: m77   n75 200 p15   n77 4 p15 ;
+: l20   m73 m74 m75 m76 m77 ;
+\ fuga l21                                            19nov86cht
+: n78   a3 d4 f4 d4 a3 f3 d3 f3 ;
+: m78   n77 200 p15   n78 4 p15 ;
+: m79   n78 200 p15   n77 4 p15 ;
+: m80   n77 200 p15   n78 4 p15 ;
+: n81   b3b c4# e4 c4# b3b g3 e3 g3 ;
+: m81   n78 200 p15   n81 4 p15 ;
+: m82   n81 200 p15   a3 d4 f4 d4 c4# a3 f3 a3 4 p15 ;
+: l21   m78 m79 m80 m81 m82 ;
+: m83   d3 f3 a3 f3 g3 b3b d4 b3b 4 p15   b2 c3# d3 d2 f2 a2
+   d3 a2 4 p15 ;
+: m84   e3 f3 g3 f3 g3 a3 b3b c3# 4 p15
+   e3 f3 g3 f3 g3 a3 b3b d3 4 p15 ;
+\ fuga l22                                            20nov86cht
+: p18 ( n6..n1 code )   6 1 - for swap over 1/32 next drop ;
+: m85   d3 4 1/16   c4# b3 a3 g3 f3 e3 4 p18
+   d4 e4 f4 d4 4 1 - for 4 1/16 next   a3 a4 6 1/16 |
+   g4 f4 e4 d4 c4# b3 4 p18  e4 c5# f4 d5 g4 e5 z a4 z z 7 p17
+   ;
+: p19 ( n1..n8 )   >r >r >r >r >r 405 1/16   r> 400 1/16
+   r> r> r> 405 1/16   r> 400 1/16 ;
+: m86   f4 d5 5 1/16   g4 a4 b4b c5 d5 e5b 1 p18 |
+   f4# 1 1/16 e4b 4 1/16 d4 a4 5 1/16  c4 4 1/16
+   z b3b a4 g3 f3 b3 g4 g3 p19
+   e3b c4 c5 g3 d3 g4 b4 g3 p19 ;
+: l22   m83 m84 m85 m86 ;
+\ fuga l23                                            20nov86cht
+: p20 ( n1..n4 )   2swap a4 swap 405 1/32 g4 4 1/32 g3 a4 404
+   1/32 g4 4 1/32   a4 swap 405 1/32 g4 4 1/32 g3 a4 404 1/32
+   g4 4 1/32 ;
+: p21 ( n1..n4 )   2swap a5 405 1/32 g5 1 1/32 g4 a5 5 1/32
+   g5 1 1/32   a5 405 1/32 g5 1 1/32 g4 a5 5 1/32 g5 1 1/32 ;
+: p22 ( n1..n5)   >r >r 405 1/16 r> r> 5 1/16 ;
+: m87   c3 e5b b2 d5 p20   c3 e5b d3 b4 p20   e3b c5 g2 b4 p20
+   a2 c5 b2 d5 p20 ;
+: m88   c3 e5b b2 d5 p20   c3 e5b d3 f5 p20   e3b g4 d3 f4 p21
+   c3 e4b b2 d4 p21 ;
+: m89   c3 c4 d3 b3 p21   e3b c4 f3 d4 p21   g3 e4b b2 g3 p21
+   c3 a3 d3 b3 p21 ;
+: m90   e3b c4 d3 b3 p21   e3b c4 f3 d4 p21   g3 e4b g5 e4b g5
+   p22   b2 d4 f5 d4 g5 p22   c3 g4 e5b a4b f5 p22
+   d3 f4 d5 g4 e5b p22 ;
+\ fuga l23                                            20nov86cht
+: l23   m87 m88 m89 m90 ;
+: m91   e3b e4b c5 e4b f5 p22   a2 c4 e5b c4 f5 p22
+   b2b f4 d5 g4 e5b p22   c3 e4b c5 f4 d5 p22
+   d3 d4 b4b d4 e5b p22   g2 b3b d5 b3b e5b p22
+   a2 e4b c5 f4 d5 p22   b2b d4 b4b e4 c5 p22 ;
+: m92   c3 c4 a4 c4 d5 p22   d3 f4# c5 f4# d5 p22
+   g3 g4 b4b a4 c5 p22   d3 f4 a4 g4 b4b p22
+   e3b e4b g4 g4 b4b p22   b2b f4# a4 g4 b4b p22
+   a2 a4 c5 g4 b4b p22   c3 f4# a4 e4 g4 p22 ;
+: p23 ( n1..n3 )   >r 5 1/16 d4 r> 5 1/16 ;
+: m93   d3 z f4# 405 1/16 d4 400 1/16   c4 a4 a4 p23
+   b3b d5 g4 p23   a3 c5 f4# p23   g3 b4b g4 p23   f3# d5 a4 p23
+   g3 b4b g4 p23   a3 a4 f4# p23 ;
+\ fuga l24                                            20nov86cht
+: p23p ( n1..n4)   2swap 401 1/16 401 1/16 ;
+: m94   b3b g4 d5 p23   d3 f4# d5 p23   e3 g4 d5 p23   f3# a4 d5
+   p23   g3 b4b g4 p23   f3# d5 a4 p23   g3 b4b g4 p23
+   a3 c5 a4 p23 ;
+: l24   m91 m92 m93 m94 ;
+: m95   d3 b3b d5 b3b c5 p22 a3 b4b a3 a4 p23p   z g3 b4b 405
+   1/16 a4 1 1/16 g2 b4b 401 1/16 g4 1 1/16   c3 a4 401 1/16
+   b4b 1 1/16 a2 c5 401 1/16 d5 1 1/16   d3 f3# e5b 405 1/16
+   d5 1 1/16 d2 c5 401 1/16 d5 1 1/16 ;
+: m96   g2 g3 b4b g3 c5 p22 a3 a4 a3 b4b p23p |   b3b g4 a3 g4
+   p23p g2 g3 b4 f3 b4 p22   c3 e3b c5 e3b e5b p22 e4b f5 e4b g5
+   p23p   a5b d4 g5 p23 b2 f5 401 1/16 g5 1 1/16 ;
+\ fuga l25                                            20nov86cht
+: p24 ( n1..n6 ) >r >r >r >r 5 1/16 r> 4 1/16 r> r> 5 1/16
+   r> 4 1/16 ;
+: m97   c3 c4 e5b c4 f5 p22 d4 d5 d4 e5b p23p |
+   e4b c5 f4 d4 b4b e4b p24   c4 a4 e4b d4 b4b f4 p24
+   g4 b4b f4 e4b a4 f4 p24 ;
+: m98   d4 a4 b3b e4b g4 d4 p24   c4# g4 a3 d4 f4# c4 p24
+   b3 f4 g3 c4 e4b b3b p24   a3 e4b f3 e4b p23p
+   b3b d4 d4 b4b p23p ;
+: l25   m95 m96 m97 m98 ;
+: p25 ( n1..n7 )   >r >r >r 207 1/16   r> 2 1/16 r> 2 1/16
+   r> 2 1/16 ;
+: m99   c4 a4 d4 b4b p23p c4 a4 b3b g4 p23p   a3 f4# c4 e5b p23p
+   b3b d5 a3 c5 p23p   g3 b4b c4 a5 p23p b3b g5 a3 f5# p23p
+   b3b g5 c4 g5 p23p b3b g5 a3 f5 p23p ;
+\ fuga l26                                            20nov86cht
+: p26 ( n1..n8)   >r >r >r >r >r 203 1/16   r> 200 1/16
+   r> r> r> 203 1/16   r> 200 1/16 ;
+: m100   g3 e5b a3 f5 p23p f3 d5 g3 e5b p23p   e3 z z c5#
+   b4b a4 g4 p25   f3# a4 z d5 e4b d4 c4 p25
+   d3 f4# d4 c5 c4 b3b a3 p25 ;
+: m101   g3 g3 g4 b4b f4 e4b d4 p25 |   a3 c4# a4 b3b a3 e4 c5#
+   g3 p26   f3 f4 d5 g3 e3 g4 e5 a3 p26 |   d3 a4 f5 205 1/16
+   g4 4 1/16 a4 d5 6 1/16 f4 4 1/16 ;
+: m102   g4 d5 e5 7 1/16 a4 g4 a4 3 1 - for 4 1/16 next
+   b4b c5# 6 1/16 a4 g4 a4 3 1 - for 4 1/16 next   f4 a4 d5 7 1/16
+   g4 b4b 6 1/16 e4 g4 6 1/16 f4 a4 6 1/16   d4 f4 6 1/16
+   c4 4 1/16 b3b a4 f5 7 1/16 a3 4 1/16 ;
+: l26   m99 m100 m101 m102 ;
+: p27 ( n1..n8)   >r >r >r >r >r 7 1/16   r> 4 1/16
+   r> r> r> 7 1/16   r> 4 1/16 ;
+\ fuga l27                                            18nov86cht
+: p28 ( n1..n6)   >r >r >r >r 3 1/16   r> 2 1/16
+   r> r> 3 1/16   r> 2 1/16 ;
+: m103   b3b g4 g5 a3 g3 a4 d5 f3 p27   e3 g4 c5# f3 e3 f4 d5 d3
+   p27   c3# g4 e5 a2 d3 f4 d5 a2 p27   e3 e4 c5# a2 f3 a4 d5 a2
+   p27 ;
+: m104   g3 b4b e5 a2 f3 a4 d5 a2 p27   e3 g4 c5# a2 d3 f4 d5 a2
+   p27   c3# a4 e5 a3 a2 e5 g5 a3 p27   d3 d5 f5 a3 f3 a4 d5 d4
+   p27 ;
+: m105   g3 g4 b4b d4 e3 g4 e5 c4# p27  f3 a4 d5 d4 d3 f4 d5 d4
+   p27   a3 e4 c5# 7 1/16 a4 g4 a4 3 1 - for 2 1/16 next
+   f4 d5 a4 e4 e5 a4 p28 ;
+: m106   d4 f5 a4 c4# e5 a4 p28   d4 f5 a4 e4 c5# a4 p28
+   f4 d5 a4 a3 c5# a4 p28   b3b d5 a4 c4# e5 a4 p28 ;
+: l27   m103 m104 m105 m106 ;
+\ fuga l28                                            19nov86cht
+: p29 ( n1..n6 )   >r >r >r >r  3 1/16   r> 1 1/16
+   r> r> 3 1/16   r> 1 1/16 ;
+: p30 ( n1..n4) swap 2swap swap 4 1 - for 400 1/16 a3 400 1/16
+   next ;
+: m107   d4 f5 a4 c4# e5 a4 p28   d4 f5 a4 e4 g5 a4 p28
+   f4 a5 b5b e4 g5 a5 p29   d4 f5 g5 g4 e5 f5 p29 ;
+: m108   f4 d5 a4 e4 c5# a4 p29   f4 d5 a4 c4# e5 a4 p29
+   d4 f5 a4 c4# e5 a4 p29   d4 f5 a4 b3 g5 a4 p29 ;
+: m109   c4# a5 3 1/16 a4 1 1/16   g4 e5 3 1/16 a4 1 1/16
+   f4 f5 3 1/16 a4 1 1/16 d4 g5 3 1/16 a4 1 1/16 c4# a5 3 1/16 |
+   a3 e3 a3 f3 a3 g3 a3 7 1 - for 400 1/16 next ;
+: m110   d3 c3# d3 e3 p30   f3 a2 b2 c3# p30 ;
+: l28   m107 m108 m109 m110 ;
+\ fuga l29                                            20nov86cht
+: p31 ( n1..n4) >r 405 1/16 r> 4 1/16 ;
+: p32 ( n1..n3) >r 5 1/16 r> 4 1/16 ;
+: p33 ( n1..n4) >r 405 1/16 r> 1 1/16 ;
+: m111 d3 c3# d3 e3 p30   f3 z z g4 e5 p22 f4 d5 e4 c5# p23
+   z f4 d5 c4# p31 f3 d4 z f5 p33 ;
+: m112   g3 d4 e5 f5 p33 e3 d4 g5 a5 p33   a3 c4# b5b a5 p33
+   a2 c4# g5 a5 p33   d3 d4 f5 a4 p31 b4 e5 c5# p32
+   z d5 d5 e5 p33 a2 c5 f5 e5b p33 ;
+: m113   b2b f4 d5 c5 p33 g2 f4 b4b a4 p33   c3 f4 g4 a4 p33
+   c2 e4b b4b c5 p33   f2 e4b a4 c4 p31 a3 a4 f3 p32
+   z a3 z c4 p31 a2 e4b c5 c4 p31 ;
+: m114   b2b d4 c5 b3b p31 g3 b4b d3 p32   z g3 z b3b p31
+   b2b d4 g5 g4 p31   c3 c4 e5b d4 f5 p22 c3 b3b d5 c4 e5b p22
+   z a3 c5 g3 b4b p22 a2 f3# a4 e3 g4 p22 ;
+: l29   m111 m112 m113 m114 ;
+\ fuga l30                                            19nov86cht
+: p34 ( n8..n1)   d3 swap   404 1/16 3 1 - for 4 1/16 next |
+   4 1 - for 4 1/16 next ;
+: m115   d3 f3# a4 405 1/16 g3 f3# d3 3 1 - for 4 1/16 next |
+   g3 a3 d4 a3 4 1 - for 4 1/16 next   f3# a3 d4 a3 g3 f3# d3 f3#
+   p34 ;
+: m116   a3 b3b d4 b3b a3 g3 d3 g3 p34
+   b3b c4 d4 b3b a3 g3 d3 g3 p34 ;
+: m117   b3b c4 e4b c4 b3b a3 f3# a3 p34
+   b3b c4 e4b c4 b3b a3 f3# a3 p34  ;
+: m118   d4 g4 b4b g4 f4# d4 b3b a3 p34
+   d4 g4 b4b g4 d4 b3b g3 b3b p34 ;
+: m119   2 1 - for   e4b f4# a4 f4# e4b c4 a3 c4 p34   next ;
+: l30   m115 m116 m117 m118 m119 ;
+\ fuga l31                                            20nov86cht
+: p35 ( n3..n1)   3 1 - for 400 1/16 next ;
+: p36 ( n1..n5)   >r 407 1/16   r> 400 1/16 ;
+: m120   z f3# d4 405 1/16 | d3 c3 d3 p35   b2b g3 g4 d5 d3 p36
+   a2 a3 f4# c5 d3 p36   g2 b3b g4 b4b 407 1/16 g3 f3 g3 p35
+   e3b e4b g4 c5 g3 p36 d3 b3 b4 d5 g3 p36 ;
+: m121   c3 g3 c5 e5b 407 1/16 c3 b2b c3 p35   a2 c4 c5 f5 c3
+   p36 g2 b3b e5 g5 c3 p36   f2 a3 f5 a5 407 1/16 f3 e3b f3 p35
+   d3 b3b b4b f5 f3 p36 c3 c4 a4 e5b f3 p36 ;
+: m122   b2b b3b b4b d5 407 1/16 g4 e5b 5 1/16 |
+   e3b f4 d5 e4b c5 p22   f3 d4 b4b e4 c5 p22 f2 d4 b4b c4 a4
+   p22   g2 b3b g4 e4 c5 p22 c3 d4 b4b c4 a4 p22
+   d3 b3b g4 c4 a4 p22  d2 b3b g4 a3 f4# p22 ;
+: m123   g2 b3b g4 a3 f4 p22 g3 e4 f3 d4 p23p  z e3 z c4# a2 p36
+   g2 g3 z e4 a2 p36   f2 a3 f4 b3 g4 p22 d2 c4# a4 d4 b4 p22
+   a2 e4 c5# f4 d5 p22  g4 e5 a4 f5 p23p ;
+\ fuga l32                                            21feb87cht
+: l31   m120 m121 m122 m123 ;
+: p37 ( n1..n4 )   >r >r   3 1/16 a4 2 1/16   r> r> 3 1/16
+   a4 2 1/16 ;
+: m124 |   d2 b4b g5 403 1/8 a4 f5 g4 e5 p23p   f4 d5 e4 c5# p37
+   d4 d5 c4# e5 p37   d4 f5 e4 g5 p37 ;
+: m125   f4 a5 a3 c5# p37   b3 d5 c4# e5 p37 |   d4 f5 c4# e5
+   p37   z d4 f5 a4 p31  d3 b3 d5 a4 p31 ;
+: m126   a2 c4# z e5 407 1/8  f2 d4 a4 d5 407 1/8   g2 g4 b4b d5
+   407 1/8  a2 e4 a4 c5# 407 1/8   f2 f4 a4 d5 407 1/8  d2 a4 d5
+   f5 407 1/8   g2 b4b d5 e5 407 1/8  a2 a4 c5 406 1/8 ;
+: m127   b2b f3 d4 f4 b4b d5 707 1/2 |
+   a4 g4 f4 f5 e5b d5 c5 d5 c5 b4b a4 b5b a5 g5 f5 4
+   10 1 - for 1 1/32 next ;
+: l32   m124 m125 m126 m127 ;
+\ fuga l33                                            20nov86cht
+: m128   d4 e4b f4 g4 c5 b4b a4 g4 e4b f4 g4 a4 d5 c5 b4b a4 b4b
+   11 1 - for 1 1/32 next |   a3 g3 f3 f4 e4b d4 c4 d4 c4 b3b a3
+   b4b a4 g4 f4   0f 1 - for 1 1/32 next ;
+: m129   a4 g4 f4# b3b c4 d4 e4b f4# e4 d4 c4 a3 b3b c4 d4
+   e4b d4 c4 b3b g3 a3 b3b c4 d4 c4 b3b a3 b3b
+   1c 1 - for 100 1/32 next   b4b 100 1/32 c5 1 1/32
+   g3 d5 d5 7 1/32 g4 1 1/32 ;
+: m130   c3# e4 g4 c4# b4b e5 707 1/2 f3 400 1/4
+   z f4 d4 a4 d5 307 1/8 d3 400 1/8 ;
+: l33   m128 m129 m130 ;
+\ fuga l34                                            20nov86cht
+: m131   g2# d4 f4 b3 b4 d5 707 1/2 |
+   b2 f3 d3 g3# f3 b3 g3# z   8 1 - for 400 1/16 next ;
+: m132   d3 400 1/16 g2# 400 1/16 a2 400 1/8 e2 400 1/8
+   g3# b3 e4 b4 d5 307 1/8   a3 c4 e4 a4 c5 307 3/8
+   g4 2 1/16 f4 2 1/16 ;
+: m133   e2 g3 c4 e3 e4 c5 707 1/2 |   f4 e4 f4 f4 a4 g4 a4 c4
+   e4 d4 e4 e4 g4 f4 g4 z   10 1 - for 1 1/32 next ;
+: m134   c5 b4 c5 e5 g5 f5 g5 d5 f5 e5 f5 c5 e5 d5 e5
+   b4 d5 c5 d5 a4 c5 b4 c5 e4 g4 f4 g4 g4 b4 a4 b4 d4
+   20 1 - for 1 1/32 next ;
+: l34   m131 m132 m133 m134 ;
+\ fuga l35                                            20nov86cht
+: p38 ( n1..n5 )   >r   swap 2swap swap 4 1 - for 2 1/32 next
+   r> 2 1/8 ;
+: m135   a3 b3 c4 e4 g4# f4# g4# b3 a4 g4 a4 c4 b4 a4 b4
+   d4 f4 e4 f4 a4 c5 b4 c5 e4 g4# f4# g4# b4 d5 c5 d5 a4
+   20 1 - for 1 1/32 next ;
+: m136   b4 a4 g4 e4 f4 g4 a4 d4 e4 f4 g4 c4 d4 e4 f4
+   b3 c4 d4 e4 a3 b3 c4 d4 g3#   18 1 - for 1 1/32 next
+   c5 1 1/8   d3 c4 e4 g3 g4 706 1/8 ;
+: m137   g3 e4 z a3 a4 c5# 707 1/8 | a3 c4# e4 a4 c5# p38
+   g3 e4 z a3 a4 c5# 707 1/8   f3 d4 f4 a3 a4 d5 707 1/8 |
+   a3 d4 f4 a4 d5 p38   f3 f4 z a3 a4 d5 707 1/8 ;
+: l35   m135 m136 m137 ;
+\ fuga l36                                            14mar87cht
+: m138   f3 d4 z g3 g4 b4 707 1/8 |   g3 b3 d4 g4 b4 p38
+   f3 d4 z g3 g4 b4 707 1/8   e3 e4 z g3 g4 c5 707 1/8 |
+   g3 c4 e4 g4 c5 p38   e3 e4 z g3 g4 c5 707 1/8 ;
+: m139   e3 c4 z a3 f4 a4 707 1/8 |   f3 a3 c4 f4 a4 p38
+   e3 c4 z f3 f4 a4 707 1/8 d3 d4 f3 f4 b4b 707 1/8 |
+   f3 b3b d4 f4 b4b p38   d3 d4 z f3 f4 b4b 707 1/8 ;
+: m140   c3# g4 z e3 e4 b4b 707 1/8 |   e3 g3 b3b c4# b4b p38
+   c3# c4# g4 e3 d4 b4b 707 1/8   c3 d4 z f3# f4# a4 707 1/8 |
+   d3 a3 d4 f4# a4 p38   c3 d4 z f3# f4# a4 707 1/8 ;
+: m141   g2 b3b a4 g3 d4 a4 707 1/4   b2b g4 g4 501 1/4
+   e2 e4 b3b c4# 606 1/4   f2 d4 f4 a3 d4 f4 707 1/4 ;
+: m142   a2 d4 e4 a3 d4 e4 707 1/4   c4 c4 202 1/4
+   b2b c4 d4 f3 c4 d4 707 1/4   g2 b3b g3 b3b 606 1/4 ;
+: m143   d2 f3 d4 d3 a4 d4 707 1/1 | ;
+\ fuga                                                05apr87cht
+decimal
+: l36   m138 m139 m140 m141 m142 5 fudge +! m143 ;
+: fugue   25 fudge !
+   l10 l11 l12 l13 l14 l15 l16 l17 l18 l19 l20
+   l21 l22 l23 l24 l25 l26 l27 l28 l29 l30 l31
+   m124 m125 m126    5 fudge +! m127
+   l33 l34 l35 l36 ;
+: all  cr date toccata | date fugue date | ;
+
+[[ all ]]

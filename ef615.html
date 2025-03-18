@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>ef615</title>
+<style>
+body{font-family:'Courier New',monospace;font-size:12px;}
+.my_txt textarea{background-color:#f8f0f0 !important;}
+.content {width:100%; height:100%; }
+.image .webix_template{ position: relative; background: #fff; padding: 50px 60px; }
+.title{ position: absolute; left: 10px; bottom: 15px; color: #000; font-size: 16px; }
+</style>
+<link rel="stylesheet" type="text/css" href="webix.css">
+<script type="text/javascript" src="webix.js"></script>
+</head>
+
+<body>
+
+<div id="myDiv"><b>Mouse&nbsp;>></b>&nbsp;&nbsp;Left Click:[Center]&nbsp;&nbsp;Wheel Fore:[Expand]&nbsp;&nbsp;Wheel Back:[Shrink]&nbsp;&nbsp;Right Click:[Reset]
+  <canvas id="cv" width="580" height="500" style="border:1px solid #000000;"></canvas>
+</div>
+
+<div id="myDiv2">
+  <canvas id="cv2" width="200" height="200" style="border:1px solid #000000;"></canvas>
+</div>
+
+
+<script>
+
+// for canvas and audio
+
+var srcfile="Notes.txt";
+var input = document.createElement('input');
+input.type = 'file';
+input.onchange = e => { srcfile = e.target.files[0].name; alert(e.target.files[0].name); gui("Set_srcfile"); }
+
+    var canvas=document.getElementById("cv"); 
+    var context=canvas.getContext("2d");
+    var imagew = canvas.width;
+    var imageh = canvas.height;
+    var imagedata = context.createImageData(imagew, imageh);
+
+    var fontsize=20;
+    var line=0;
+    var offsetx = -imagew/2;
+    var offsety = -imageh/2;
+    var panx = 0;
+    var pany = 0;
+    var zoom = 200;
+    var maxiterations = 256;
+    canvas.addEventListener("mousedown", onMouseDown);
+    canvas.addEventListener("wheel", onMouseDown);
+
+    // Generate the fractal image
+    function generateImage() {
+        for (var y=0; y<imageh; y++) {
+            for (var x=0; x<imagew; x++) iterate(x, y, maxiterations);
+        }          
+        context.putImageData(imagedata, 0, 0);
+        logtype("x="+(panx/zoom).toString()+"   y="+(pany/zoom).toString()+"   scale="+(zoom/200).toString() + "\n");
+        $$('log1').getInputNode().scrollTop = $$('log1').getInputNode().scrollHeight;
+    }   
+    // Calculate the color of a specific pixel
+    function iterate(x, y, maxiterations) {
+        var x0 = (x + offsetx + panx) / zoom;
+        var y0 = (y + offsety + pany) / zoom;
+        var xx = 0;
+        var yy = 0;
+        var rx = x0;
+        var ry = y0;
+        var iterations = 0;
+        while (true) {
+            if (iterations == maxiterations) break;
+            xx = rx * rx;
+            yy = ry * ry;
+            if (( xx + yy ) > 4) break;
+            ry = 2 * rx * ry + y0;
+            rx = xx - yy + x0;
+            iterations++;
+        }
+        // Apply the color
+        var pixelindex = (y * imagew + x) * 4;
+        imagedata.data[pixelindex]   = (iterations    & 1) ? 255 : 0 ;
+        imagedata.data[pixelindex+1] = (iterations>>1 & 1) ? 255 : 0 ;
+        imagedata.data[pixelindex+2] = (iterations>>2 & 1) ? 255 : 0 ;
+        imagedata.data[pixelindex+3] = 255;
+    }
+    // Mouse event handlers
+    function onMouseDown(e) {
+        var pos = getMousePos(canvas, e);
+        if (e.deltaY<0) {zoom*=2;panx*=2;pany*=2;generateImage();return;}
+	if (e.deltaY>0) {zoom/=2;panx/=2;pany/=2;generateImage();return;}
+	if (e.button==2) {panx=0;pany=0;zoom=200;generateImage();return;}
+        panx = (pos.x + offsetx + panx);
+        pany = (pos.y + offsety + pany);
+        generateImage();
+    }
+    // Get the mouse position
+    function getMousePos(canvas, e) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: Math.round((e.clientX - rect.left)/(rect.right - rect.left)*canvas.width),
+            y: Math.round((e.clientY - rect.top)/(rect.bottom - rect.top)*canvas.height)
+        };
+    }
+  
+// audio
+  function sleep(ms){var d=Date.now();var n=0;  do {n=Date.now();} while (n-d < ms);}
+
+  function poly(vol,bass,tenor,alto,soprano,pedal,flute,ms){
+    amp.gain.value=vol;
+    osc1.frequency.value=bass;
+    osc2.frequency.value=tenor;
+    osc3.frequency.value=alto;
+    osc4.frequency.value=soprano;
+    osc5.frequency.value=pedal;
+    osc6.frequency.value=flute;
+    sleep(ms);}
+
+    var AudioContext=window.AudioContext||window.webkitAudioContext;
+
+function start_audio()
+{
+      audio=new AudioContext();
+      amp=audio.createGain();
+      amp.connect(audio.destination);amp.gain.value=0.1;
+      osc1=audio.createOscillator();
+      osc2=audio.createOscillator();
+      osc3=audio.createOscillator();
+      osc4=audio.createOscillator();
+      osc5=audio.createOscillator();
+      osc6=audio.createOscillator();
+      osc1.connect(amp);osc1.type="square";osc1.frequency.value=0;osc1.start();
+      osc2.connect(amp);osc2.type="square";osc2.frequency.value=0;osc2.start();
+      osc3.connect(amp);osc3.type="square";osc3.frequency.value=0;osc3.start();
+      osc4.connect(amp);osc4.type="square";osc4.frequency.value=0;osc4.start();
+      osc5.connect(amp);osc5.type="square";osc5.frequency.value=0;osc5.start();
+      osc6.connect(amp);osc6.type="square";osc6.frequency.value=0;osc6.start();
+}
+
+function stop_audio()
+{  osc1.stop();osc2.stop();osc3.stop();osc4.stop();osc5.stop();osc6.stop(); }
+
+</script> 
+
+
+<script> 
+// webix and gui
+
+
+var winc = 258+100;
+var wint = window.innerHeight-winc;
+
+var image = {"view":"template","id":"img","template":"<img src='jeforth_615.jpg' width='85' height='90'/>",height:100,width:100};
+var title = {"view":"template","id":"title%","template": "</br><b><h1>ef615</h1></b></br>jeforth615</br> +webix.js","disabled":false,"height":wint,"align":"center"};
+
+var menu = {
+  view:"menu", id:"menu%", layout:"y", width:100, autoheight:true, select:true,
+  submenu:"data", submenuConfig:{ submenu:"data" }, subMenuPos:"right",  width:100, select:true,
+  data:[
+    { id:"7", value:"About"   },
+    { id:"6", value:"Links"   },   
+    { id:"5", value:"Slides"  },   
+    { id:"4", value:"Manual"  },
+    { id:"3", value:"Music...", data:["capriccio","FugueGminor","toccataFugueDminor","Lesson19.txt"]},
+    { id:"2", value:"Graphics...", data:["Haiku","Mandelbrot"]},
+    { id:"1", value:"Forth/File...", data:["Notes.txt","Lessons614.txt","Lessons615.txt","Open..."]}
+  ],
+  on:{onMenuItemClick:function(id){gui(this.getMenuItem(id).value);}}
+};	
+
+webix.ui(
+{  
+  "cols": [
+       { "id":"form0%",
+       "rows": [
+                image,
+                title,
+                menu
+ 	       ]  
+       },  
+       { "id":"form1%" ,
+       "cols":	[	
+                { "rows": [
+                          { "id": "log1" ,"view": "textarea", "css": "my_txt","readonly": true },
+                          { view:"resizer" , "id": "rsz1"},
+                          { "id": "tib1" ,"view": "textarea", "height": 254, "readonly": false }
+                          ]},
+                          { view:"resizer" , "id": "rsz2"},
+                { "rows": [
+                          {"view":"template","id":"src1","template": srcfile,"height":22,"disabled":true,"align":"center"},
+                          { "id": "txt2" ,"view": "iframe","src": srcfile}
+                          ]}
+                ]}  
+           ]
+});  
+
+webix.ui({
+  view:"window", id:"slides",
+  body:{ view:"carousel", css:"webix_dark", id:"sl1",
+    cols:[
+      { css: "image", template:img, data:{src:"slides/sl1.gif", title: "p 1"} },
+      { css: "image", template:img, data:{src:"slides/sl2.gif", title: "p 2"} },
+      { css: "image", template:img, data:{src:"slides/sl3.gif", title: "p 3"} },
+      { css: "image", template:img, data:{src:"slides/sl4.gif", title: "p 4"} },
+      { css: "image", template:img, data:{src:"slides/sl5.gif", title: "p 5"} },
+      { css: "image", template:img, data:{src:"slides/sl6.gif", title: "p 6"} },
+      { css: "image", template:img, data:{src:"slides/sl7.gif", title: "p 7"} },
+      { css: "image", template:img, data:{src:"slides/sl8.gif", title: "p 8"} },
+      { css: "image", template:img, data:{src:"slides/sl9.gif", title: "p 9"} },
+      { css: "image", template:img, data:{src:"slides/sl10.gif", title: "p 10"} },
+      { css: "image", template:img, data:{src:"slides/sl11.gif", title: "p 11"} },
+      { css: "image", template:img, data:{src:"slides/sl12.gif", title: "p 12"} },
+      { css: "image", template:img, data:{src:"slides/sl13.gif", title: "p 13"} },
+      { css: "image", template:img, data:{src:"slides/sl14.gif", title: "p 14"} },
+      { css: "image", template:img, data:{src:"slides/sl15.gif", title: "p 15"} },
+      { css: "image", template:img, data:{src:"slides/sl16.gif", title: "p 16"} },
+      { css: "image", template:img, data:{src:"slides/sl17.gif", title: "p 17"} },
+      { css: "image", template:img, data:{src:"slides/sl18.gif", title: "p 18"} }
+    ]
+  }, head:"jeforth615.ppt", move: true, top:25, left:140, width:1000, height:800, close:true
+});
+
+function img(obj){
+  return '<img src="'+obj.src+'" class="content" ondragstart="return false"/><div class="title">'+obj.title+'</div>'
+}
+
+webix.ui({
+  view:"window", id:"mans", body:{"id": "doc2" ,"view": "iframe",  "src": "jeforth615doc.html" },
+  head:"jeforth615.docx", move: true, top:25, left:140, width:1000, height:800, close:true
+});
+
+webix.ui({
+  view:"window", id:"about", body:{"id": "doc3" ,"view": "iframe",  "src": "ting.html" },
+  head:"www.forth.org", move: true, top:50, left:300, width:810, height:778, close:true
+});
+
+webix.ui({
+  view:"window", id:"links", 
+  body:{"id": "link2" ,
+    view:"datatable",
+    columns:[
+      { id:"rank",  width:40,  header:"№" },
+      { id:"title", width:520, header:"URL"}
+    ], 
+    fixedRowHeight:false, rowLineHeight:25, rowHeight:25,scrollX:false,
+    data:[
+      {rank:1,title:"<a href='https://www.youtube.com/watch?v=2gSxYtZeMSc&pp=ygUKQy4gSC4gVGluZw%3D%3D'>In Memory of C.H. Ting (на Ютубе)</a>"},
+      {rank:2, title:"<a href='https://www.youtube.com/watch?v=WvnGIj5TvKc&pp=ygUKQy4gSC4gVGluZw%3D%3D'>2021-01-23 - jeforth - C. H. Ting (на Ютубе)</a>"},
+      {rank:3, title:"<a href='https://www.youtube.com/watch?v=XRhSk0YXWoY&t=2300s&pp=ygUKamVmb3J0aC5qcw%3D%3D'>2021-02-27 - jeforth Implementation Issues - C. H. Ting (на Ютубе)</a>"},
+      {rank:4, title:"<a href='https://www.youtube.com/watch?v=_tDHMMyQQdU&t=1261s&pp=ygUKQy4gSC4gVGluZw%3D%3D'>2021/03/27 - jeforth Karaoke - CH Ting (на Ютубе)</a>"},
+      {rank:5, title:"<a href='https://www.youtube.com/watch?v=1SlOkKz6iyU&pp=ygUKQy4gSC4gVGluZw%3D%3D'>2021-04-24 - jeforth6.23 - C. H. Ting (на Ютубе)</a>"},
+      {rank:6, title:"<a href='https://www.youtube.com/watch?v=bb5vi9kR1tE&t=916s&pp=ygUKQy4gSC4gVGluZw%3D%3D'>2021-11-20 - Forth Without Forth --- C. H. Ting (на Ютубе)</a>"},
+      {rank:7, title:"<a href='https://www.forth.org/svfig/kk/01-2021-Ting.pdf'>jeforth - C. H. Ting, 01-2021-Ting.pdf </a>"},
+      {rank:8, title:"<a href='https://www.forth.org/svfig/kk/jeforth613.zip'>jeforth613.zip - C. H. Ting </a>"},
+      {rank:9, title:"<a href='https://www.forth.org/svfig/kk/02-2021-Ting.pdf'>Implementing Forth on Javascript - C. H. Ting, 02-2021-Ting.pdf</a>"},
+      {rank:10, title:"<a href='https://www.forth.org/svfig/kk/03-2021-Ting.pdf'>Karaoke on jeforth - C. H. Ting, 03-2021-Ting.pdf</a>"},
+      {rank:11, title:"<a href='https://www.forth.org/svfig/kk/04-2021-Ting-jeforth623.pdf'>jeforth6.23 - C. H. Ting, 04-2021-Ting-jeforth623.pdf</a>"},
+      {rank:12, title:"<a href='https://www.forth.org/svfig/kk/04-2021-Ting-DTMF.pdf'>Dual Tone Multi Frequency (DTMF) - C. H. Ting, 04-2021-Ting-DTMF.pdf</a>"},
+      {rank:13, title:"<a href='https://www.forth.org/svfig/kk/04-2021-Ting-Mandelbrot.pdf'>the Mandelbrot Set - C. H. Ting, 04-2021-Ting-Mandelbrot.pdf</a>"},
+      {rank:14, title:"<a href='https://www.forth.org/svfig/kk/11-2021-Ting.pdf'>Forth without Forth - C. H. Ting, 11-2021-Ting.pdf</a>"},
+      {rank:15, title:"<a href='https://github.com/flagxor/jeforth'>начальные версии jeforth на гитхабе</a>"},
+      {rank:16, title:"<a href='https://github.com/chochain/eForth.js/tree/master/orig'>версия jeforth615 на гитхабе</a>"},
+      {rank:17, title:"<a href='https://github.com/chochain/eForth.js/tree/master/docs'>документация jeforth615 на гитхабе</a>"},
+      {rank:18, title:"<a href='https://webix.com/'>webix.com основной сайт webix.js</a>"},
+      {rank:19, title:"<a href='https://docs.webix.com/'>docs.webix.com документация по webix.js</a>"},
+      {rank:20, title:"<a href='https://webix.com/form-builder/#!/layout/edit?editable=true'>form-builder инструмент построитель форм для webix.js</a>"},
+      {rank:21, title:"<a href='https://designer.webix.com/welcome/'>designer.webix.com инструмент дизайнер для webix.js</a>"},
+      {rank:22, title:"<a href='https://snippet.webix.com/basic'>snippet.webix.com тестирование/отладка кода для webix.js</a>"},
+      {rank:23, title:"<a href='https://habr.com/ru/articles/483558/'>habr.com стартовая статья на хабре по webix.js</a>"}
+    ]
+},
+  head:"Links", move: true, top:60, left:650, width:550, height:710, close:true
+});
+
+webix.ui({
+  view:"window",  id:"mandel",  height:582,  width:605,  left:450, top:220,  move:true,  close: true,  head:"Mandelbrot Set by C. H. Ting",
+  body:{  content: "myDiv"  }
+});
+
+webix.ui({
+  view:"window",  id:"haiku",  height:264,  width:226,  left:472, top:352,  move:true,  close: true,  head:"Haiku",
+  body:{  content: "myDiv2"  }
+});
+
+webix.ui({
+  view:"window",  id:"bach%",  height:204,  width:204,  left:500, top:4,  head:false,
+  body:{"view":"template","id":"img2","template":"<img src='bach200.jpg' width='200' height='100'/>",height:100,width:200 }
+});
+
+</script> // webix gui 
+
+
+<script> // jeforth615
+
+const logtype = (t)=>{ $$("log1").setValue($$("log1").getValue() + t); }
+
+const isNum = (s)=>{                       ///> check number in range
+   const mx = (c)=>c+'-'+String.fromCharCode(c.charCodeAt() + (base - 11))
+   const st = base > 10
+         ? '^-?[0-9|'+mx('a')+'|'+mx('A')+']+$'
+         : '^-?([0-'+(base-1).toString()+']*[.])?[0-'+(base-1).toString()+']+$'
+   return new RegExp(st).test(s)
+}
+
+function noop(){}
+$$("tib1").attachEvent("onKeyPress", function(code, e){
+    if (code === 13 && !e.ctrlKey && !e.shiftKey && !e.altKey) { 
+    e.preventDefault();
+      if ($$("tib1").getValue().length==0) {
+       logtype("< "); ssdump0(); logtype(" >ok\n");
+        } else {
+                 logtype($$("tib1").getValue()); forth($$("tib1").getValue()); $$("tib1").setValue(""); $$("tib1").focus();  
+               }    
+}});
+function forth(cmd) { 
+      try{main(cmd);}
+      catch(err){logtype(err.toString());}
+      finally{ssdump();}
+}
+function gui(cmd) { 
+      try{main(cmd);}
+      catch(err){logtype(err.toString());}
+      finally{noop}
+}
+// Forth Virtual Machine
+  var ip=0,wp=0,w=0;         // instruction and word pointers
+  var stack=[],rstack=[];    // array allows push and pop
+  var tibb="",ntibb=0,base=10;
+  var idiom="";
+  var compiling=false;
+  var fence=0;
+  var newname;               // for word under construction
+  function execute(n){w=n;words[n].xt();}
+  function nest(){               // inner interpreter
+    rstack.push(wp);rstack.push(ip);wp=w;ip=0;
+    while (ip>=0){w=words[wp].pf[ip++];words[w].xt();}
+    ip=rstack.pop();wp=rstack.pop();}
+  function exit(){ip=-1;}
+  function dovar(){stack.push(w);}
+  function docon(){stack.push(words[w].qf[0]);}
+// Interpreter-compiler functions
+  function ssdump0() {for (i=0;i<stack.length;i++) logtype(stack[i].toString(base)+"  "); $$("log1").getInputNode().scrollTop = $$("log1").getInputNode().scrollHeight;}
+  function ssdump() {logtype("\n< "); ssdump0(); logtype(" >ok\n");}
+  function dictcompile(n) {words[words.length-1].pf.push(n);}  // add my dictcompile  25.02.2025 from 6.23
+  function compile(nword) { 
+    if (typeof(nword)==="string"){var n=find(nword);}
+    else n=nword;
+    if (n>-1) words[words.length-1].pf.push(n);
+    else {stack=[]; throw(" "+nword+" ? ");}}
+  function parse(delimit){
+    idiom=""; 
+    if (delimit===undefined) delimit=" "; 
+    while (tibb.charCodeAt(ntibb)<=32) ntibb++;
+    while(ntibb<tibb.length && tibb.substr(ntibb,1)
+      !=delimit && tibb.substr(ntibb,1)!="\n") 
+      {idiom+=tibb.substr(ntibb++,1);}
+    if (delimit!=" ") ntibb++;
+    if (idiom==="") {throw(" ")};
+    return idiom;}
+
+  function find(name) {for (i=words.length-1;i>=0;i--) {if (words[i].name===name) return i;} return -1;}
+  function evaluate(){            // interpreter/compiler
+    var n=parseFloat(idiom);      // convert to number
+    var nword=find(idiom);        // name?
+    if (base!=10) {n=parseInt(idiom,base);}
+    if (nword>-1) {               // valid token
+      if (compiling && !words[nword].immediate)compile(nword);
+      else {execute(nword);}}     // compile/execute
+    else                          // number?
+      if (isNum(n) && isNum(idiom)) { ///> * is it a number?  my 10.03.2025 before:  if (n || idiom==0) {  // idiom is a number
+        if (compiling) {compile("dolit");compile(n);}
+        else {stack.push(n);}}    // compile/push
+      else {                      // error
+        if (compiling)words.pop();// delete defective word
+        stack=[];throw(" "+idiom+" ? ");
+      }
+    } 
+  function tick(){idiom=parse();var i=find(idiom);
+    if(i>=0)stack.push(i);
+    else throw(" "+idiom+" ? ");}
+// Outer interpreter
+  function main(cmd) {tibb=cmd;ntibb=0;rstack=[];wp=0;ip=0;w=0;compiling=false;execute(0);}
+// Dictionary
+  var words = [
+   {name:"quit"  ,xt:function(){nest();},pf:[1,2,3,0]}
+  ,{name:"parse" ,xt:function(){idiom=parse();}}
+  ,{name:"evaluate",xt:function(){evaluate();}}
+  ,{name:"branch",xt:function(){ip=words[wp].pf[ip];}}
+// stacks
+  ,{name:"dup"   ,xt:function(){stack=stack.concat(stack.slice(-1));}}
+  ,{name:"over"  ,xt:function(){stack=stack.concat(stack.slice(-2,-1));}}
+  ,{name:"2dup"  ,xt:function(){stack=stack.concat(stack.slice(-2));}}
+  ,{name:"2over" ,xt:function(){stack=stack.concat(stack.slice(-4,-2));}}
+  ,{name:"4dup"  ,xt:function(){stack=stack.concat(stack.slice(-4));}}
+  ,{name:"swap"  ,xt:function(){stack=stack.concat(stack.splice(-2,1));}}
+  ,{name:"rot"   ,xt:function(){stack=stack.concat(stack.splice(-3,1));}}
+  ,{name:"-rot"  ,xt:function(){stack.splice(-2,0,stack.pop());}}
+  ,{name:"2swap" ,xt:function(){stack=stack.concat(stack.splice(-4,2));}}
+  ,{name:"pick"  ,xt:function(){j=stack.pop()+1;stack.push(stack.slice(-j,-j+1));}}
+  ,{name:"roll"  ,xt:function(){j=stack.pop()+1;stack.push(stack.splice(-j,1));}}
+  ,{name:"drop"  ,xt:function(){stack.pop();}}
+  ,{name:"nip"   ,xt:function(){stack[stack.length-2]=stack.pop();}}
+  ,{name:"2drop" ,xt:function(){stack.pop();stack.pop();}}
+  ,{name:">r"    ,xt:function(){rstack.push(stack.pop());}}
+  ,{name:"r>"    ,xt:function(){stack.push(rstack.pop());}}
+  ,{name:"r@"    ,xt:function(){stack.push(rstack[rstack.length-1]);}}
+  ,{name:"push"  ,xt:function(){rstack.push(stack.pop());}}
+  ,{name:"pop"   ,xt:function(){stack.push(rstack.pop());}}
+// math
+  ,{name:"+"  ,xt:function(){stack.push(stack.pop()-(0-stack.pop()));}}
+  ,{name:"-"  ,xt:function(){b=stack.pop();stack.push(stack.pop()-b);}}
+  ,{name:"*"  ,xt:function(){stack.push(stack.pop()*stack.pop());}}
+  ,{name:"/"  ,xt:function(){b=stack.pop();stack.push(stack.pop()/b);}}
+  ,{name:"mod",xt:function(){b=stack.pop();stack.push(stack.pop()%b);}}
+  ,{name:"and",xt:function(){stack.push(stack.pop() & stack.pop());}}
+  ,{name:"or" ,xt:function(){stack.push(stack.pop() | stack.pop());}}
+  ,{name:"xor",xt:function(){stack.push(stack.pop() ^ stack.pop());}}
+  ,{name:"negate",xt:function(){stack.push(0-stack.pop());}}
+// compare
+  ,{name:"0=" ,xt:function(){stack.push(stack.pop()===0);}}
+  ,{name:"0<" ,xt:function(){stack.push(stack.pop()<0);}}
+  ,{name:"0>" ,xt:function(){stack.push(stack.pop()>0);}}
+  ,{name:"="  ,xt:function(){stack.push(stack.pop()===stack.pop());}}
+  ,{name:">"  ,xt:function(){b=stack.pop();stack.push(stack.pop()>b);}}
+  ,{name:"<"  ,xt:function(){b=stack.pop();stack.push(stack.pop()<b);}}
+  ,{name:"<>" ,xt:function(){stack.push(stack.pop()!==stack.pop());}}
+// output
+  ,{name:"base@"  ,xt:function(){stack.push(base);}}
+  ,{name:"base!"  ,xt:function(){base=stack.pop();}}
+  ,{name:"hex"    ,xt:function(){base=16;}}
+  ,{name:"decimal",xt:function(){base=10;}}
+  ,{name:"cr"     ,xt:function(){logtype("\n");}}
+  ,{name:"."      ,xt:function(){logtype(stack.pop().toString(base)+" ");}}
+  ,{name:"emit"   ,xt:function(){s=String.fromCharCode(stack.pop());logtype(s);}}
+  ,{name:"space"  ,xt:function(){s=" ";logtype(s);}}
+  ,{name:"spaces" ,xt:function(){n=stack.pop();s="";for(i=0;i<n;i++)s+=" ";logtype(s);}}
+  ,{name:".r"     ,xt:function(){n=stack.pop();w=stack.pop().toString(base);n-=w.length;s="";for(i=0;i<n;i++)s+=" ";logtype(s);logtype(w+" ");}}
+  ,{name:"type"   ,xt:function(){stack.pop();logtype(stack.pop());}}  // add my 27.02.2025
+// strings
+  ,{name:"["     ,xt:function(){compiling=false;},immediate:true}
+  ,{name:"]"     ,xt:function(){compiling=true;}}
+  ,{name:"find"  ,xt:function(){idiom=parse(); stack.push(find(idiom));}}
+  ,{name:"'"     ,xt:function(){tick();}}
+  ,{name:"dolit" ,xt:function(){stack.push(words[wp].pf[ip++]);}}
+  ,{name:"dostr" ,xt:function(){s=words[wp].pf[ip++];stack.push(s);stack.push(s.length);}}   // my change compile - > dictcompile 25.02.2025
+  ,{name:'s"'    ,xt:function(){s=parse('"');if (compiling) {compile("dostr");dictcompile(s);}else {stack.push(s);stack.push(s.length);};},immediate:true} /// chng my 27.02.2025/ my change compile - > dictcompile 25.02.2025
+  ,{name:"dotstr",xt:function(){n=words[wp].pf[ip++];logtype(n);}}
+  ,{name:'."'    ,xt:function(){s=parse('"');if (compiling) {compile("dotstr");dictcompile(s);}else {logtype(s);};},immediate:true}   // my change compile - > dictcompile  25.02.2025
+  ,{name:'('     ,xt:function(){s=parse(')');},immediate:true}
+  ,{name:'.('    ,xt:function(){s=parse(')');logtype(s);},immediate:true}
+  ,{name:'\\'    ,xt:function(){s=parse('\n');},immediate:true}
+// structures
+  ,{name:"exit"   ,xt:function(){exit();}}
+  ,{name:"0branch",xt:function(){if(stack.pop()) ip++;else ip=words[wp].pf[ip];}}
+  ,{name:"donext" ,xt:function(){i=rstack.pop()-1;if(i>=0){ip=words[wp].pf[ip];rstack.push(i);}else {ip++;};}}
+  ,{name:"if"     ,xt:function(){compile("0branch");stack.push(words[words.length-1].pf.length);compile(0);},immediate:true}  // if    ( -- here )
+  ,{name:"else"   ,xt:function(){compile("branch");h=words[words.length-1].pf.length;compile(0);words[words.length-1].pf[stack.pop()]=words[words.length-1].pf.length;stack.push(h);},immediate:true} // else ( here -- there )
+  ,{name:"then"   ,xt:function(){words[words.length-1].pf[stack.pop()]=words[words.length-1].pf.length;},immediate:true}  // then    ( there -- ) 
+  ,{name:"begin"  ,xt:function(){stack.push(words[words.length-1].pf.length);},immediate:true} // begin    ( -- here ) 
+  ,{name:"again"  ,xt:function(){compile("branch");compile(stack.pop());},immediate:true} // again    ( there -- ) 
+  ,{name:"until"  ,xt:function(){compile("0branch");compile(stack.pop());},immediate:true} // until    ( there -- ) 
+  ,{name:"while"  ,xt:function(){compile("0branch");stack.push(words[words.length-1].pf.length); compile(0);},immediate:true}  // while    ( there -- there here ) 
+  ,{name:"repeat" ,xt:function(){compile("branch");t=stack.pop();compile(stack.pop());words[words.length-1].pf[t]=words[words.length-1].pf.length;},immediate:true} // repeat    ( there1 there2 -- ) 
+  ,{name:"for"    ,xt:function(){compile(">r");stack.push(words[words.length-1].pf.length);},immediate:true}    // for ( -- here )
+  ,{name:"next"   ,xt:function(){compile("donext"); compile(stack.pop());},immediate:true}   // next ( here -- )
+  ,{name:"i"      ,xt:function(){stack.push(rstack[rstack.length-1]);}} // same as r@ add my 26.02.2025 
+  ,{name:"aft"    ,xt:function(){stack.pop();compile("branch");h=words[words.length-1].pf.length;compile(0);stack.push(words[words.length-1].pf.length);stack.push(h);},immediate:true} // aft ( here -- here there )
+// defining words
+  ,{name:":"       ,xt:function(){newname=parse();compiling=true;words.push({name:newname,xt:function(){nest();},pf:[]});}}
+  ,{name:";"       ,xt:function(){compiling=false;compile("exit");},immediate:true}
+  ,{name:"create"  ,xt:function(){newname=parse();words.push({name:newname,xt:function(){dovar();},qf:[]});}}
+  ,{name:"variable",xt:function(){newname=parse();words.push({name:newname,xt:function(){dovar();},qf:[0]});}}
+  ,{name:"constant",xt:function(){newname=parse();words.push({name:newname,xt:function(){docon();},qf:[stack.pop()]});}}
+  ,{name:","       ,xt:function(){words[words.length-1].qf.push(stack.pop());}}
+  ,{name:"allot"   ,xt:function(){n=stack.pop();for(i=0;i<n;i++) words[words.length-1].qf.push(0);}}
+  ,{name:"does"    ,xt:function(){words[words.length-1].xt=function(){nest();};words[words.length-1].pf=words[wp].pf.slice(ip);ip=-1;}}
+  ,{name:"q@"      ,xt:function(){i=stack.pop();stack.push(words[wp].qf[i]);}}  // q@ ( i -- n ) designed for does words
+// tools
+  ,{name:"here" ,xt:function(){stack.push(words.length);}}
+  ,{name:"words",xt:function(){logtype("\n"); for(i=words.length-1;i>=0;i--)logtype(words[i].name+" "); logtype("\n");}}
+  ,{name:"dump" ,xt:function(){logtype('words[\n');
+      for(i=0;i<words.length;i++){
+         logtype('{name:"'+words[i].name+'", xt:'+words[i].xt.toString(base));
+         if (words[i].pf)logtype(', pf:['+words[i].pf.toString(base)+']');
+         if (words[i].qf)logtype(', qf:['+words[i].qf.toString(base)+']');
+         if (words[i].immediate)logtype(' ,immediate:'+words[i].immediate);
+         logtype('}},\n');}logtype(']\n');}}
+  ,{name:"forget",xt:function(){tick();n=stack.pop();if (n < fence) {stack=[];throw(" "+idiom+" below fence" );}for(i=words.length-1;i>=n;i--)words.pop();}}
+  ,{name:"eval"  ,xt:function(){(eval(stack.pop()));}}                  /// * dangerous, be careful!
+  ,{name:"see"   ,xt:function(){tick();n=stack.pop();p=words[n].pf;s="";
+      for(i=0;i<p.length;i++){
+      if (s=="dolit"||s=="branch"||s=="0branch"||s=="donext"||s=="dostr"||s=="dotstr")
+         {s=" ";logtype(p[i].toString(base)+" ");}
+      else {s=words[p[i]].name;logtype(s+" ");}}}}
+  ,{name:"date"  ,xt:function(){d= new Date(); logtype(d+"\n");}}
+  ,{name:"@"     ,xt:function(){a=stack.pop();stack.push(words[a].qf[0]);}}
+  ,{name:"!"     ,xt:function(){a=stack.pop();words[a].qf[0]=stack.pop();}}
+  ,{name:"+!"    ,xt:function(){a=stack.pop();words[a].qf[0]+=stack.pop();}}
+  ,{name:"?"     ,xt:function(){logtype(words[stack.pop()].pf[0].toString(base)+" ");}}
+  ,{name:"array@",xt:function(){i=stack.pop();a=stack.pop();stack.push(words[a].qf[i]);}} // array@ ( w i -- n ) 
+  ,{name:"array!",xt:function(){i=stack.pop();a=stack.pop();words[a].qf[i]=stack.pop();}} // array! ( n w i -- ) 
+  ,{name:"is"    ,xt:function(){tick();b=stack.pop();a=stack.pop();words[b].pf=words[a].pf;}} // ( a -- ) vector a to next word 
+  ,{name:"to"    ,xt:function(){a=words[wp].pf[ip++];words[a].qf[0]=stack.pop();}} // ( a -- ) change value of next word
+  ,{name:"ms"    ,xt:function(){sleep(stack.pop());}}    
+// transcendental
+  ,{name:"pi"    ,xt:function(){stack.push(Math.PI);}}
+  ,{name:"random",xt:function(){stack.push(Math.random());}}
+  ,{name:"int"   ,xt:function(){stack.push(Math.trunc(stack.pop()));}}
+  ,{name:"ceil"  ,xt:function(){stack.push(Math.ceil(stack.pop()));}}
+  ,{name:"floor" ,xt:function(){stack.push(Math.floor(stack.pop()));}}
+  ,{name:"sin"   ,xt:function(){stack.push(Math.sin(stack.pop()));}}
+  ,{name:"cos"   ,xt:function(){stack.push(Math.cos(stack.pop()));}}
+  ,{name:"tan"   ,xt:function(){stack.push(Math.tan(stack.pop()));}}
+  ,{name:"asin"  ,xt:function(){stack.push(Math.asin(stack.pop()));}}
+  ,{name:"acos"  ,xt:function(){stack.push(Math.acos(stack.pop()));}}
+  ,{name:"exp"   ,xt:function(){stack.push(Math.exp(stack.pop()));}}
+  ,{name:"log"   ,xt:function(){stack.push(Math.log(stack.pop()));}}
+  ,{name:"sqrt"  ,xt:function(){stack.push(Math.sqrt(stack.pop()));}}
+  ,{name:"abs"   ,xt:function(){stack.push(Math.abs(stack.pop()));}}
+  ,{name:"max"   ,xt:function(){b=stack.pop();stack.push(Math.max(stack.pop(),b));}}
+  ,{name:"min"   ,xt:function(){b=stack.pop();stack.push(Math.min(stack.pop(),b));}}
+  ,{name:"atan2" ,xt:function(){b=stack.pop();stack.push(Math.atan2(stack.pop(),b));}}
+  ,{name:"pow"   ,xt:function(){b=stack.pop();stack.push(Math.pow(stack.pop(),b));}}
+// canvas
+  ,{name:"image@",xt: function() {         // ( a -- r g b )
+      a=stack.pop(); 
+      stack.push(imagedata.data[a]);       // Red
+      stack.push(imagedata.data[a+1]);     // Green
+      stack.push(imagedata.data[a+2]);}}   // Blue
+  ,{name:"image!",xt: function() {         // ( r g b a -- )
+      a=stack.pop();b=stack.pop();g=stack.pop();r=stack.pop();
+      imagedata.data[a]   = r;             // Red
+      imagedata.data[a+1] = g;             // Green
+      imagedata.data[a+2] = b;             // Blue
+      imagedata.data[a+3] = 255;}}         // Alpha
+  ,{name:"show"  ,xt:function(){context.putImageData(imagedata, 0, 0);}}    
+  ,{name:"coloring" ,xt:function(){        // i -- r g b )
+      i=stack.pop();stack.push(i&1 ? 255:0);
+      stack.push(i&2 ? 255:0);stack.push(i&4 ? 255:0);}}    
+  ,{name:"clear" ,xt:function(){line=0;
+      context.fillRect(0,0,canvas.width,canvas.height);}}    
+  ,{name:"font"  ,xt:function(){fontsize=stack.pop();
+      context.font=fontsize+"px sans-serif";}}    
+  ,{name:"red"    ,xt:function(){context.fillStyle="red";}}    
+  ,{name:"green"  ,xt:function(){context.fillStyle="green";}}    
+  ,{name:"blue"   ,xt:function(){context.fillStyle="blue";}}    
+  ,{name:"black"  ,xt:function(){context.fillStyle="black";}}    
+  ,{name:"white"  ,xt:function(){context.fillStyle="white";}}    
+  ,{name:"yellow" ,xt:function(){context.fillStyle="yellow";}}    
+  ,{name:"cyan"   ,xt:function(){context.fillStyle="cyan";}}    
+  ,{name:"violet" ,xt:function(){context.fillStyle="violet";}}    
+  ,{name:"mandel",xt:function(){generateImage();}}
+// tone
+  ,{name:"poly",xt:function(){ // vol bass tenor alto soprano pedal flute ms
+      a=stack.pop();b=stack.pop();c=stack.pop();
+      d=stack.pop();e=stack.pop();f=stack.pop();g=stack.pop();
+      h=stack.pop();poly(h,g,f,e,d,c,b,a);}}    
+  ,{name:"start_audio",xt:function(){start_audio();}}
+  ,{name:"stop_audio",xt:function(){stop_audio();}}
+  ,{name:"boot",xt:function(){words.splice(fence=find("boot")+1);}}
+   ]
+  fence=words.length;
+    ///
+    /// embedded Forth processor
+    ///
+    window.addEventListener('load', async ()=>{              ///< load event handler
+        let slst = document.getElementsByTagName('script')   ///< get HTMLcollection
+        for (let i=0; i<slst.length; i++) {
+            let s = slst[i]
+            if (s.type != 'application/forth') continue;     /// * handle embedded Forth 
+            if (s.src) {                                 /// * handle nested scripts
+                await fetch(s.src)                       /// * fetch remote Forth script
+                .then(r=>r.text())                       /// * get Forth commands
+                .then(cmd=>forth(cmd))                    /// * send it to Forth VM
+           }
+               else forth(s.innerText)
+        }
+    })
+
+</script> 
+
+<script type='application/forth'>
+( ------------------------------------------------------------ )
+: $js drop eval ;
+
+: ini-canvas s" context=canvas.getContext('2d'); imagew=canvas.width; imageh=canvas.height; imagedata=context.createImageData(imagew, imageh);" $js ;
+
+: canvas1    s" canvas=document.getElementById('cv');"  $js ini-canvas ;
+: canvas2    s" canvas=document.getElementById('cv2');" $js ini-canvas ;
+
+0 constant x  0 constant y  variable spire0
+: proto 0 255 0 ; 
+: haiku 159996  199 for r@ to y  199 for r@ to x  >r proto r@ image! r> 4 -  next next drop show ;
+: 4spire0 x 100 / 23 * sin y 100 / 1 swap - max x 100 / over / sin y 100 / 1 swap - rot / sin 2dup / sin 255 * rot 255 * rot 255 * rot ;
+' 4spire0 is proto  ( ' )
+
+: [[ start_audio ;
+: ]] stop_audio  ;
+
+( ------------------------------------------------------------ )
+decimal 
+variable ppqn 250 ppqn ! ( 250 ms )
+: note ( freq delay -- ) 
+  >r >r 0.1 0 0 0 0 0 r> r> poly ;  
+: ppqn@ ppqn @ ; 
+: 1/4 ppqn@ note ; 
+: 1/2 ppqn@ 2 * note ;
+: 1/8 ppqn@ 2 / note ; 
+: 3/4 ppqn@ 3 * note ; 
+: 3/8 ppqn@ 1.5 * note ;
+
+( notes ) 
+1047  constant c6   987.8 constant b5   932.3 constant a5#   932.3 constant b5b   880   constant a5   830.6 constant g5#   830.6 constant a5b
+784   constant  g5  740   constant f5#  740   constant g5b   698.5 constant f5    659.3 constant e5   622.3 constant d5#   622.3 constant e5b
+587.3 constant d5   554.4 constant c5#  554.4 constant d5b   523.3 constant c5    493.9 constant b4   466.2 constant b4b   466.2 constant a4#
+440   constant a4   415.3 constant g4#  415.3 constant a4b   392   constant g4    370   constant f4#  370   constant g4b   349.2 constant f4
+329.6 constant e4   311.1 constant d4#  311.1 constant e4b   293.7 constant d4    277.2 constant c4#  277.2 constant d4b   261.6 constant c4 
+246.9 constant b3   233.1 constant a3#  233.1 constant b3b   220   constant a3    207.7 constant g3#  207.7 constant a3b   196   constant g3
+185   constant f3#  185   constant g3b  174.6 constant f3    164.8 constant e3    155.6 constant d3#  155.6 constant e3b   146.8 constant d3
+138.6 constant c3#  138.6 constant d3b  130.8 constant c3    123.5 constant b2    116.5 constant a2#  116.5 constant b2b   110   constant a2
+103.8 constant g2#  103.8 constant a2b  98    constant g2    92.50 constant f2#   92.50 constant g2b  87.31 constant f2    82.41 constant e2
+77.78 constant d2#  77.78 constant e2b  73.42 constant d2    69.30 constant c2#   69.30 constant d2b  65.41 constant c2
+( ------------------------------------------------------------ )
+
+cr  .( ef615 = jeforth615 + webix.js ) cr cr
+
+: log-off s" $$('log1').hide();" $js ;
+: log-on  s" $$('log1').show();" $js ;
+
+: tib-off s" $$('tib1').hide();" $js ;
+: tib-on  s" $$('tib1').show();" $js ;
+
+: txt-off s" $$('txt2').hide();" $js ;
+: txt-on  s" $$('txt2').show();" $js ;
+
+: sl-off s" $$('slides').hide();" $js ;
+: sl-on  s" $$('slides').show();" $js ;
+
+: man-off s" $$('mans').hide();" $js ;
+: man-on  s" $$('mans').show();" $js ;
+
+: lin-off s" $$('links').hide();" $js ;
+: lin-on  s" $$('links').show();" $js ;
+
+: about-off s" $$('about').hide();" $js ;
+: about-on  s" $$('about').show();" $js ;
+
+: mndl-off  s" $$('mandel').hide();" $js ;
+: mndl-on   s" $$('mandel').show();" $js ;
+
+: haiku-off  s" $$('haiku').hide();" $js ;
+: haiku-on   s" $$('haiku').show();" $js ;
+
+: bach-off   s" $$('bach%').hide();" $js ;
+: bach-on    s" $$('bach%').show();" $js ;
+
+: all-off sl-off man-off lin-off about-off mndl-off haiku-off bach-off ;
+
+: log-end  s" $$('log1').getInputNode().scrollTop = $$('log1').getInputNode().scrollHeight;" $js ;
+
+: Set_srcfile    s" $$('src1').define({'template':srcfile}); $$('src1').refresh(); $$('txt2').load(srcfile);" $js ;
+
+: form1-off s" $$('log1').hide(); $$('tib1').hide();" $js s" $$('rsz1').hide(); $$('rsz2').hide();" $js   ;
+: form1-on  s" $$('log1').show(); $$('tib1').show();" $js s" $$('rsz1').show(); $$('rsz2').show();" $js   ;
+
+: Open...  s" input.click();" $js ;
+
+: Manual         all-off   man-on          s" $$('menu%').select(4);" $js ;
+: Slides         all-off    sl-on          s" $$('menu%').select(5);" $js ;
+: Links          all-off   lin-on          s" $$('menu%').select(6);" $js ;
+: About          all-off about-on          s" $$('menu%').select(7);" $js ;
+
+: Music...    all-off  s" srcfile='Music.txt';"       $js  Set_srcfile ;
+: Graphics... all-off  s" srcfile='Graphics.txt';"    $js  Set_srcfile ;
+
+: Mandelbrot canvas1 all-off mndl-on   s" $$('menu%').select(2);" $js cr ." Mandelbrot demo started ..." cr mandel ;
+: Haiku      canvas2 all-off haiku-on  s" $$('menu%').select(2);" $js cr ." Haiku demo started ..." cr s" srcfile='haiku.txt';" $js  Set_srcfile haiku ;
+
+: Lesson19.txt       all-off         cr ." Music demo started ..." cr s" $$('menu%').select(3); srcfile='lesson19.txt';"           $js  Set_srcfile ;
+: capriccio          all-off bach-on cr ." Music demo started ..." cr s" $$('menu%').select(3); srcfile='capriccio.txt';"          $js  Set_srcfile ;
+: FugueGminor        all-off bach-on cr ." Music demo started ..." cr s" $$('menu%').select(3); srcfile='FugueGminor.txt';"        $js  Set_srcfile ;
+: toccataFugueDminor all-off bach-on cr ." Music demo started ..." cr s" $$('menu%').select(3); srcfile='toccataFugueDminor.txt';" $js  Set_srcfile ;
+
+: Notes.txt      all-off s" srcfile='Notes.txt';"       $js  Set_srcfile ;
+: Lessons614.txt all-off s" srcfile='lessons614.txt';"  $js  Set_srcfile ;
+: Lessons615.txt all-off s" srcfile='lessons615.txt';"  $js  Set_srcfile ;
+
+: Forth/File...  all-off form1-on log-end Notes.txt s" $$('menu%').select(1); $$('tib1').focus();" $js ;
+
+Forth/File...  
+
+</script>
+
+<script>window.addEventListener('mousemove', function(event){document.querySelector('body > div.webix_message_area > div > div').click()},{ once: true});</script>
+
+</body>
+
+</html>

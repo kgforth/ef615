@@ -1,0 +1,1666 @@
+( two part inventions, 23jan21cht )
+
+decimal
+0 constant bass
+0 constant tenor
+0 constant alto
+0 constant soprano
+0 constant flute
+0 constant pedal
+0 constant z
+: init z to bass z to tenor z to alto z to soprano z to pedal z to flute ;
+
+variable fudge 30 fudge ! ( quater note )
+: notes ( duration -- )
+  >r 0.1 bass tenor alto soprano pedal flute r> poly ;
+hex
+: play ( n1 n2 n3 n4 n5 n6 bits duration -- )
+  >r >r 
+  r@ 1 and if to soprano then  
+  r@ 2 and if to alto then
+  r@ 4 and if to tenor then
+  r@ 100 and if to flute then
+  r@ 200 and if to bass then
+  r@ 400 and if to pedal then
+  r> drop r> notes ;
+
+decimal
+: ppqn   constant   does 0 q@ fudge @ * play ;
+192 ppqn 3/2
+128 ppqn 1/1    64 ppqn 1/2    32 ppqn 1/4   16 ppqn 1/8
+  8 ppqn 1/16    4 ppqn 1/32    2 ppqn 1/64   1 ppqn 1/128
+ 96 ppqn 3/4    48 ppqn 3/8    24 ppqn 3/16  12 ppqn 3/32
+ 12 ppqn 1/12'  10 ppqn 1/12   22 ppqn 1/6
+  6 ppqn $.      5 ppqn $       3 ppqn ]      2 ppqn [
+hex
+: | z z z z z z 707 1/128 ;
+: init-fudge ( n -- ) fudge ! ;
+decimal
+
+: /     1 1/16 ;
+: //    2 1/16 ;
+: ///   3 1/16 ;
+: %     1 1/32 ;
+: %%    2 1/32 ;
+: %%%   3 1/32 ;
+
+\ inventio 1   16may95cht
+
+: m1    z c4 /// d4 / e4 /
+        f4 / d4 / e4 / c4 /
+        g4 / c3 // d3 c5 /// e3 //
+        f3 c5 %%% b4 % d3 c5 %%% b4 %
+        e3 c5 /// c3 // ;
+: m2    g3 d5 /// g4 / g2 a4 ///  b4 /
+        z c5 /// a4 / b4 / g4 /
+        d5 / g3 // a3  g5 /// b3 //
+        c4 g5 %%% f5 % a3 g5 %%% f5 %
+        b3 g5  /// g3 // ;
+: m3    c4 e5 /// a5 / b3 g5 /// f5 /
+        c4 e5 /// g5 / d4 f5 /// a5 /
+        e4 g5 /// f5 / g3 e5 /// d5 /
+        a3 c5 /// e5 / b3 d5 /// f5 / ;
+: m4    c4 e5 /// d5 / e3 c5 /// b4 /
+        f3# a4 /// c5 / g3 b4 /// d5 /
+        a3 c5 /// b4 / b3 a4 /// g4 /
+        c4 f4# /// a4 / g4 / b4 / ;
+: m5    c4 a4 /// d3 // e3 d4 /// f3# //
+        g3 c5 %%% b4 %
+        e3 c5 /// f3# // d3 d5 ///
+        g3 b4 /// a4 / b2 g4 /// f4# /
+        c3 e4 /// g4 / d3 f4# /// a4 / ;
+: m6    e3 g4 /// b4 / f3# a4 /// c5 /
+        g3 b4 /// d5 / e3 c5 /// e5 /
+        b2 d5 /// b4 % c5 % d5 / c3 g5 ///
+        d3 c5 %%% b4 % c5 % b4 %
+        d2 a4 /// g4 / ;
+: m7    z g4 /// g2 z /// a2 // b2 //
+        c3 // a2 // b2 // g2 //
+        d3 // g4 / g3 a4 /// b4 /
+        f3#  c5 /// a4 / g3 b4 /// g4 / ;
+: m8    a3 g4 %%% f4# %
+        d3 g4 %%% f4# % e3 z /// f3# //
+        g3 // e3 // f3# // d3 //
+        a3 // a4 / d4 b4 /// c5 /
+        c4 d5 /// b4 / d4 c5 /// a4 / ;
+: m9    g3 b4 /// g4 // f4 z /// e4 //
+        d4 // f4 // e4 // g4 //
+        f4 // d5 / e4 c5 /// b4 /
+        f4 a4 /// c5 / d4 b4 /// d5 / ;
+: m10   e4 c5 /// a4 // g4 z /// f4 //
+        e4 // g4 // f4 // a4 //
+        g4 // e5 / f4 d5 /// c5 /
+        g4 b4 /// d5 / e4 c5# /// e5 / ;
+: m11   f4 d5 /// b4b // a4 c5# /// g4 //
+        f4 d5 /// a4 // g4 e5 /// b4b //
+        a4 f5 /// g4 // f4 a4 /// e4 //
+        d4 b4 /// f4 // e4 c5 /// g4 // ;
+: m12   f4 d5 /// e4 // d4 f4# /// c4 //
+        b3 g4# /// d4 // c4 a4 /// e4 //
+        d4 b4 /// c4 // b3 c5 /// a3 //
+        g3# d5 /// b3 // a3 // c4 // ;
+: m13   b3 c5 /// e4 / e3 f4# /// g4# /
+        d4 a4 %%% c4 %%
+        d4 f4# /// g4# / e4 e4 ///
+        c4 e5 /// b3 d5 /// a3 c5 /// g3 e5 ///
+        f3# d5 /// a3 c5 /// g3# b4 /// b3 d5 /// ;
+: m14   a3 c5 /// c4 a5 /// b3 g5# /// d4 b5 ///
+        c4 a5 /// e4 e5 /// d4 f5 /// f4 d5 ///
+        e4 g4# /// f5 / a3 e5 /// d5 /
+        e4 c5 3 1/8 e3 b4 /// a4 / ;
+: m15   a3 a4 /// a5 / a2 g5 /// f5 /
+        z e5 /// g5 / f5 / a5 /
+        g5 / e4 // d4 // c4 //
+        b3 // d4 // c4# // e4 // ;
+: m16   d4 g5 /// e5 / f5 / g5 /
+        a5 / f5 / g5 / e5 /
+        d4 f5 /// a3 // b3 // c4 //
+        d4 // b3 // c4 // a3 // ;
+: m17   b3 f5 /// g5 / f5 / e5 /
+        d5 / f5 / e5 / g5 /
+        f5 / d4 // c4 // b3 //
+        a3 // c4 // b3 // d4 // ;
+: m18   c4 f5 /// d5 / e5 / f5 /
+        g5 / e5 / f5 / d5 /
+        e5 / g3 // a3 // b3b //
+        c4 // a3 // b3b // g3 // ;
+: m19   a3 e5 /// c5 / b3b d5 /// e5 /
+        a3 f5 /// d5 / g3 e5 /// c5 /
+        f3 d5 /// e5 / d4 f5 /// g5 /
+        c4 a5 /// f5 / b3b g5 /// e5 / ;
+: m20   a3 f5 /// g5 / f4 a5 /// b5 /
+        e4 c6 /// a5 / d4 b5 /// g5 /
+        e4 c6 /// d3 // e3 g5 /// f3 //
+        g3 e5 /// e3 // f3 d5 /// d3 c5 /// ;
+: m21   e3 c5 /// b4b / c3 a4 /// g4 /
+        d3 f4 /// a4 / e3 g4 /// b4b /
+        f3 a4 /// d3 b4 /// e3 c5 /// f3 e4 ///
+        g3 d4 /// c5 / g2 f4 /// b4 / ;
+: m22   c3 c5 3 1/2 ;
+
+: invent1  30 init-fudge
+        m1 m2 m3 m4 m5 m6 m7 m8 m9 m10
+        m11 m12 m13 m14 m15 m16 m17 m18 m19 m20
+        m21 m22  ;
+
+\ inventio 2            16may95cht
+
+: m1    z c5 /// b4 /
+        c5 / d5 / e5b /  g4 /
+        a4b / b4b / a4b / f4 /
+        f5 / e5b / d5 / c5 / ;
+: m2    z b4 /// a5b / g5 / f5 /
+        e5b / d5 / c5 / b4 /
+        c5 / d5 / c5 / d5 /
+        c5 % d5 % e5b % d5 %
+        e5b % d5 % c5 % d5 % ;
+: m3    z e5b /// d5 / c4 c5 /// b3 d5 ///
+        c4 e5b /// d4 f5 /// e4b g5 /// g3 //
+        a3b a5b %%% g5 %
+        b3b a5b %%% g5 % a3b f5 /// f3 //
+        f4 z /// e4b // d4 f5 /// c4 // ;
+: m4    b3 g5 %%% f5 %
+        a4b g5 %%% f5 % g4 e5b /// f4 //
+        e4b z /// d4 // c4 d5 /// b3 //
+        c4 e5b /// d4 // c4 a4b /// d4 //
+        c4 %% d4 %% e4b f4 %%% d4 %%
+        e4b b4b %%% d4 %% c4 f4 %%% d4 %% ;
+: m5    e4b a4b /// d4 // c4 e5b /// d4 //
+        e4b // f4  d5 /// g4 e5b /// b4b /
+        a4b c5 %%% g4 %%
+        a4b e5b %%% g4 %% f4 a5b /// g5 /
+        z f5 /// e5b / f4 d5 /// c5 / ;
+: m6    g4 b4b %%% f4 %%
+        g4 d5 %%% f4 %% e4b g5 /// f5 /
+        z e5b /// d5 / d4 c5 /// b4b /
+        e4b a4b /// c5 / a3b f5 /// c5 /
+        e5b % d5 % f3 e5b %%% d5 %
+        b3b e5b %%% d5 % f3 d5 /// ;
+: m7    g3 e5b /// b4b / e4b c5 /// b4b /
+        g5 / d4 // e4b // b3b //
+        c4 // e4b b4b /// a4b c5 /// g4 b4b ///
+        f4 a5b /// e4b // d4 // c4 // ;
+: m8    g3 a5b /// d4 b4b /// g4 e5b /// f4 d5 ///
+        e4b g5 /// d4 f5 /// c4 a5b /// b3b g5 ///
+        a3b c6 /// c4 b5b /// f4 a5b /// c4 g5 ///
+        e4b f5 %%% d4 %%
+        e4b b5b %%% d4 %% e4b a5b %%% d4 %% d4 b5b /// ;
+: m9    e4b g5 /// b3b b5b /// c4 a5b /// b3b b5b ///
+        g4 e5b /// g5 / f5 / g5 /
+        c5 / b3b d5 /// c4 e5b /// b3b f5 ///
+        a4b d5 /// e5b / f5 / g5 / ;
+: m10   a4b e5b /// b3b f5 /// e4b g5 /// d4 a5b ///
+        g4 b5b /// f4 a5b /// a4b c6 /// g4 b5b ///
+        c5 a5b /// b4b g5 /// a4b f5 /// g4 a5b ///
+        f4 d5 /// b4b // a4b // b4b // ;
+: m11   g4 d5 %%% z % d5 / e3b g5 /// f3 d5 ///
+        g3 e5b /// a3 c5 /// b3b d5 /// d3 b4b ///
+        e3b c5 /// f3 // e3b // c3 //
+        c4 // b3b g5 /// a3 f5# /// g3 a5 /// ;
+: m12   f3# c5 /// e4b b4b /// d4 c5 /// c4 //
+        b3b // a3 f5# /// g3 e5 /// f3# d5 ///
+        g3 b5b /// a3 // g3 // a3 e5b ///
+        g3 f5 %%% a3 %% b3b %% a3 %% b3b %% a3 %%
+        g3 g5 %%% a3 %% ;
+: m13   b3b g5 /// a3 // g3 g4 /// a3 f4# ///
+        b3b g4 /// c4 a4 /// d4 b4b /// d4 /
+        e4b e4b %%% d4 %%
+        e4b f4 %%% d4 %% c4 e4b /// c4 /
+        z c5 /// b4b / c4 a4 /// g4 / ;
+: m14   d4 f4# %%% c4 %%
+        d4 e5b %%% c4 %% b3b d5 /// c5 /
+        z b4b /// a4 / a3 g4 /// f4# /
+        b3b g4 /// a4 / e3b g4 /// a4 /
+        g4 % a4 % c3 b4b %%% a4 % f3 b4b %%% a4 %
+        c3 g4 %%% a4 % ;
+: m15   d3 b4b /// a4 / b3b g4 /// a4 /
+        b4b / a3 c5 /// b3b d5 /// f3 //
+        g3 e5b %%% d5 %
+        b3b e5b %%% d5 % e4b c5 /// d4 //
+        c4 z /// b3b // a3 c5 /// g3 // ;
+: m16   f3 d5 %%% c5 %
+        a3 d5 %%% c5 % d4 b4b /// c4 //
+        b3b z /// a3 // g3 a4 /// f3 //
+        e3b b4b /// g3 // c4 e4b /// g3 //
+        b3b %% a3 %% b3b c4 %%% a3 %%
+        b3b f4 %%% a3 %% a3 c4 /// ;
+: m17   b3b e4b /// f3 // g3 b4b /// f3 //
+        d4 // a4 / b4b / f4 /
+        g4 / f3 b4b /// g3 e5b /// f3 d5 ///
+        e4b c5 /// b4b / a4 / g4 / ;
+: m18   e4b f4 /// f3 a4 /// b3b d5 /// a3 c5 ///
+        d4 b4b /// c4 a4 /// e4b g4 /// d4 f4 ///
+        g4 e4b /// f4 g4 /// e4b c5 /// d4 g4 ///
+        c4 b4b %%% a4 %
+        f4 b4b %%% a4 % e4b b4b %%% a4 % f4 a4 /// ;
+: m19   d4 b4b /// f4 f4 /// e4b g4 /// f4 f4 ///
+        b3b d5 /// d4 // c4 // d4 //
+        g3 // a3 f4 /// b3b g4 /// c4 f4 ///
+        a3 e5b /// b3b // c4 // d4 // ;
+: m20   b3b e5b /// c4 f4 /// d4 b4b /// e4b a4 ///
+        f4 d5 /// e4b c5 /// g4 e5b /// f4 d5 ///
+        e4b g5 /// d4 f5 /// c4 e5b /// e4b d5 ///
+        a3 c5 /// f5 / e5b / f5 / ;
+: m21   a3 d5 /// d3 c5 /// g3 b4b /// f3# a4 ///
+        b3b d5 /// a3 c5 /// c4 e5b /// b3b d5 ///
+        e4b c5 /// d4 b4b /// c4 a4 /// b3 c5 ///
+        a3 f5 /// d4 // c4 // d4 // ;
+: m22   b3 f5 /// f4 g4 /// e4b c5 /// d4 b4 ///
+        c4 e5b /// b3b d5 /// a3b f5 /// g3 e5b ///
+        f3 a5b /// e3b g5 /// d3 f5 /// c3 e5b ///
+        g3 d5 /// g5 / g2 f5 /// g5 / ;
+: m23   c3 e5b /// d5 / c5 / d3 b4 ///
+        e3b c5 /// f3 d5 /// g3 e5b ///
+        a3b a4b %%% g3 %%
+        a3b b4b %%% g3 %% f3 a4b /// f4 /
+        z f5 /// e5b / f3 d5 /// c5 / ;
+: m24   g3 a4 %%% f3 %%
+        g3 a5b %%% f3 %% e3b g5 /// f5 /
+        e5b / f3 d5 /// e3b c5 /// d3 b4 ///
+        c3 c5 /// b2b d5 /// a2b c5 /// g2 d5 ///
+        f2 c5 %%% d5 % e2b e5b %%% d5 %
+        f2 e5b %%% d5 % g2 c5 %%% d5 % ;
+: m25   c2 e5b /// d5 / c3 c5 /// b2 d5 ///
+        c3 e5b /// d3 f5 /// e3b g5 /// g2 //
+        a2b a5b %%% g5 %
+        b2b a4b %%% g5 % a2b f5 /// f2 //
+        f3 z /// e3b // d3 f5 /// c3 // ;
+: m26   b2 g5 %%% f5 %
+        a3b g5 %%% f5 % g3  e5b /// f3 d5 ///
+        e3b g5 /// d3 f5 /// c3 a5b /// b2b g5 ///
+        c3 g5 /// g2 // a2b // f2 a5b ///
+        g2 e5b %%% d5 % e5b % d5 %
+        g2 e5b %%% d5 % c5 / ;
+: m27   c2 c5 3 1/2 ;
+
+: invent2  30 init-fudge    
+        m1 m2 m3 m4 m5 m6 m7 m8 m9 m10
+        m11 m12 m13 m14 m15 m16 m17 m18 m19 m20
+        m21 m22 m23 m24 m25 m26 m27  ;
+
+
+\ inventio 3 17may95cht
+
+: m1    d4 / e4 /
+        f4# / e4 / g4 / f4# / e4 / d4 / ;
+: m3    a4 / g4 / f4# / e4 /
+        d3 f4# /// e3 d4 ///
+        f3# a4 /// e3 // g3 b4 /// f3# //
+        e3 d5 %%% c5# % d3 d5 /// ;
+: m5    a3 d5 %%% c5# % g3 d5 %%% c5# % f3 b4 /// e3 a4 ///
+        f3# c5# /// d3 d5 /// ;
+: m6    a3 e5 /// c5# % z %% a2 f5# /// d5 % z %% a3 c5# /// b4 % z %%
+        a3 e5 /// c5# % z %% a2 d5 /// b4 % z %% a3 a4 /// g4# % z %% ;
+: m8    m6 ;
+: m10   a3 c5# /// b4 / b3 d5 /// c5# / c4# b4 /// a4 /
+        d4 f5# /// c4# // e4 g4# /// d4 // c4# a4 /// b3 // ;
+: m12   c4# a4 /// d4 b4 /// e4 c5# %%% b4 % a4 % b4 %
+        e3 c5# %%% b4 % a4 % z %
+        a3 a4 /// e3 // f3# // g3# // a3 z /// b3 // ;
+: m14   c4# // b3 // d4 e5 /// c4# // b3 a5 /// a3 //
+        e4 a5 /// b4 / e3 c5# /// d5# / z e5 /// f5# / ;
+: m16   z g5 /// f5# / b3 a5 /// g5 / e4 f5# /// e5 /
+        e4 b5 /// f3# // g3# b4 /// a3# // b3 z /// c4# // ;
+: m18   d4 z /// c4# // e4 f4# /// d4 // c4# b4 /// b3 //
+        f4# b4 /// a4# / f3# b4 /// c5# / e4 d5 /// e5 / ;
+: m20   d4 f5# /// e5 / b4 g5 /// a4# f5# /// d5 / f3# d5 ///
+        c4# e5 /// d5 / a4# f5# /// g4# e5 /// a4# d5 /// c5# / ;
+: m22   b4 d5 /// a4 c5# /// g4 e5 /// f4# d5 /// e4 c5# /// d4 b4 ///
+        e4 c5# /// d4 // f4# b4 %%% a4# %
+        e4 b4 %%% a4# % d4 b4 /// c4# // ;
+: m24   d4 b4 /// e4 c5# /// f4# d5 %%% c5# % b4 % c5# %
+        f3# d5 %%% c5# % b4 /
+        b3 // f4# / f3# g4# /// a4# / d3 b4 /// c5# / ;
+: m26   b2 d5 /// c5# / e5 / d5 / z c5# /// b4 /
+        g5 / b2 // c3# // d3# // e3 // f3# // ;
+: m28   g3 g5 /// f3# // a3 // g3 // f3# // e3 //
+        a3 // e4 / f4# / g4# / a4 / b4 / ;
+: m30   a3 c5# /// b4 / d5 / c5# / b4 / a4 /
+        f5# / a2 // b2 // c3# // d3 // e3 // ;
+: m32   f3# f5# /// e3 // g3 // f3# // e3 // d3 //
+        g3# // b4 / e5 / e3 d5 /// f3# c5# /// g3# b4 /// ;
+: m34   a3 c5# /// g3# b4 /// f3# d5 /// e3 c5# /// d3 b4 /// f3# a4 ///
+        e3 a4 %%% g4# % d3 a4 %%% g4# %
+        c3# e4 /// b2 // c3# a4 /// a2 b4 /// ;
+: m36   a3 c5# /// b4 / f3# d5 /// c5# / c3# b4 /// a4 /
+        d3 f5# /// c3# // e3 // d3 g4# /// c3# a4 /// b2 g4# /// ;
+: m38   c3# a4 /// d3 d5 /// e3 b4 3 1/8 e2 // a4 /
+        a2 a4 /// c3# // d3 // e3 c5# /// f3# d5 /// g3 e5 /// ;
+: m40   a3 f4# /// g3 // b3 g4 /// a3 //
+        g3 b4 %%% a4 % f3# g4 %%% a4 %
+        g3 b4 /// f3# // a3 d5 %%% c5# % g3 d5 %%% c5# %
+        f3# d5 /// e3 // ;
+: m42   f3# d5 /// e3 c5# /// g3 e5 /// f3# d5 /// e3 c5# /// d3 d5 ///
+        a3 e5 /// d5 / a2 c5# /// b4 / z a4 /// g4 / ;
+: m44   z f4# /// e4 / g4 / f4# / e4 / d4 /
+        a4 / g4 / f4# / e4 / d3 f4# /// e3 e4 /// ;
+: m46   f3# a4 /// e3 // g3 b4 /// f3# //
+        e3 d5 %%% c5# % d3 d5 ///
+        a3 c5# /// g3 // f3# b4 /// e3 a4 /// f3# d5 /// d3 %% z % ;
+: m48   a3 d5 /// f3# %% z % b3 d4 /// g3 %% z % f3# d5 /// e3 %% z %
+        a3 d5 /// f3# %% z % g3 d4 /// e3 %% z % d3 d5 /// c3# %% z % ;
+: m50   a3 d5 /// f3# %% z % b3 d4 /// g3 %% z % f3# d5 /// e3 %% z %
+        a3 d5 /// f3# %% z % g3 d4 /// e3 %% z % d3 d5 /// c3# e5 /// ;
+: m52   d3 f5# /// e5 / e3 g5 /// f5# / f3# e5 /// d5 /
+        g3 b5 /// f3# // a3 c5# /// g3 // f3# d5 /// e3 // ;
+: m54   f3# d5 /// g3 e5 ///
+        a3 f5# %%% e5 % d5 % e5 % a2 f5# %%% e5 % d5 % z %
+        b2 d5 /// a2 // c3 d4 /// b2 // a2 g4 /// g2 // ;
+: m56   d3 g4 /// a3 / b3 / c4# / d4 / e4 /
+        f4# / c3# e4 /// b2 g4 /// a2 f4# /// g2 e4 /// f2# d4 /// ;
+: m58   g2 b4 /// f2# // a2 // g2 c4# /// f2# d4 /// d2 c4# ///
+        f2# d4 /// g2 g4 /// a2 e4 3 3/16 d4 / ;
+: m60   d2 d4 3 3/8 ;
+
+: invent3   30 init-fudge    
+        m1 m3 m5 m6 m8 m10 m12 m14 m16 m18 m20
+        m22 m24 m26 m28 m30 m32 m34 m36 m38 m40
+        m42 m44 m46 m48 m50 m52 m54 m56 m58 m60  ;
+
+
+\ inventio 4 18may95cht
+
+: m1    d4 / e4 / f4 / g4 / a4 / b4b /
+        c4# / b4b / a4 / g4 / f4 / e4 / ;
+: m3    d3 f4 /// e3 // f3 a4 /// g3 // a3 d5 /// b3b //
+        c3# g4 /// b3b // a3 c5# /// g3 // f3 e5 /// e3 // ;
+: m5    f3 d5 /// e5 / a3 f5 /// g5 / d4 a5 /// b5b /
+        d3 c5# /// b5b / g3 a5 /// g5 / c4# f5 /// e5 / ;
+: m7    d3 f5 /// d5 / d4 e5 /// f5 / f3 g5 /// a5 /
+        g3 b4b /// a5 / a3 g5 /// f5 / b3b e5 /// d5 / ;
+: m9    c3 e5 /// c5 / c4 d5 /// e5 / e3 f5 /// g5 /
+        f3 a4 /// g5 / g3 f5 /// e5 / a3 d5 /// c5 / ;
+: m11   b3b d5 /// g3 e5 /// a3 f5 /// b3b d5 /// c4 e5 /// d4 f5 ///
+        e3 g4 /// d4 // c4 z /// b3b // a3 // g3 // ;
+: m13   a3 c5 /// f3 d5 /// g3 e5 /// a3 c5 /// b3b d5 /// c4 e5 ///
+        d3 f4 /// c4 // b3b z /// a3 // g3 b4b /// f3 // ;
+: m15   e3 // c3 // d3 a4 /// e3 // f3 g4 /// g3 //
+        a2 c5 /// g3 b4b /// f3 a4 /// e3 g4 /// d3 f4 /// c3 e4 /// ;
+: m17   d3 f4 /// b2b g4 /// c3 a4 %%% g4 % f4 % g4 %
+        c2 a4 %%% g4 % f4 % z %
+        f2 f4 /// g2 // a2 c5 /// b2b z /// c3 c5 /// d3 z /// ;
+: m19   e2 d5 %%% c5 % d3 d5 %%% c5 % c3 d5 %%% c5 %
+        b2b d5 %%% c5 % a2 d5 %%% c5 % g2 d5 %%% c5 %
+        a2 d5 %%% c5 % b2b d5 %%% c5 % c3 d5 %%% c5 %
+        d3 d5 %%% c5 % e3 d5 %%% c5 % f3 d5 %%% c5 %
+        g2 d5 %%% c5 % f3 d5 %%% c5 % e3 d5 %%% c5 %
+        d3 d5 %%% c5 % c3 d5 %%% c5 % b2b d5 %%% c5 % ;
+: m22   a2 c5 /// b2b b4b /// c3 a4 /// a2 g4 /// b2b f4 /// c3 e4 ///
+        f2# c5 /// d4 / z e4 /// f4# / g4 / a4 / ;
+: m24   g2 b4b /// a2 a4 /// b2b g4 /// g2 f4 /// a2 e4 /// b2b d4 ///
+        e2 b4b /// c4 / z d4 /// e4 / f4 / g4 / ;
+: m26   f2 a4 /// b4 / f3 c5 /// d5 / d3 e5 /// f5 /
+        b2 g4# /// f5 / g2# e5 /// d5 / e2 c5 /// b4 / ;
+: m28   a2 c5 /// g2# b4 /// a2 d5 /// b2 c5 /// c3 b4 /// d3 a4 ///
+        f3 g4# %%% e3 % f3 a4 %%% e3 % f3 g4# %%% e3 %
+        f3 f4# %%% e3 % f3 e4 %%% e3 % f3 d4  %%% e3 %
+        f3 c4  %%% e3 % f3 d4 %%% e3 % f3 e4  %%% e3 %
+        f3 f4# %%% e3 % f3 g4# %%% e3 % f3 a4  %%% e3 %
+        f3 d4  %%% e3 % f3 c5 %%% e3 % f3 b4  %%% e3 %
+        f3 a4  %%% e3 % f3 g4# %%% e3 % f3 f4# %%% e3 %
+        f3 e4  %%% e3 % f3 f4# %%% e3 % f3 g4# %%% e3 %
+        f3 a4  %%% e3 % f3 b4 %%% e3 % f3 c4  %%% e3 %
+        f3 f4# %%% e3 % f3 e5 %%% e3 % f3 d5  %%% e3 %
+        f3 c5  %%% e3 % f3 b4 %%% e3 % f3 a4  %%% e3 % ;
+: m34   e3 g4# /// a4 / e4 b4 /// c5 / d4 d5 /// e5 /
+        c4 a4 /// f5 / b3 e5 /// d5 / a3 c5 /// b4 / ;
+: m36   d4 a5 /// g5# / e4 f5# /// e5 / f4 a5 3 1/8
+        d4 // d5 / e4 b4 3 1/8 e3 // a4 / ;
+: m38   a3 a4 /// a2 // b2b // c3 // d3 b4b /// e3b c5 ///
+        f2# d4 /// e3b // d3 f4# /// c3 // b2b a4 /// a2 // ;
+: m40   g2 b4b /// g4 / a4 / b4b / a2 c5 /// b2b d5 ///
+        c2 e4 /// d5 / g2 c5 /// b4b / c3 a4 /// g4 / ;
+: m42   f3 a4 /// g3 // a3 f5 /// b3 e5 /// c4# f5 /// d4 //
+        e3 g4 /// d4 // c4# e5 /// b3 // a3 z /// g3 // ;
+: m44   f3 d5 /// e5 / a3 f5 /// g5 / d4 a5 /// b5b /
+        e3 c5# /// b5b / g3 a5 /// g5 / c4# f5 /// e5 / ;
+: m46   d3 f5 /// e3 // f3 d5 /// g3 // a3 g4 /// b3b //
+        c3# // b3b d5 /// a3 c5# /// g3 e5 /// f3 a4 /// e3 c5# /// ;
+: m48   f3 d5 /// g3 b4 /// a3 d5 %%% c5# % d5 % c5# %
+        a2 d5 %%% c5# % d5 /
+        b2b d5 /// c5 / b4b / c3 a4 /// b2b g4 /// a2 f4 /// ;
+: m50   g2 b4b /// b3b c4# /// a3 d4 /// g3 e4 /// f3 f4 /// e3 g4 ///
+        f3 a4 /// g3 d5 /// a3 f4 3 1/8 a2 e4 /// d4 /
+        z / d2 d4 3 3/8 ;
+
+: invent4    30 init-fudge  
+        m1 m3 m5 m7 m9 m11 m13 m15 m17 m19
+        m22 m24 m26 m28 m34 m36 m38 m40
+        m42 m44 m46 m48 m50  ;
+
+
+\ inventio 5,   18may95cht
+
+: m1    e3b %% d3 %% e3b // e4b / d4 /
+        e2b e4b %%% d4 % e4b / f4 1 1/8
+        z g4 %%% f4 % e4b g4 /// d4 // e4b //
+        c4 a4b /// d4 // b4b // c4 // ;
+: m2    a3 z /// c4 // b3b f4 /// c4 e4b ///
+        a3 f4 %%% e4b % b3b f4 /// g3 g4 /// a3 //
+        f3 a4b %%% g4 % e4b a4b /// d4 // c4 //
+        d4 b4b /// e4b // c4 // d4 // ;
+: m3    e3b g4 /// e4b // d4 c5 /// c4 //
+        d4 b4b %%% a4b % e4b b4b /// c4 a4b /// d4 //
+        b3b g4 /// e4b a4b /// d4 b4b /// c4 a4b ///
+        b3b g4 /// c4 // b3b f4 /// b3b // ;
+: m4    g3 e4b /// c4  // b3b g4 /// a3b //
+        g3 b4b /// a3b // f3 e5b /// g3 //
+        c3 e5b /// b3b c5  /// a3 d5  /// g3 e5b ///
+        a3 f5  /// b3b // g3 e5b /// a3  // ;
+: m5    b3b d5 /// e5b / b2b d5 /// a2 c5 ///
+        b2b d5 /// e5b / c3 c5 /// d5 /
+        d3 g4 %%% c3 %% d3 b5b /// a5 / b5b /
+        e3b g5 /// a5 / f5 / g5 / ;
+: m6    z e5b /// g5 / c3 f5 /// b2b g5 ///
+        c3 e5b /// f5 / d3 d5 /// e5b /
+        e3b c5 %%% d3 %% e3b b5b /// a5 / g5 /
+        f3 a5 /// b5b / g5 / a5 / ;
+: m7    d3 b4b /// b5b / g3 a5 /// g5 /
+        f3 a5 %%% e3b %% f3 b5b /// e3b g5 /// a5 /
+        d3 f5 /// e3b b5b /// f3 a5b /// e3b g5 ///
+        d3 f5 /// g5 / c3 e5b /// f5 / ;
+: m8    b2b d5 /// g5 / d3 f5 /// e5b /
+        f3 d5 /// e5b / a3b c5 /// d5 /
+        f4 / f3 e5b /// g3 d5 /// a3b c5 ///
+        b3b d5 /// e5b / a3b c5 /// d5 / ;
+: m9    g3 e5b /// a3b // g3 b4b /// f3 a4b ///
+        g3 b4b %%% a4b % a3b b4b /// f3 c5 /// g3 //
+        e3b d5b %%% c5 % d4b d5b /// e4b //
+        c4 e5b /// d4 // b3b // c4 // ;
+: m10   a3b z /// b3b // a3b c5 /// g3 b4b ///
+        a3b c5 %%% b4b % b3b c5 /// g3 d5 /// a3b //
+        f3 e5b %%% d5 % f4 e5b /// e4b // f4 //
+        d4 f5 /// e4b // c4 // d4 // ;
+: m11   b3b z /// c4 // b3b d5 /// a3 c5 ///
+        b3b d5 %%% c5 % c4 d5 /// a3b e5b /// b3b //
+        g3 f5 %%% e5b % a3b f5 /// f3 // g3 //
+        e3b g5 /// f3 // d3 // e3b // ;
+: m12   c3 e5b /// f5 / c3 e5b /// b2 d5 ///
+        c3 e5b /// f5 / d3 d5 /// e5b /
+        e3b c5 %%% d3 %% e3b c6 /// b5b / c6 /
+        f3 a5b /// b5b / g5 / a5b / ;
+: m13   z f5 /// a5b / d3 g5 /// c3 a5b ///
+        d3 f5 /// g5 / e3b e5b /// f5 /
+        f3 d5 %%% e3b %% f3 c6 /// b5 / a5 /
+        g3 b5 /// c6 / a5 / b5 / ;
+: m14   e3b c5 /// c6 / a3b b5b /// a5b /
+        g3 b5b %%% a3b %% g3 c6 /// f3 a5b /// b5b /
+        e3 g5 /// f3 c6 /// g3 b5b /// f3 a5b ///
+        e3 g5 /// a5 / d3 f5 /// g5 / ;
+: m15   c3 e5 /// a5b / e3 g5 /// f5 /
+        g3 e5 /// f5 / b3b d5 /// e5 /
+        g4 / g3 f5 /// a3b e5 /// b3b d5 ///
+        c4 e5 /// f5 / b3b d5 /// e5 / ;
+: m16   a3b f5 /// b3b // a3b f4 /// g3 e4 ///
+        a3b f4 %%% e4 % b3b f4 /// g3 g4 /// a3b //
+        f3 a4b %%% g4 % f4 a4b /// e4 // f4 //
+        d4b b4b /// e4 // c4 // d4b // ;
+: m17   b3b z /// d4b // c4 g4 /// d4b f4 ///
+        b3b g4 %%% f4 % c4 g4 /// a3b a4b /// b3b //
+        g3 b4b %%% a4b % f4 b4b /// e4 // d4 //
+        e4 c5 /// f4 // d4 // e4 // ;
+: m18   d3 a4b /// f4 // e4b d5b /// d4b //
+        e4b c5 %%% d5b % f4 c5 /// b3b b4b /// c4 //
+        c4 a4 /// f4 b4b /// e4b c5 /// d4b b4b ///
+        c4 a4 /// d4b // b3b g4 /// c4 // ;
+: m19   a3 f4 /// d4b // c4 a4 /// b3b //
+        a3 c5 /// b3b // g3 e5b /// a3 //
+        c3 // b3b c5 /// a3 d5b /// g3 e5b ///
+        a3 f5 /// b3b // g3 e5b /// a3 // ;
+: m20   b3b d5b /// e5b / b2b d5b /// a2 c5 ///
+        b2b d5b /// e5b / c3 c5 /// d5b /
+        d3b b4b %%% c3 %% d3b a5b /// g5 / f5 /
+        e3b g5 /// a5b / f5 / g5 / ;
+: m21   z a5b /// d5b / a2b c5 /// g2 b4b ///
+        a2b c5 /// d5b / b2b b4b /// c5 /
+        c3 a4b %%% b2b %% c3 g5 /// f5 / e5 /
+        d3b f5 /// g5 / e5 / f5 / ;
+: m22   z g5 /// c5 / g2 b4b /// f2 a4b ///
+        g2 b4b /// c5 / a2b a4b /// b4b /
+        b2b g4 %%% a2b %% b2b f5 /// e5 / d5 /
+        c3 e5 /// f5 / d5 / e5 / ;
+: m23   f2 f5 /// c4 // b3b a4b /// c4 g5 ///
+        a3b a4b %%% g4 % b3b a4b /// g3 b4b /// a3b //
+        f3 c5 %%% b4b % f3 c5 /// g3 // a3b //
+        f3 d5b /// g3 // e3b // f3 // ;
+: m24   d3b z /// f3 // e3b b4b /// f3 a4b ///
+        d3b b4b %%% a4b % e3b b4b /// c3 c5 /// d3b //
+        b2b d5b %%% c5 % a3b d5b /// g3 // f3 //
+        g3 e5b /// a3b // f3 // g3 // ;
+: m25   a3b c5 /// a5b / e3b g5 /// d3 a5b ///
+        e3b f5 /// g5 / f3 e5b /// f5 /
+        g3 d5b %%% f3 %% g3 b5b /// a5b / b5b /
+        a3b c5 /// d5b / b4b / c5 / ;
+: m26   z a4b /// c5 / f3 b4b /// e3b c5 ///
+        f3 a4b /// b4b / g3 g4 /// a4b /
+        a3b f4 %%% g3 %% a3b e5b /// d5 / c5 /
+        b3b d5 /// e5b / c5 / d5 / ;
+: m27   g3 e5b /// a3b // g3 e4b /// f3 d4 ///
+        g3 e4b %%% d4 % a3b e4b /// f3 f4 /// g3 //
+        e3b g4 %%% f4 % e4b g4 /// d4 // e4b //
+        c4 a4b /// d4 // b3b // c4 // ;
+: m28   a3b z /// c4 // b3b f4 /// c4 e4b ///
+        a3b f4 %%% e4b % b3b f4 /// g3 g4 /// a3b //
+        f3 a4b %%% g4 % e4b a4b /// d4 // c4 //
+        d4 b4b /// e4b // c4 // d4 // ;
+: m29   c3 g4 /// e4b // d4 c5 /// c4 //
+        d4 b4b %%% a4b % e4b b4b /// c4 a4b /// d4 //
+        b3b g4 /// e4b a4b /// d4 b4b /// c4 a4b ///
+        b3b g4 /// c4 // a3b f4 /// b3b // ;
+: m30   g3 e4b /// c4 // b3b f5 /// a3b //
+        g3 e5b %%% d5 % a3b e5b /// f3 d5b /// g3 //
+        e3b c5 /// a3b d5b /// g3 e5b /// f3 d5b ///
+        e3b c5 /// f3 // d3b b4b /// e3b // ;
+: m31   c3 a4b /// f3 // e3b c5 /// d3b //
+        c3 e5b /// d3b // b2b a5b /// c3 //
+        f2 // e3b f5 /// d3 g5 /// c3 a5b ///
+        d3 b5b /// e3b // c3 a5b /// d3 // ;
+: m32   e3b a5b /// g5 / g2 %% f5 % e5b % f5 %
+        a2b g5 %%% f5 % e5b % f5 % b2b g5 %%% f5 % g5 % f5 % e5b % f5 %
+        e2b e5b 3 1/2 ;
+
+: invent5   30 init-fudge    
+        m1 m2 m3 m4 m5 m6 m7 m8 m9 m10
+        m11 m12 m13 m14 m15 m16 m17 m18 m19 m20
+        m21 m22 m23 m24 m25 m26 m27 m28 m29 m30
+        m31 m32  ;
+
+
+\ inventio 6, 18may95cht
+
+: p1    e3 // e5 / f3# // d5# / g3# // d5 /
+        a3 // c5# / b3 // b4 / c4# // a4 /
+        d4# // g4# / e4 // d4# f4# /// c4# // b3 g4# %%% a4 %
+        e4 g4# /// b4 % a4 % e3 b4 /// g4# % f4# % z g4# /// e4 % d4# %
+
+        e4 / e3 // f4# / d3# // g4# / d3 //
+        a4 / c3# // b4 / b2 // c5# / a2 //
+        d5# / g2# // e5 / f2# d5# /// c5# / g2# b4 %%% a2 %
+        g2# e5 /// b2 %% a2 %% b2 e4 /// g2# %% f2# %%
+        g2# z /// e2 %% d2# %%
+
+        e2 // g5# / c3# // e5 / e3 // c5# /
+        f3# // e5 % d5# % a3# e5 /// c5# / c4# a4# /// f4# /
+        d2# // f5# / b2 // d5# / d3# // b4 /
+        e3 // d5# % c5# % g3# d5# /// b4 / b3 g4# /// e4 /
+
+        c2# // e5 / c3# // c5# / e3 // a4# /
+        f3# // g5# / g3# // f5# / a3# // e5 /
+        b3 // d5# / e3 // c5# / g3# // b4 /
+        f3# a4# /// c4# e4 %%% d4# % a3# e4 /// c4# a4# %%% g4# %
+                e3 a4# /// c4# b4 %%% a4# %
+
+        d3# b4 /// d4# / e3 c4# /// b4 / f3# c4# /// a4# /
+        b2 b4 /// b3 %% a3# %% b3 z /// f3# b4 %%% e3 %%
+                f3# d5# /// d3# f5# %%% c3# %
+        d3# b5 /// f3# %% e3 %% f3# z /// e3 b5 %%% c3# %%
+                d3# f5# /// b2 d5# %%% a2# %%
+        b2 b4 /// f4# / d4# / b3 / b2 z 3 1/8 z 2 1/8
+        ;
+
+: p2    z b3 /// b3 // c4# / a3# // d4# / a3 //
+        e4 / g3# // f4# / f3# // g4# / e3 //
+        a4# / d3# // b4 / c3# a4# /// g4# / d3# f4# %%% e3 %
+        d3# b4 /// f3# %% e3 %% f3# b3 /// d3# %% c3# %%
+                d3# z /// b2 %% a2# %%
+        b2 // b5 / c3# // a5# / d3# // a5 /
+        e3 // g5# / f3# // f5# / g3# // e5 /
+        a3# // d5# / b3 // a3# c5# /// g3# // f3# d5# %%% e5 %
+        b3 d5# /// f5# % e5 % b2 f5# /// d5# % c5# % z d5# /// b4 % a4# %
+
+        g3# b4 /// d5# % c5# % b3 d5# /// g5# % f5# % d4# g5# /// c5# % b4 %
+        f3# c5# /// e5 % d5# % a3# e5 /// a5# % g5# % d4# a5# /// d5# % c5# %
+        g3# d5# /// g5# % f5# % b3 g5# /// b5 % a5# % d4# b5 /// d5# % c5# %
+        d3# d5# /// a5# % g5# % d4# a5# /// f5# % f5 %
+                c4# f5# /// d5# % c5# %
+        c4 d5# /// a5 / c4# // g5# / d4# // f5# /
+
+        g3# // e5 % d5# % c4# e5 /// c5# % c5 % b3 c5# /// e5 % d5# %
+        a3# e5 /// g5# / b3 // f5# / c4# // e5 /
+        f3# // d5# % c5# % b3 d5# /// b4 % a4# % d4# b4 /// c5# % b4 %
+        f3# c5# /// e5 / g3# // d5# / a3# // c5# /
+        d3# // b4 % a4# % g3# b4 /// g4# % f4# % b3 g4# /// a4 % g4# %
+        c3# a4 /// c5# % b4 % z c5# /// a4 % g4# % c4# a4 /// e5 % d5# %
+
+        e5 / f4# % f4 % a3# f4# /// a4# % g4# % f3# a4# /// b3 % a3# %
+        g3# b3 /// g4# / c3# e4 /// c4# / d3# a3# /// f4# /
+        g2# g4# /// d4# / z b3 /// g2# g3# /// g3# z /// f3# //
+        e4 / e3 // f4# / d3# // g4# / d3 //
+        a4 / c3# // b4 / b2 // c5# / a2 //
+        d5# / g2# // e5 / f2# d5# /// c5# / g2# b4 %%% a2 %%
+        g2# e5 /// b2 %% a2 %% b2 // g2# b4 %%% f2# a4 %%%
+                g2# b4 /// e2 g4# %%% d2# f4# %%%
+
+        e2 g4# /// e5 / f2# // d5# / g2# // d5 /
+        a2 // c5# / b2 // b4 / c3# // a4 /
+        d3# // g4# / e3 // d3# f4# /// c3# // b2 g4# %%% a4 %
+        e3 g4# /// b4 % a4 % b4 / b3 g4# %%% a3 f4# %%%
+                b3 g4# /// g3# e4 %%% f3# d4# %%%
+        g3# e4 /// c4# // f4# / a3 // a4 / f3# //
+        b4 / a3 %% g3# %% a3 d5# /// f3# // d3# f5# /// b2 //
+        d4# / b3 // e4 / g3# // g4# / e3 //
+        a4 / g3# %% f3# %% g3# c5# /// e3 // c3# e5 /// a2 //
+
+        c4# / a3 // f4# / f3# // a4 / d3# //
+        b4 / c4# // c5# / b3 // d5# / a3 //
+        e5 / g3# // c5# / f3# // a4 / e3 //
+        d3# f5# /// a3 %% g3# %% a3 // d3# %% c3# %% d3# // g3# %% f3# %%
+        g3# // e5 / a3 d5# /// c5# / b3 b4 /// a4 /
+        e3 g4# /// e4 % d4# % z e4 /// e4 g4# %%% f4# %
+                b3 g4# /// g3# b4 %%% a4 %
+        e3 b4 /// b3 g4# %%% f4# % g3# g4# /// e3 b4 %%% a4 %
+                b2 b4 /// g2# e5 %%% d5# %
+        e2 e5 /// b4 / g4# / e4 /
+        e3 z 3 1/8 z 2 1/8 ;
+
+: invent6  30 init-fudge    
+        p1 p1 p2 p2  ;
+
+
+\ inventio 7            19may95cht
+
+: p1    e3 %% d3 %% e3 // e2 b4 /// a4 / z g4 /// f4# / g4 / e4 /
+        b4 % a4 % b4 / b3 b4 /// a3 //
+        g3 e5 %%% d5 % f3# e5 %%% z % g3 // e3 f5# ///
+
+        b3 e5 %%% d5# % e5 % d5# % b2 f5# /// e5 /
+        z d5# /// c5# / d5# / b4 /
+        b5 1 1/8 f4# a5 /// e4 g5 ///
+        d4# g5 %%% f5# % c4# g5 %%% f5# % d4# g5 %%% f5# % b3 e5 %%% f5# %
+
+        e4 g5 3 1/8 e3 b5 /// a5 / z g5 /// f5# / g5 / e5 /
+        c6 1 1/8 e4 // d4 b5 /// c4 a5 /// b3 g5 /// c4 f5# /// a3 e5 /// ;
+
+: p2    d4 f5# 3 1/8 d3 a5 /// g5 / z f5# /// e5 / f5# / d5 /
+        b5 1 1/8 d4 // c4 a5 /// b3 g5 /// a3 f5# /// b3 e5 /// g3 d5 ///
+
+        c4 e5 /// f5# / e5 / b3 d5 ///
+        a3 c5 /// g3 b4 /// f3# a4 /// e3 g4 ///
+        a3 c5 /// b4 / a4 / g3 b4 ///
+        f3# c5 /// e3 d5 /// d3 e5 /// c3 f5# ///
+
+        b2 g5 /// f5# / e5 / c3 d5 ///
+        b2 g5 %%% f5# % a2 g5 /// g2 // f2# g5 %%% z %
+        e2 g5 /// f5# / c3 e5 /// f5# /
+        d3 g5 %%% f5# % g5 % f5# % d2 // g5 % z %
+
+        g2 g5 3 1/8 d5 / c5 / z b4 /// a4 / b4 / g4 /
+        e5 % d5 % e5 % d5 % g2 e5 %%% d5 % a2 e5 %%% d5 %
+        b2 e5 %%% d5 % a2 e5 %%% d5 % b2 e5 %%% d5 % g2 e5 %%% d5 % ;
+
+: p3    d3 e5 %%% d5 % c3# e5 %%% d5 % d3 e5 %%% d5 % e3 e5 %%% d5 %
+        f3# e5 %%% d5 % e3 e5 %%% d5 % f3# e5 %%% d5 % d3 e5 %%% d5 %
+        g3 e5 %%% d5 % f3# e5 %%% d5 % g3 e5 %%% d5 % a3 e5 %%% d5 %
+        b3 e5 %%% d5 % a3 e5 %%% d5 % b3 e5 %%% d5 % f3# e5 %%% d5 %
+
+        g3 d5 /// f3# // g3 // e3 e5 ///
+        a3 d5 %%% c5# % d5 % c5# / a2 // d5 % z %
+        d3 d5 3 1/8 d2 a4 /// g4 / z f4# /// e4 / f4# / d4 /
+
+        c5 % b4 % c5 / a3 // g3 b4 ///
+        f3# c5 /// e3 // f3# // d3 d5 ///
+        g3 b4 %%% a4 % a3 b4 %%% z % g3 b4 /// f3# //
+        e3 e5 %%% d5 % d3 e5 /// e3 %% z % c3# e5 %%% z %
+
+        f3# e5 /// g5 / a2# f5# /// e5 /
+        b2 d5 /// c5# / g2 d5 /// b4 / f2# a4# 3 1/8 f5# / e5 /
+        z d5 /// c5# / b3 d5 /// a3 b4 /// ;
+
+: p4    g3 e5 /// f3# // g3 b5 /// e3 a5 ///
+        d4 g5 /// f5# / g5 / e4 e5 ///
+        c4# a5# 3 1/8 g4 c5# /// f4# // e4 f5# /// d4 // e4 a4# /// c4# //
+
+        d4 b4 /// c4# // d4 // b3 c5# ///
+        f4# d5 %%% c5# % b4 % c5# % f3# d5 %%% c5# % b4 % z %
+        b3 b4 /// c4 // b3 d5 /// a3 //
+        g3# e4 /// f3# // g3# d5 /// d3 //
+
+        a3 c5 /// b3 // a3 a4 /// g3 //
+        f3# d4 /// e3 // f3# c5 /// d3 //
+        g3 b4 /// a3 // g3 d5 /// f3# //
+        e3 g5 /// d3 // e3 b4 /// c3# //
+
+        d3# a4 /// c3# // d3# f5# /// b2 //
+        e3 g4 /// d3# // e3 e5 /// e2 //
+        b2 e5 %%% d5# % e5 % d5# % f5# / e5 / d5# / c5# / b4 / a4 / ;
+
+: p5    b2 g4 /// f4# / g4 / b4 / e5 / b4 / a4 / g4 /
+        f4# / e4 / f4# / a4 / d5# / a4 / g4 / f4# /
+
+        e4 / d4# / e4 / g4 / c5 / g4 / f4# / e4 /
+        d4# / c4# / d4# / f4# / b4 / c4# %% z % b3 b4 /// a3 %% z %
+
+        g3 b4 /// f3# // g3 // b3 // e4 // b3 d5# /// a3 e5 /// g3 g5 ///
+        f3# a4 /// e3 // f3# // a3 //
+                d4# // a3 c5# /// g3 d5# /// f3# f5# ///
+        e3 g4 /// d3# // e3 // g3 //
+        c4 // g3 b4 /// f3# d5# /// e3 e5 ///
+        d3# f4# /// a4 / b2 b4 /// c5 / z d4# /// f4# / g4 / a4 / ;
+
+: p6    z b3 /// g3 // f3# a4 /// e3 //
+        d3# // c3# f4# /// d3# b4 /// b2 f4# ///
+        e3 g4 /// d3 // c3 e4 /// b2 //
+        a2 c5 %%% b4 % g2 c5 /// a2 %% z % f2# c5 ///
+
+        g2 d5 %%% c5 % d5 % a2 c5 /// g2 b4 /// f2# //
+        e2 g5 /// d2 // e2 %% z % c2 g5 %%% z %
+        a2 g5 /// g2 a5 /// a2 g5 /// f2# f5# ///
+        b2 g5 %%% f5# % g5 % a2 f5# /// b2 // g2 e5 %%% z %
+
+        c3 e5 /// d5 / c5 / b4 / a4 / g4 / a4 / f4# /
+        d5# / c4 // b3 f4# /// a3 // g3 b4 /// f3# // g3 // e3 c5 ///
+
+        d3# b4 %%% a4 % b4 % a4 % e3 // g4 /
+        b3 g4 %%% f4# % g4 % f4# % b2 // e4 / e2 e4 3 1/2 ;
+
+: invent7  30 init-fudge     
+        p1 p2 p3 p4 p5 p6  ;
+
+
+\ inventio 8            19may96cht
+
+: p1    f4 1 1/8 a4 1 1/8 f4 1 1/8 c5 1 1/8 f4 1 1/8
+        f5 1 1/8 f3 e5 /// d5 / a3 c5 /// d5 / f3 c5 /// b4b /
+        c4 a4 /// b4b / f3 a4 /// g4 /
+
+        f4 f4 3 1/8 e4 a4 /// d4 // c4 c5 /// d4 // c4 a4 /// b3b //
+        a3 f5 /// b3b // a3 c5 /// g3 //
+
+        f3 a5 /// c6 / a3 b5b /// c6 / c4 a5 /// c6 / a3 b5b /// c6 /
+        f4 a5 /// c6 / c4 b5b /// c6 /
+
+        a4 f5 /// c5 a5 /// b4b g5 /// c5 a5 ///
+        a4 f5 /// c5 a5 /// b4b g5 /// c5 a5 ///
+        a4 f5 /// c5 a5 /// b4b g5 /// c5 a5 /// ;
+
+: p2    f4 d5 /// a4 f5 /// g4 e5 /// a4 f5 ///
+        f4 d5 /// a4 f5 /// g4 e5 /// a4 f5 ///
+        f4 d5 /// a4 f5 /// g4 e5 /// a4 f5 ///
+
+        d4 b4 /// f4 // e4 g4 /// f4 //
+        d4 d5 /// f4 // e4 b4 /// f4 //
+        d4 f5 /// f4 // e4 d5 /// f4 //
+
+        b3b g5 /// a5 / g3 g5 /// f5 /
+        c4 e5 /// f5 / g3 e5 /// d5 /
+        e4 c5 /// d5 / c4 c5 /// b4b /
+
+        f4 a4 /// g4 // f4 d5 /// e4 c5 ///
+        d4 b4 /// e4 c5 /// d4 b4 /// c4 a4 ///
+        b3 g4 /// c4 a4 /// b3 g4 /// a3 f4 ///
+
+        g3 e4 /// f4 / c4 e4 /// b3 d4 ///
+        a3 c4 /// b3 // a3 c5 /// g3 b4 ///
+        f3 c5 /// g3 // f3 e4 /// e3 // ;
+
+: p3    d3 f4 /// e3 // d3 c5 /// c3 //
+        g3 e4 /// f3 // e3 c5 /// f3 //
+        g3 d4 3 1/8   g2 b4 3 1/8
+
+        z c5 3 1/8 c3 2 1/8 e3 z 3 1/8 c3 2 1/8 g3 2 1/8 c3 2 1/8
+
+        c4 2 1/8 b3 c5 /// a3 // g3 e5 /// a3 //
+        g3 c5 /// f3 // e3 g5 /// f3 // e3 c5 /// d3 //
+
+        c3 c6 3 1/8 e3 b5 /// a5 / g3 g5 /// a5 /
+        e3 g5 /// f5 / c4 e5 /// f5 / g3 e5 /// d5 /
+
+        e4b c5 /// b4b / f3# c5 /// a5 / e4b c5 /// a5 /
+        f3# b4b /// a5 / e4b c5 /// a5 / f3# a4 /// a5 / ;
+
+: p4    g3 b4b 3 1/8 f3 g4 /// e3b // d3 b4b /// e3b //
+        d3 g4 /// c3 // b2b d5 /// c3 // b2b g4 /// a2 //
+
+        g2 g5 3 1/8 g3 f5 /// e5b / b3b d5 /// e5b /
+        g3 d5 /// c5 / d4 b4b /// c5 / g3 b4b /// a4 /
+
+        g4 g4 3 1/8  f4 b4b /// e4b // d4 d5 /// c4 //
+        d4 b4b /// c4 // b3b g5 /// c4 // b3b d5 /// a3 //
+
+        g3 b5b /// f3 // g3 c5# /// e4 // g3 b5b /// e4 //
+        f3 c5# /// e4 // g3 b5b /// e4 // e3 c5# /// e4 //
+
+        f3 d5 /// e3 // f3 a4 /// d4 // f3 f5 /// d4 //
+        e3 d5 /// d4 // f3 a5 /// d4 // d3 f5 /// d4 // ;
+
+: p5    b3b g5 /// f5 / g3 g5 /// b5b / e3 c5 /// b5b /
+        g3 d5 /// b5b / c3 e5 /// b5b / e3 c5 /// b5b /
+
+        a3 f5 /// e5 / f3 f5 /// a5 / d3 b4 /// a5 /
+        f3 c5# /// a5 / b2 d5 /// a5 / d3 b4 /// a5 /
+
+        g3 e5 /// d5 / e3 e5 /// g5 / c3# a4 /// g5 /
+        e3 b4 /// g5 / a2 c5# /// g5 / c3# a4 /// g5 /
+
+        d2 f5 /// d3 // c3 d5 /// d3 // g2 b4b /// d3 //
+        a2 d5 /// d3 // b2b g4 /// d3 // g2 f5 /// d3 //
+
+        c2 e5 /// c3 // b2b c5 /// c3 // f2 a4 /// c3 //
+        g2 c5 /// c3 // a2 f4 /// c3 // f2 e5b /// c3 // ;
+
+: p6    b2b d5 /// f5 / d3 e5b /// f5 / f3 d5 /// f5 /
+        d3 e5b /// f5 / b3b d5 /// f5 / f3 e5b /// f5 /
+
+        d4 b4b /// f4 d5 /// e4b c5 /// f4 d5 ///
+        d4 b4b /// f4 d5 /// e4b c5 /// f4 d5 ///
+        d4 b4b /// f4 d5 /// e4b c5 /// f4 d5 ///
+
+        b3b g4 /// d4 b4b /// c4 a4 /// d4 b4b ///
+        b3b g4 /// d4 b4b /// c4 a4 /// d4 b4b ///
+        b3b g4 /// d4 b4b /// c4 a4 /// d4 b4b ///
+
+        g3 e4 /// b4b // a3 c4 /// b3b //
+        g3 g4 /// b4b // a3 e4 /// b3b //
+        g3 b4b /// b4b // a3 g4 /// b3b // ;
+
+: p7    e3 c5 /// d5 / c3 c5 /// b4b / f3 a4 /// b4b /
+        c3 a4 /// g4 / a3 f4 /// g4 / f3 f4 /// e4b /
+
+        b3b d4 /// c4 // b3b g4 /// a3 f4 ///
+        g3 e4 /// a3 f4 /// g3 e4 /// f3 d4 ///
+        e3 c4 /// f3 d4 /// e3 c4 /// d3 b4b ///
+
+        c3 a3 /// b3b / f3 a3 /// e3 g3 ///
+        d3 f3 /// e3 // d3 f4 /// c3 e4 ///
+        b2b f4 /// c3 // b2b a3 /// a2 //
+
+        g2 b3b /// a2 // g2 f4 /// f2 //
+        c3 a3 /// b2b // a2 f4 /// b2b //
+        c3 g3 3 1/8 c2 e4 3 1/8
+
+        f2 f4 3 1/4 ;
+
+: invent8  20 init-fudge   
+        p1 p2 p3 p4 p5 p6 p7  ;
+
+
+\ inventio 9            19may96cht
+
+: p1    f2 c5 /// b4b / f3 a4b /// g4 / a4b / g3 / a3b f4 /// g3 //
+        f3 d5b /// e3b // d3b // c3 //
+
+        b2b // c5 / g3 b4b /// a4 / b4b / a3b //
+        b3b g4 /// a3b // g3 e5 /// f3 // e3 // d3 //
+
+        c3 // d3 f5 /// e3 g5 /// f3 a5b /// g3 b5b /// a3b //
+        b3b g5 /// g3 e5 /// f3 d5b /// e3 // f3 c5 /// e3 //
+
+        f3 b4b /// a4b / g4 / a4b / z b4b /// c3 d5b ///
+        d3 c5 /// e3 b4b /// f3 a4b /// g3 g4 /// a3b f4 /// b3b e4 /// ;
+
+: p2    c4 a4b /// b3b // a3b f5 /// g3 // a3b // g5 /
+        f3 a5b /// g5 / d4b f5 /// e5b / d5b / c5 /
+
+        b4b / c4 // b3b g5 /// a3 // b3b // a5b /
+        g3 b5b /// a5b / e4 g5 /// f5 / e5 / d5 /
+
+        c5 / f4 d5 /// g4 e5 /// a4b f5 /// b3b g5 /// a5b /
+        g4 b5b /// e4 g5 /// d4b f5 /// e5 / c4 f5 /// e5 /
+
+        b3b f5 /// a3b // g3 c5 /// a3b // b3b // d4b b4b ///
+        c4 a4b /// b3b g4 /// a3b f4 /// g3 e4 /// f3 a4b /// e3 g4 ///
+
+        a3b c5 /// b4b / f3 a4b /// g4 / a4b / g3 //
+        a3b f4 /// g3 // f3 a5b /// e3b // d3 // c3 // ;
+
+: p3    b2 a5b /// g5 / a3b f5 /// e5 / f5 / g3 //
+        f3 d5 /// e3b // d3 b4 /// c3 // b2 // a2 //
+
+        g2 // a2 c5 /// b2 d5 /// c3 e5b /// d3 f5 /// e3b //
+        f3 d5 /// d3 b4 /// c3 a4b /// b2 // c3 g4 /// b2 //
+
+        e3b // f4 / c4 e4b /// d4 / e4b / d4 //
+        e4 c4 /// d4 // c4 e5b /// b3b // a3 // g3 //
+
+        f3# // d5 / e4b c5 /// b4 / c5 / d4 //
+        c4 a4 /// b3b // a3 f5# /// g3 // f3# // e3 //
+
+        d3 // e3 g5 /// f3# a5 /// g3 b5b /// a3 c6 /// b3b //
+        c4 a5 /// a3 f5# /// g3 e5b /// f3# // g3 d5 /// f3# // ;
+
+: p4    g3 c5 %%% b4 % a3 a4 %%% b4 % b3 c5 %%% b4 %
+        d4 c5 %%% b4 % e4b c5 %%% b4 % f4 b4 /// d4 //
+        e4b c5 %%% b4 % c4 c5 /// d4 // e4b //
+
+        f4 d5 /// g4 c5 /// a4b b4 /// f4 d5 ///
+        g4 c5 %%% d5 % d4 e5b %%% d5 % e4b e5b %%% d5 % f4 //
+        g3 // f4 // e4b c5 /// d4 %% z %
+
+        e4b c5 /// f3 // e3b // d3 // e3b // d5 /
+        c3 e5b /// d5 / a3b c5 /// b4b / a4b / g4 /
+
+        f4 / g3 // f3 d5 /// e3 // f3 // e5b / d3 f5 /// e5b /
+        b3 d5 /// c5 / b4 / a4 /
+
+        g4 / c4 a4 /// d4 b4 /// e4b c5 ///
+        f4 d5 /// e5b / d4 f5 /// b3 d5 ///
+        a3b c5 /// b4 / g3 c5 /// b4 / ;
+
+: p5    f3 g5 /// e3b // d3 // e3b // f3 // a3b f5 ///
+        g3 e5b /// f3 d5 /// e3b c5 /// d3 // c3 // b2b //
+
+        a2 // b4b / c4 a4 /// g4 / a4 / b3b //
+        a3 f4 /// g3 // f3 e5b /// e3b // d3b // c3 //
+
+        b2b // d5b / d3b c5 /// d5b / f3 e5b /// g5b /
+        a3 f5 /// e5b / b3b d5b /// c5 /  b4b / a4b /
+
+        g4 / a3b // g3 b5b /// f3 // g3 // a5b /
+        e3b g5 /// f5 / d4b e5b /// d5b / c5 / b4b /
+
+        a4b / c4 // b3b c5 /// c4 // d4b e5b /// f4 //
+        e4b g5 /// d4b // c4 a5b /// b3b // a3b // g3 // ;
+
+: p6    f3 a5b /// g5 / f4 f5 /// e5b / d5b / e4b b4b ///
+        d4b a5b /// c4 // b3b g5 /// a3b // g3 // b3b //
+
+        e3b // f5 / e4b e5b /// d5b / c5 / d4b a4b ///
+        c4 g5b /// b3b // a3b f5 /// g3b // f3 // a3b //
+
+        d3b // e5b / d4b d5b /// c5 / b4b / c4 a4b ///
+        b3b g4 /// a3b a4b /// g3 b4b /// f3 // e3 // g3 //
+
+        c3 // a4b / g4 / f4 / e4 / d3 f4 ///
+        e3 g4 /// f3 a4b /// g3 b4b /// a3b c5 /// b3b d5b /// g3 b4b ///
+
+        a3b c5 /// b3b b4b /// c4 a4b /// g4 /
+        a4b / b3b // a3b f4 /// g3 //
+        f3 d5b /// e3b // d3b // c3 // ;
+
+: p7    b2b d5b /// c3 c5 /// d3b b4b /// a4 /
+        b4b / c3 // b2b g4 /// a2b //
+        g2 e5 /// f2 // e2 // d2 //
+
+        c2 // d2 f5 /// e2 g5 /// f2 a5b ///
+        g2 b5b /// a2b // b2b g5 /// g2 e5 ///
+        f2 d5b /// e2b // f2 c5 /// e2b //
+
+        f2 b4b /// a4b / g4 / a4b /
+        z b4b /// c3 d5b /// d3 c5 /// e3 b4b ///
+        f3 a4b /// e3 g4 /// f3 f4 /// g3 e4 ///
+
+        a3b c5 %%% b4b % g3 c5 /// a3b // b3b d5b ///
+        c4 a4b %%% g4 % f4 % g4 % b3b a4b %%% g4 % a4b % g4 %
+        c4 a4b %%% g4 % a4b % g4 % c3 f4 /// f2 f4 3 1/2 ;
+
+: invent9    30 init-fudge   
+        p1 p2 p3 p4 p5 p6 p7  ;
+
+
+\ inventio 10           20may95cht
+
+: p1    g4 / b4 / d5 / b4 / g4 / d5 / b4 / g4 / g5 /
+
+        d3 f5# %%% g5 % f3# f5# /// a3 d5 ///
+        f3# a5 /// d3 f5# /// a3 d5 ///
+        f3# a5 /// d3 f5# /// c4 d5 ///
+
+        b3 g5 %%% c4 %% b3 d5 /// g3 b4 ///
+        d4 f5 /// b3 d5 /// g3 b4 ///
+        d4 f5 /// b3 d5 /// g3 b4 ///
+
+        c4 e5 /// e4 c5 /// c4 a4 ///
+        a3 f4# /// c4 a4 /// a3 c5 ///
+        f3# e5 /// g3 d5 /// a3 c5 ///
+
+        b3 d5 /// d4 b4 /// b3 g4 ///
+        g3 e4 /// b3 g4 /// g3 b4 ///
+        e3 d5 /// f3# c5 /// g3 b4 /// ;
+
+: p2    a3 c5 /// c4 a4 /// a3 f4# ///
+        f3# d4 /// a3 f4# /// f3# a4 ///
+        d3 c5 /// e3 b4 /// f3# a4 ///
+
+        g3 b4 %%% f3# % b3 c5 /// d5 /
+        e5 / f3# b4 /// e3 g5 ///
+        d3 e5 /// e3 b4 /// c3# g5 ///
+
+        f3# a4 %%% e3 % f3# b4 /// c5# /
+        d5 / e3 a4 /// d3 f5# ///
+        c3# d5 /// d3 a4 /// b2 f5# ///
+
+        e3 g4 %%% f4# % f3# g4 /// g3 //
+        a3 // e3 a4 /// c4# g4 ///
+        a3 f4# /// e3 g4 /// c4# e4 ///
+
+        d4 f4# %%% c4 % d4 g4 /// f4# /
+        e4 / d3 f4# /// e3 d4 ///
+        f3# a4 /// e3 b4 /// d3 c5 /// ;
+
+: p3    g3 b4 %%% f3# % g3 c5 /// b4 /
+        a4 / e3 b4 /// f3# g4 ///
+        g3 e5 /// f3# f5# /// e3 g5 ///
+
+        a3 c5# %%% g3 % a3 d5 ///
+        b4 / g3 c5# /// f3# a4 ///
+        e3 g5 /// d3 a5 /// c3# b5 ///
+
+        d3 a5 /// e3 g5 /// f3# f5# ///
+        g3 e5 /// a3 f5# /// b3 d5 ///
+        a3 a4 /// d5 / a2 c5# ///
+
+        d3 d5 %%% c5# % f3# d5 /// a3 //
+        f3# z /// d3 // a3 // f3# // d3 // d4 //
+
+        c4# a4 %%% d4 %% c4# c5# /// c4# e5 ///
+        a3 c5# /// a4 / e5 / z c5# /// a4 / g5 / ;
+
+: p4    d3 f5# %%% g5 % f3# f5# /// a3 //
+        f3# d5 /// d3 // a3 //
+        f3# z /// d3 // c4 //
+
+        b3 g4 %%% c4 %% b3 b4 /// d5 /
+        g3 b4 /// g4 / d5 /
+        z b4 /// g4 / f5 /
+
+        c3 e5 %%% b2 % c3 c5 ///
+        a5 / d3 e5 /// e3 c5 ///
+        f2# a4 /// g2 b4 /// a2 c5 ///
+
+        b2 d5 %%% a2 % b2 b4 /// g4 /
+        g5 / c3 d5 /// d3 b4 ///
+        e2 g4 /// f2# a4 /// g2 b4 ///
+
+        a2 d5 %%% c5 % c3 d5 %%% c5 % e3 d5 %%% c5 %
+        a3 d5 %%% c5 % e3 d5 %%% c5 % c3 d5 %%% c5 %
+        a2 d5 %%% c5 % b2 d5 %%% c5 % c3 d5 %%% c5 % ;
+
+: p5    d3 d5 %%% c5 % f3# d5 %%% c5 % a3 d5 %%% c5 %
+        d4 d5 %%% c5 % a3 d5 %%% c5 % f3# d5 %%% c5 %
+        d3 d5 %%% c5 % e3 d5 %%% c5 % f3# d5 %%% c5 %
+
+        g3 c5 %%% b4 % b3 c5 %%% b4 % d4 c5 %%% b4 %
+        g4 c5 %%% b4 % d4 c5 %%% b4 % b3 c5 %%% b4 %
+        g3 c5 %%% b4 % a3 c5 %%% b4 % b3 c5 %%% b4 %
+
+        e3 c5 %%% b4 % g3 c5 %%% b4 % b3 c5 %%% b4 %
+        e4 c5 %%% b4 % b3 c5 %%% b4 % g3 c5 %%% b4 %
+        e3 c5 %%% b4 % f3# c5 %%% b4 % g3 c5 %%% b4 %
+
+        d3 %% c3 %%     d3 e5 %%% c3 %% d3 d5 %%% c3 %%
+        d3 c5 %%% c3 %% d3 d5 %%% c3 %% d3 b4 %%% c3 %%
+        d3 a4 %%% c3 %% d3 b4 %%% c3 %% d3 g4 %%% c3 %%
+
+        d3 a4 %%% c3 %% d3 c5 %%% c3 %% d3 b4 %%% c3 %%
+        d3 a4 %%% c3 %% d3 b4 %%% c3 %% d3 g4 %%% c3 %%
+        d3 f4# %%% c3 %% d3 g4 %%% c3 %% d3 e4 %%% c3 %%
+
+        f4# % g4 % d3 f4# /// f3# d4 ///
+        a3 a4 %%% g4 % f3# a4 /// d3 f4# ///
+        c3 d5 %%% c5 % b2 d5 /// a2 f4# /// ;
+
+: p6    b2 g4 /// g2 a4 /// b2 d5 ///
+        d3 b4 /// b2 g4 /// g2 d5 ///
+        d3 b4 /// b2 g4 /// g2 g5 ///
+
+        f2# d5 /// d2 f5# /// f2# a5 ///
+        a2 f5# /// f2# d5 /// d2 a5 ///
+        a2 f5# /// f2# d5 /// d2 c6 ///
+
+        g2 b5 /// a2 a5 /// b2 g5 ///
+        a2 f5# /// b2 g5 /// c3 a5 ///
+        b2 d5 /// c3 g5 /// d3 f5# ///
+
+        e2 g5 /// f5# / e5 / d5 / c5 / e3 b4 ///
+        f3# a4 /// e3 b4 /// d3 c5 ///
+
+        g3 b4 %%% f3# % g3 a4 /// b2 g4 ///
+        e3 f4# /// d3 g4 /// c3 a4 ///
+        d3 d4 %%% c3 % d3 g4 /// d2 f4# ///
+
+        g2 g4 /// d4 / b3 / g3 / b2 // d3 // g3 z 3 3/8 ;
+
+: invent10  30 init-fudge     
+        p1 p2 p3 p4 p5 p6  ;
+
+
+\ inventio 11           20may95cht
+
+: p1    g2 // d4 / e4 / f4# / z g4 /// a4 / g3 b4b /// g4 /
+        f3# a4 /// g3 g4 /// a3 f4# /// g3 e4 ///
+        f3# d4 /// c5 / f3 b4b /// a4 /
+
+        e3 g4 /// f3 f4 /// g3 e4 /// f3 d4 ///
+        e3 c4 /// b4b / e3b a4 /// g4 /
+        d3 d5 /// c5 / g3 b4b %%% f3 %% g3 d5 ///
+        c5 / b4b / f3# a4 /// c5 /
+
+        g3 b4b /// d3 a4 /// e3 g4 /// f3# a4 ///
+        g3 b4b /// a3 c5 /// b3b d5 /// g3 e5 ///
+        a3 f5 /// g3 // f3 d5 /// e3 //
+        d3 z /// c4 // b3b d5 /// a3 // ;
+
+: p2    g3 e5b /// f3 d5 /// e3b c5 /// d3 d5 ///
+        c3 e5b /// b3b // a3 e5 /// g3 //
+        d4 f5 /// c4 e5 /// b3b d5 /// d4 e5 ///
+        c4 f5 /// b3b // a3 f5# /// c4 //
+
+        b3b g5 /// a3 // g3 d5 /// a3 c5 ///
+        b3b d5 /// c4 e5b /// d4 f5 /// b3b d5 ///
+        c4 e5b /// d5 / e3b c5 /// b4b /
+        f3 a4 %%% e3b %% f3 g5 /// f2 f5 /// e5b /
+
+        b2b d5 /// c5 / b3b d5 /// e5 /
+        a3 f5 /// g5 / d4 a5 /// f5 /
+        b3b g5 /// f5 / g3 e5 /// d5 /
+        a3 c5# %%% g3 %% a3 b5b /// a2 a5 /// g5 /
+
+        d2 f5 %%% g5 % a2 f5 /// b2 // c3# //
+        d3 // e3 g5 /// f3 a5 /// d3 b5b ///
+        e3 c5# /// d3 d5 /// c3# e5 /// b2 d5 ///
+        a2 c5# /// g3 // f3 c5 /// e3 // ;
+
+: p3    d3 b4 /// c3 c5 /// b2 d5 /// a2 c5 ///
+        g2 b4 /// f3 // e3 b4b /// d3 //
+        a3 a4 /// g3 // f3 d5 %%% c5 % a3 d5 ///
+        g3 // f3 // e3 c5# %%% d5 % g3 c5# ///
+
+        f3 a4 /// e3 // d3 f5 %%% e5 % f3 f5 ///
+        e3 // d3 // c3# e5 %%% f5 % e3 e5 ///
+        d3 a4 /// e3 // f3 a5 /// d3 //
+        g3 // a3 // b3b g5 /// g3 //
+
+        c4# // a3 // b3 f5 /// c4# e5 ///
+        d4 f5 /// f3 d5 /// g3 e5 /// a3 c5# ///
+        b3b d5 %%% c5# % e3 d5 %%% e5 % f3 d5 %%% c5# % g3 e5 ///
+        a3 d5 %%% e5 % g5 % e5 % a2 g5 %%% e5 % d5 % z %
+
+        d3 d5 3 1/8 c5 / b4b /
+        z a4 /// d3 b4b /// e3 c5 /// f3 a4 ///
+        g3 b4b /// a3 a4 /// b3b g4 /// g3 f4 ///
+        c4 e4 %%% b3b %% c4 d5 /// c3 c5 /// b4b / ;
+
+: p4    f3 a4 /// g4 / e3b g4 /// a4 /
+        e3b c5 %%% b4b % f3 c5 /// g3 // e3b //
+        f3 // e3b a4 /// d3 b4b /// c3 c5 ///
+        b2 d5 %%% c5 % a3b d5 /// g3 // f3 //
+
+        e3b // d3 g4 /// c3 a4 /// d3 b4 ///
+        e3b c5 /// f3 d5 /// g3 e5b /// a3b c5 ///
+        b2 d5 /// c5 / g2 b4 /// a4 /
+        z g4 /// f5 / g2 e5b /// d5 /
+
+        a2b c5 /// g2 b4b /// f2 a4b /// g2 g4 ///
+        a2b f4 /// e5b / a2 d5 /// c5 /
+        b2b g5 /// a2 f5 /// g2 e5b /// a2 g5 ///
+        b2b f5 /// e5b / b2 d5 /// f5 /
+
+        c3 e5b /// g2 d5 /// a2 c5 /// b2 d5 ///
+        c3 e5b /// d3 f5 /// e3b g5 /// c3 a5b ///
+        d3 b4 /// c3 // b2 d5 /// a2 //
+        g2 z /// f3 // e3b f4 /// d3 // ;
+
+: p5    c3 e4b /// b2b // a2b c5 /// g2 //
+        f2 d4 /// e2b // f2 c5 %%% b4 % g2 a4 %%% b4 %
+        c2 c5 /// d3 g4 /// e3b c5 /// f3 d5 ///
+        g3 e5b %%% d5 % a3b e5b /// b3b // g3 //
+
+        a3b // g3 c5 /// f3 d5 /// e3b e5b ///
+        d3 f5 %%% e5b % c4 f5 /// b3b // a3b //
+        g3 // f3 // g3 e5b /// a3 d5 ///
+        b3b g5 %%% f5 % c4 g5 /// d4 // b3b f5 ///
+
+        c4 e5b /// b3b d5 /// a3 c5 /// g3 b4b ///
+        f3# a4 /// e4b g4 /// d4 f4# /// c4 a4 ///
+        b3b e4b /// d4 / e4 / f4# /
+        g4 / c4 a4 /// d4 b4b /// e4b g4 ///
+
+        f3# a4 /// g3 g4 /// a3 f4# /// g3 e4 ///
+        f3# d4 ///  c5 / f3 b4b /// a4 /
+        e3 g4 /// f3 f4 /// g3 e4 /// f3 d4 ///
+        e3 c4 /// b4b / e3b a4 /// g4 / ;
+
+: p6    d3 d5 /// c5 / g3 b4b %%% f3 %% g3 d5 ///
+        c5 / b4b / f3# a4 /// c5 /
+        d3 b4b /// a4 / b3b g4 %%% a3 % b3b b4b ///
+        a4 / g4 / a3 f4# /// a4 /
+
+        d3 g4 /// a4 / d4 b4b /// c5 /
+        d5 / e5 / c4 f5# /// g5 /
+        a5 / e4b f5# /// d4 g5 /// c4 a5 ///
+        b3b d5 /// a3 // g3 // b3b //
+
+        e3b // c5 / e5b / d5 /
+        c5 / d3 b4b /// c3 a4 /// e3b c5 ///
+        a2 f4# /// a4 / d3 b4b %%% c3 % d3 a4 ///
+        g4 / f4 / c3 e4b /// g4 /
+
+        b2b c4# /// g4 / a2 a4 /// g2 b4b ///
+        d3 d4 %%% c3 % d3 a4 /// d2 g4 /// f4# /
+        g2 g4 %%% f4# % g4 1 1/2 ;
+
+: invent11  30 init-fudge    
+        p1 p2 p3 p4 p5 p6  ;
+
+
+\ inventio 12           20may95cht
+
+: p1    a3 a4 %%% g4# % b3 // c4# // b4 %% z % a3 a4 /// g3# %% z %
+        f3# a4 %%% g4# % g3# a4 /// a3 // g3# %% z % f3# a4 /// e3 %% z %
+        d3 a4 %%% b4 % f3# c5# %%% b4 % a3 c5# %%% b4 %
+        f3# c5# %%% b4 % d3 c5# %%% b4 % f3# c5# %%% b4 %
+        b2 c5# %%% b4 % d3 c5# %%% b4 % f3# c5# %%% b4 %
+        d3 c5# %%% b4 % b2 c5# %%% b4 % d3 a4 %%% b4 %
+
+        g2# // a4 / b2 g4# /// a4 / g2# b4 /// c5# /
+        e2 d5 /// c5# / f2# d5 /// f5# / g2# e5 /// d5 /
+        a2 c5# /// a4 / c5# / e5 / z a5 /// f5# /
+        d5# / b4 / d5# / f5# / a5 / f5# / ;
+
+: p2    e3 g5# %%% d3 %% e3 a5 /// g5# / f5# % z %% e3 e5 /// d5# % z %%
+        e3 c5# %%% d3 %% e3 d5# /// e5 / d5# % e3 c5# /// b4 % z %%
+        e3 a4 %%% f3# % g3# c5# %%% f3# % g3# e5 %%% f3# %
+        g3# c5# %%% f3# % g3# a4 %%% f3# % g3# c5# %%% f3# %
+        g3# f4# %%% f3# % g3# a4 %%% f3# % g3# c5# %%% f3# %
+        g3# a4 %%% f3# % g3# f4# %%% f3# % e3 a4 %%% f3# %
+
+        d4# / e3 // d3# f4# /// e3 // f3# d4# /// g3# //
+        a3 b3 /// g3# d4# /// a3 f4# /// c4# a4 /// b3 g4# /// a3 f4# ///
+        g3# e4 /// e3 g4# /// g3# b4 /// b3 e5 /// e4 b4 /// b3 g4# ///
+        g3# e4 /// e3 // g3# // b3 // d4 z /// b3 // ;
+
+: p3    c4# e5 %%% d5 % d4 e5 /// e4 // d4 %% z % c4# e5 %%% z %
+        a3 e5 %%% d5 % b4 e5 /// c4# // b4 %% z % a3 e5 /// g3 %% z %
+        f3# e5 /// a5 / f4# e5 /// c5# / c4# a4 /// c5# /
+        a3 e5 /// a5 / f3# e5 /// c5# / a3 a4 /// c5# /
+
+        b3 d5 /// c4# // d4 // c4# %% z % b3 d5 /// a3 %% z %
+        g3# d5 /// a3 // b3 // a3 %% z % g3# d5 /// f3# %% z %
+        e3 d5 /// b5 / b2 g5# /// d5 / g2# b4 /// d5 /
+        e2 g5# /// b5 / g5# / d5 / z d5 /// b4 / d5 / ;
+
+: p4    c5# / a3 // c4# z /// e4 // a4 // g4# //
+        f4# / d4 / z f4# /// a4 / d5 / c5# /
+        b4 / g3# // b3 z /// d4# // g4# // f4# //
+        f4 // c4# / z f4 /// g4# / c5# / b4 /
+
+        a4 / f3# // a3 z /// c4# // f4# // e4 //
+        d4 // b3 / z d4 /// f4# / b4 / a4 /
+        g4# / b2 f4# /// d3 b4 /// f3# a4 /// b3 g4# /// a3 f4# ///
+        g3# f4 /// c3# g4# /// f3 c5# /// g3# b4 /// c4# a4 /// b3 g4# /// ;
+
+: p5    a3 f4# /// b3 // a3 f5# /// g3# // f3# f4# /// e3 %% z %
+        d3 f4# /// e3 // f3# c4# /// e3 // d3 f4# /// c3# %% z %
+        b2 f4# %%% g4# % d3 a4 %%% g4# % f3# a4 %%% g4# %
+        d3 a4 %%% g4# % b2 a4 %%% g4# % d3 a4 %%% g4# %
+        g2# a4 %%% g4# % b2 a4 %%% g4# % d3 a4 %%% g4# %
+        b2 a4 %%% g4# % g2# a4 %%% g4# % b2 f4# %%% g4# %
+
+        f2 // f4# // g2# f4 /// f4# / f2 g4# /// a4 /
+        c2# b4 /// a4 / d2# b4 /// d5 / f2 c5# /// b4 /
+        f2# a4 /// f4# / f3# a4 /// c5# / d3# f5# /// d5# /
+        g3# c5 /// g4# / f3# c5 /// d5# / g3# f5# /// d5# / ;
+
+: p6    c3# e5 /// f5# / e5 / d5# % z %% c3# c5# /// b4 % z %%
+        c3# a4 /// b4 / c5# / b4 % z %% c3# a4 /// g4# % z %%
+        c3# f4# %%% d3# %% e3 a4 %%% d3# % e3 c5# %%% d3# %
+        e3 a4 %%% d3# % e3 f4# %%% d3# % e3 a4 %%% d3# %
+        e3 d4# %%% d3# % e3 f4# %%% d3# % e3 a4 %%% d3# %
+        e3 f4# %%% d3# % e3 d4# %%% d3# % e3 f4# %%% d3# %
+
+        c4 / c2# // c2 d4# /// c3# // d3# f4# /// e3 //
+        f3# a4 /// e3 // f3# g4# /// a3 // g3# c5 /// f3# //
+        e3 c5# /// c3# e5 /// e3 g5# /// g3# e5 /// c4# c5# /// g3# e5 ///
+        e3 g5# /// c3# e5 /// e3 c5# /// g3# e5 /// c4# g5# /// b4 e5 /// ;
+
+: p7    a3# c5# /// f3# e5 /// a3# f5# /// c4# e5 /// f4# c5# /// c4# e5 ///
+        a3# f5# /// f3# e5 /// a3# c5# /// c4# e5 /// f4# f5# /// e4 f4# ///
+        d4 b4 /// b2 d5 /// d3 f5# /// f3# d5 /// b3 b4 /// f3# d5 ///
+        d3 f5# /// b2 d5 /// d3 b4 /// f3# d5 /// b3 f5# /// a3 d5 ///
+
+        g3# b4 /// e3 d5 /// g3# e5 /// b3 d5 /// e4 b4 /// b3 d5 ///
+        g3# e5 /// e3 d5 /// g3# b4 /// b3 d5 /// e4 e5 /// b4 g4# ///
+        c4# a4 %%% g4# % d4 a4 /// e4 // d4 %% z % c4# a4 /// b4 %% z %
+        a3 a4 %%% g4# % b4 a4 /// c4# // b4 %% z % a3 a4 /// g3# %% z % ;
+
+: p8    f3# a4 /// c5# / a3 b4 /// d4# f4# /// a4 /
+        b4 / d5# / c4# b4 /// a4 / b3 f4# /// a4 /
+        e4 g4 %%% f4# % f4# g4 /// g4 // f4# %% z % e4 g4 /// d4 %% z %
+        c4# g4 %%% f4# % d4 g4 /// e4 // d4 %% z % c4# g4 /// b4 %% z %
+
+        a3 g4 /// e5 / e3 c5# /// g4 / c3# e4 /// g4 /
+        a2 c5# /// e5 / c5# / g4 / z e4 /// g4 /
+        f4# / d3 // f3# z /// a3 // d4 // c4# //
+        b3 // g3# / z b4 /// d4 / g4# / f4# / ;
+
+: p9    z e4 /// c3# // e3 z /// g3# // c4# // b3 //
+        a3 // f3# / z a3 /// c4# / f4# / e4 /
+        d4 / b2 // d3 z /// f3# // b3 // a3 //
+        g3# // e3 / z g3# /// b3 / e4 / d4 /
+
+        a2 c4# %%% g2# %% a2 a3 /// c4# / e4 % z % a2 a4 /// e4 % z %%
+        a2 c5# %%% g2# %% a2 a4 /// c5# / e5 % z %% a2 a5 /// f5# % z %%
+        a2 d5 %%% b2 %% c3# f5# %%% b2 % c3# a5 %%% b2 %
+        c3# f5# %%% b2 % c3# d5 %%% b2 % c3# f5# %%% b2 %
+        c3# b4 %%% b2 % c3# d5 %%% b2 % c3# f5# %%% b2 %
+        c3# d5 %%% b2 % c3# b4 %%% b2 % a2 d5 %%% b2 % ;
+
+: p10   b2 g4# /// a2 // g2# g4 /// a2 // b2 d5 /// c3# //
+        b2 f5# /// a2 // b2 e5 /// d3 // c3# g4# /// d3 //
+        c3# f5# /// b2 // c3# e5 /// e3 // d3 a4 /// c3# //
+        b2 e5 /// a2 // b2 d5 /// d3 // c3# g4# /// b2 //
+
+        a2 d5 /// g2# // a2 c5# /// b2 // c3# e4 /// a2 //
+        d3 f4# %%% c3# %% d3 g4# /// a4 / b4 % z %% d3 c5# /// d5 /
+        c3# g4# %%% d3 %% e3 e4 %%% d3 % e3 g4# %%% d3 %
+        e3 b4 %%% d3 % e3 e5 %%% d3 % e3 b4 %%% d3 %
+        e3 g5# %%% d3 % e3 e5 %%% d3 % e3 b5 %%% d3 %
+        e3 g5# %%% d3 % e3 e5 %%% d3 % c3# g5# %%% d3 %
+
+        c3# a5 /// d3 // c3# e5 /// b2 // a2 c5# /// g2# //
+        f2# a4 /// f3# d5 /// e3 c5# /// d3 b4 /// c3# e5 /// b2 //
+        c3# // d3 f5# /// e3 c5# 3 1/8 e2 b4 /// a4 /
+        a2 a4 3 3/8 ;
+
+: invent12  30 init-fudge     
+        p1 p2 p3 p4 p5 p6 p7 p8 p9 p10  ;
+
+
+\ inventio 13           20may95cht
+
+: p1    a2 // e4 / a3 a4 /// c5 / b4 / e4 / g3# b4 /// d5 /
+        a3 c5 /// e3 // a3 e5 /// c4 // b3 g4# /// e3 // b3 e5 /// d4 //
+
+        c4 a4 /// e4 / a3 a4 /// c5 / g3# b4 /// e4 / e3 b4 /// d5 /
+        a3 c5 /// e3 // a3 a4 /// c4 // b3 z /// e3 // b3 // d4 //
+
+        c4 // e5 / a3 c5 /// e5 / c4 a4 /// c5 / a3 e4 /// g4 /
+        d4 f4 /// a3 // f3 a4 /// a3 // d3 d5 /// f3 // a2 f5 /// c3 // ;
+
+: p2    b2 f5 /// d5 / d3 b4 /// d5 / g3 g4 /// b4 / b3 d4 /// f4 /
+        e4 / g3 // e3 g4 /// g3 // c3 c5 /// e3 // g2 e5 /// b2 //
+
+        a2 // c5 / c3 a4 /// c5 / d3 f4 /// f3 // b2 d5 /// d3 //
+        g2 // b4 / b3 g4 /// b4 / c3 e4 /// e3 // a2 c5 /// c3 //
+
+        f2 // a4 / d2 f4 /// a4 / g2 d4 /// g3 // f3 b4 /// g3 //
+        c3 c5 /// g3 // c4 z /// e4 // d4 // g3 // d4 // f4 //
+
+        e4 // g4 / c4 c5 /// e5 / b3 d5 /// g4 / g3 d5 /// f5 /
+        c4 e5 /// g3 // c4 g5 /// e4 // d4 g4 /// g3 // d4 g5 /// f4 // ;
+
+: p3    e4 c5 /// g4 / c4 c5 /// e5 / z d5 /// g4 / d5 / f5 /
+        e5 / g4 // e4 c5 /// g4 // c4 g5 /// e4 // g3 e5 /// b3 //
+
+        a3 c6 /// a5 / c4 e5 /// a5 / e4 c5 /// e5 / g4 a4 /// c5 /
+        f4# d5 /// a4 // d4 f5# /// f4 // a3 a5 /// d4 // f3# c6 /// a3 //
+
+        g3 b5 /// g5 / b3 d5 /// g5 / d4 b4 /// d5 / f4# g4 /// b4 /
+        e4 c5 /// g4 // c4 e5 /// e4 // g3 g5 /// c4 // e3 b5 /// g3 // ;
+
+: p4    f3# a5 /// f5# / a3 d5# /// f5# / b3 b4 /// d5# / d4# f4# /// a4 /
+        z g4 /// e4 // c4 g5 /// e4 // a3 // c4 e5 /// e4 c5 /// g4 e5 ///
+
+        f4# a4 /// d4 // b3 f5# /// d4 //
+        g3 // b3 d5 /// d4 b4 /// f4# d5 ///
+        e4 g4 /// c4 // a3 e5 /// c4 // f3# // a3 c5 /// c4 a4 /// c5 /
+        f4# / b3 g5 /// c4 f5# /// a3 e5 /// b3 d5# /// f5# / b2 b4 /// d5# /
+        e3 e5 /// e4 // b4 z /// g3 // e3 // b2 // g2 // b2 // ;
+
+: p5    e2 // g5 / e3 b5b /// g5 / g3 e5 /// g5 / b3b c5# /// e5 /
+        c3# g5 /// e5 / z c5# /// e5 / a4 / g4 z /// f4 // e4 //
+
+        d4 // f5 / d3 a5b /// f5 / f3 d5 /// f5 / a3b b4 /// d5 /
+        b2 f5 /// d5 / z b4 /// d5 / g4 / f4 z /// e4 // d4 //
+
+        c4 // e5 / c3 g5 /// e5 / e3 c5 /// e5 / f3# b4 /// c5 /
+        b2 d5# /// c5 / z a4 /// c5 / f4# / e4 z /// d4# // c4# //
+
+        b3 // d5 / b2 f5 /// d5 / d3 b4 /// d5 / f3 g4# /// b4 /
+        g2# d5 /// b4 / z g4# /// b4 / e4 / d4 z /// c4 // b3 // ;
+
+: p6    c4 // e4 / a3 a4 /// c5 / g3# b4 /// e4 / e3 g4 /// d5 /
+        a3 c5 /// e3 // a3 a4 /// c4 // b3 g4# /// e3 // b3 e4 /// d4 //
+
+        c4 a4 /// e4 c5 /// a4 e5 /// e4 c5 ///
+        c4 a4 /// e4 c5 /// a3 f4# /// c4 a4 ///
+        f3# c5 /// a3 a4 /// c4 f4# /// a3 a4 ///
+        f3# d4# /// a3 c5 /// d3# b4 /// f3# a4 ///
+
+        e3 g4# /// b4 / g3# b4 /// d5 / b3 g4# ///  b4 / g3# d4 /// f4 /
+        e3 g4# /// f4 / b2 d4 /// f4 / g2# b3 /// f4 / e2 e4 /// d4 /
+
+        a2 c4 /// e4 / c3 a4 /// e4 / e3 c4 /// e4 / c3 a3 /// c4 /
+        a2 f4# /// e4 / c3 a3 /// c4 / d2# f3# /// c4 / z b3 /// a3 / ;
+
+: p7    z g3# /// b3 // g3# b4 /// e3 // d3 g4# /// b3 // g3# e4 /// d3 //
+        c3 z /// e4 / e3 a4 /// c5 / g2# b4 /// e4 / e3 b4 /// d5 /
+
+        a2 c5 /// a4 / f3# c5 /// e5 / b2 d5 /// b4 / g3# d5 /// f5 /
+        c3 e5 /// c5 / a3 e5 /// g5 / d3 f5 /// e5 / b3b d5 /// c5 /
+
+        g3# b4 /// c5 / f3 d5 /// e5 / d3 f5 /// d5 / b2 g5# /// d5 /
+        g2# b5 /// d5 / a2 c5 /// a5 / d2 f5 /// d5 / e2 b4 /// d5 /
+
+        f2 g4# /// b4 / d2# c5 /// a4 / e2 e4 /// a4 / e3 b4 /// g4# /
+        a2 a4 /// e4 / c4 / e4 / a3 1 1/4 ;
+
+: invent13  30 init-fudge   
+        p1 p2 p3 p4 p5 p6 p7  ;
+
+
+\ inventio 14   20may95cht
+
+: p1    b3b // b4b % c5 % b2b d5 %%% c5 % b4b /
+        d3 f5 /// d5 / f3 b5b /// f5 /
+        b3b d5 /// f5 % e5b % d5 % e5b % f5 /
+        z b4b /// d5 / f4 / a4b /
+
+        g4 / e4b % f4 % b2b g4 %%% f4 % e4b /
+        e3b b4b /// g4 / g3 e5b /// b4b /
+        b3b g4 /// b4b % a4b % g4 % a4b % b4b /
+        z e4b /// g4 / c4 / e4b / ;
+
+: p2    a3 / c4 % d4 % b2b e4b %%% d4 % c4 /
+        c3 a4 /// f4 / e3b c5 /// a4 /
+        a3 e5b /// f4 % g4 % a4 % g4 % f4 /
+        z c5 /// a4 / f5 / c5 /
+
+        d5 / b3b %% c4 %% d4 z %%% c4 %% b3b //
+        e4b // g5 % f5 % z e5b %%% f5 % g5 /
+        c5 / a3 %% b3b %% c4 z %%% b3b %% a3 //
+        d4 // f5 % e5b % z d5 %%% e5b % f5 /
+
+        b4b / g3 %% a3 %% b3b z %%% a3 %% g3 //
+        c4 // c3 e5b %%% d3 d5 %%% e3b c5 %%% d3 d5 %%% c3 e5b ///
+        f3 a4 /// c5 % b4b % f2 a4 %%% b4b % c5 /
+        z f4 /// c4 // a3 z /// f3 // ;
+
+: p3    z f5 /// f3 %% g3 %% a3 f4 %%% g3 %% f3 //
+        c4 a4 /// a3 // f4 c5 /// c4 //
+        a3 f5 /// c4 %% b3b %% a3 %% b3b %% c4 //
+        f3 z /// a3 // c3 // e3b //
+
+        d3 // b2b %% c3 %% d3 f4 %%% c3 %% b2b //
+        f3 b4b /// d3 // b3b d5 /// f3 //
+        d3 f5 /// f3 %% e3b %% d3 %% e3b %% f3 //
+        b2b z /// d3 // g2 // b2b // ;
+
+: p4    e2b z /// g2 %% a2 %% b2b g4 %%% a2 %% g2 //
+        e3b b4b /// c3 // g3 c5 /// e3b //
+        b3b e5b /// c3 %% d3 %% e3b %% d3 %% c3 //
+        g3 z /// e3b // c4 // g3 //
+
+        a3 // f4 % g4 % c4 a4 %%% g4 % f4 /
+        a3 c5 /// a4 / f3 f5 /// c5 /
+        f3# a5 /// e5b % d5 % a3 c5 %%% d5 % e5b /
+        f3# a4 /// c5 / d3 f4# /// a4 / ;
+
+: p5    g3 b4b /// g2 %% a2 %% b2b d5 %%% a2 %% g2 //
+        d3 b4b /// b2b // g3 g4 /// d3 //
+        b3b a4b /// a3b %% g3 %% f3 f5 %%% g3 %% a3b //
+        d3 a4b /// f3 // b2b f4 /// d3 //
+
+        e3b g4 /// c4 % d4 % g3 e4b %%% d4 % c4 /
+        e3b g4 /// e4b / c3 c5 /// g4 /
+        b2b d5 /// a4b % g4 % d3 f4 %%% g4 % a4b /
+        b2b d4 /// f4 / g2 b3b /// g4 / ;
+
+: p6    c3 e4b /// c2 %% d2 %% e2b z %%% d2 %% c2 //
+        c3 // c4 % d4 % e4b % d4 % b2b c4 ///
+        a2 c5 /// f2 %% g2 %% a2 %% g2 %% f2 b4b ///
+        f3 a4 /// f4 % g4 % a4 % g4 % e3b f4 ///
+
+        d3 f5 /// b2b %% c3 %% d3 %% c3 %% b2b e5b ///
+        b3b d5 /// b4b % c5 % d5 % c5 % a3b b4b ///
+        g3 b5b /// e3b %% f3 %% g3 %% f3 %% e3b a5b ///
+        e4b g5 /// b5b % a5b % g5 % a5b % d4 b5b /// ;
+
+: p7    c4 e5b /// e4b g5 %%% d4 f5 %%% c4 e5b %%% d4 f5 %%% e4b g5 ///
+        a3 c5 /// c4 e5b %%% b3b d5 %%% a3 c5 %%% b3b d5 %%% c4 e5b ///
+        f3 a4 /// a3 c5 %%% b3b d5 %%% c4 e5b %%% b3b d5 %%% a3 c5 ///
+        d4 f5 /// f3 a4b %%% e3b g4 %%% d3 f4 %%% e3b g4 %%% f3 a4b ///
+
+        e3b g4 /// g3 b4b %%% a3 c5 %%% b3b d5 %%% a3 c5 %%% g3 b4b ///
+        c4 e5b /// e3b g4 %%% d3 f4 %%% c3 e4b %%% d3 f4 %%% e3b g4 ///
+        d3 f4 /// f3 a4 %%% g3 b4b %%% a3 c5 %%% g3 b4b %%% f3 a4 ///
+        b3b d5 /// d3 f4 %%% c3 e4b %%% b2b
+        e4b %%% c3 e4b %%% d3 f4 /// ;
+
+: p8    c3 e4b /// e3b g4 %%% f3 a4 %%% g3 b4b %%% f3 a4 %%% e3b g4 ///
+        a3 c5 /// c3 e4b %%% b2b d4 %%% a2 c4 %%% b2b d4 %%% c3 e4b ///
+        b2b d4 /// b3b %% c4 %% d4 %% c4 %% b3b //
+        f4 z /// d4 b4b %%% c5 % b4b d5 %%% c5 % f4 b4b ///
+
+        d4 f5 /// f4 d5 %%% e4b %% d4 b5b %%% e4b %% f4 f5 ///
+        b3b d5 /// d4 f5 %%% e5b % f3 d5 %%% e5b % a3b f5 ///
+        g3 b4b /// e3b e5b %%% f3 %% g3 b4b %%% e3b %% e3b e5b ///
+        b3b g4 /// g3 e4b %%% f4 % e4b g4 %%% f4 % b3b e4b /// ;
+
+: p9    g3 b4b /// b3b g4 %%% a3b %% g3 e5b %%% a3b %% b3b b4b ///
+        e3b g4 /// g3 b4b %%% a4b % b2b g4 %%% a4b % d3 b4b ///
+        c3 e4b /// f2 %% g2 %% a2 e5b %%% g2 %% f2 //
+        c3 // a2 e5b %%% d5 % e3b c5 %%% d5 % c3 e5b ///
+
+        a2 f4 /// c3 %% b2b %% a2 e5b %%% b2b %% c3 //
+        f2 // a2 c5 %%% d5 % c2 e5b %%% d5 % e2b c5 ///
+        d2 f5 /// b2b d5 %%% c3 c5 %%% d3 b4b %%% c3 c5 %%% b2b d5 ///
+        f3 f4 /// b4b / f2 c5 /// a4 / b2b b4b 3 1/2 ;
+
+: invent14  30 init-fudge     
+        p1 p2 p3 p4 p5 p6 p7 p8 p9  ;
+
+
+\ inventio 15           20may95cht
+
+: p1    b2 2 1/8 z b4 /// a4# /
+        d3 b4 3 1/8 z f4# 3 1/8
+        e3 g4 %%% a4 % g4 / z f4# 3 1/8
+        d3 b4 3 1/8 z f4# 3 1/8
+
+        c3# f4# %%% g4 % f4# / z e4 3 1/8
+        a2# c5# 3 1/8 z e4 3 1/8
+        b2 e4 %%% f4# % e4 / z d4 /// c4# /
+        g2 d4 /// e4 / z f4# /// e4 /
+
+        f2# f4# %%% e4 % f4# / f3# z /// f3 //
+        f3#  // a4 / c3# g4# /// a4 /
+        d3 b4 %%% e3 %% d3 c5# /// c3# b4 /// g4# /
+        f3# a4 /// b4 / c3# a4 /// f4# / ;
+
+: p2    c3# g4# %%% d3 %% c3# a4 /// b2 g4# /// f4# /
+        g3# f4 /// g4# / b2 f4# /// f4 /
+        b2 c5# %%% c3# %% b2 // a2 f4# /// g2# f4 ///
+        a2 f4# /// a4 / b2 g4# /// b4 /
+
+        c3# a4 /// b4 / b2 c5# /// d5 /
+        c3# g4# %%% a4 % g4# / c2# // f4# /
+        f2# f4# 3 1/8 f5# / g2# f5 ///
+        a2 f5# /// b2 // g2# c5# /// a2 //
+
+        b2 d5 %%% e5 % c3# d5 /// b2 c5# /// g2# //
+        a2 f5# /// b2 // a2 c5# /// f2# //
+        g2# c5# %%% d5 % a2 c5# /// g2# b4 /// f2# //
+        f2 g5# /// g2# // f2# b4 /// f2 // ;
+
+: p3    f2# b4 %%% c5# % b4 / f3# a4 /// f3 g4# ///
+        f3# a4 /// b4 / c3# a4 /// f4 /
+        d3 f4# 3 1/8 d4 f5# /// c4# e5 ///
+        d4 f5# /// e4 // d4 c5# /// a3# //
+
+        b3 d5 /// e5 / a3 d5 /// b4 /
+        g3 e5 /// b4 / f3# f5# /// b4 /
+        e3 g5 /// a5 / e2 g5 /// e5 /
+        f2# a5 /// e5 / g2 b5 /// d5 /
+
+        a2 c5# /// d5 / g3 c5# /// a4 /
+        f3# d5 /// a4 / e3 e5 /// a4 /
+        d3 f5# /// g5 / d2 f5# /// d5 /
+        e2 g5 /// d5 / f2# a5 /// d5 / ;
+
+: p4    g2 b5 /// c6 / g3 b5 /// e5 /
+        f3# a5 /// b5 / b3 a5 /// d5 /
+        e3 g5 /// a5 / a3 g5 /// c5# /
+        d3 f5# /// g5 / d4 f5# /// d5 /
+
+        e5 / e4 // d4 g4 /// b3 f4# ///
+        c4# g4 /// d4 // c4# e5 /// a3 //
+        d4 f4# /// c4# // b3 d5 /// a3 //
+        g3 e4 /// f3# // g3 c5# /// a3 //
+
+        d3 d5 3 1/8 d4 z /// c4# //
+        d4 // f4# / a3 e4 /// f4# /
+        b3 g4 %%% c4# %% b3 a4 /// a3 g4 /// e4 /
+        d4 f4# /// g4 / a3 f4# /// d4 / ;
+
+: p5    a3 e4 %%% b3 %% a3 f4# /// g3 e4 /// d4 /
+        e4 c4# /// e4 / g3 d4 /// c4# /
+        g3 d4 %%% a3 %% g3 d4 /// f3# a4 /// e3 //
+        f3# d5 /// g3# c5# /// a3 b4 /// g3 d5 ///
+
+        a3 c5# /// b4 / e3 a4 /// g4# /
+        d3 a4 /// c3# // b2 e4 /// a2 //
+        d3 f4# %%% g4 % e3 f4# /// d3 e4 /// b2 //
+        c3# a4 /// d3 // c3# e4 /// a2 //
+
+        b2 e4 %%% f4# % c3# e4 /// b2 d4 /// a2 //
+        g2# b4 /// b2 // a2 d4 /// g2# //
+        a2 d4 %%% e4 % d4 / a3 c4# /// b4 /
+        g3 c4# /// d4# / f3# e4 /// d4# / ;
+
+: p6    e3 a4 /// f4# / e4 g4 /// a4 /
+        d4 g4# /// a4# / c4# b4 /// a4# /
+        b3 e5 /// c5# / b2 d5 /// e5 /
+        a2 d5# /// f5 / g2# f5# /// f5 /
+
+        f2# b5 /// g5# / f3# a5 /// g3 b4 ///
+        a3 c5# /// d5# / b3 e5 /// d5# /
+        e3 a5 /// f5# / e2 g5 /// f2# a4 ///
+        g2 b4 /// c5# / a2 d5 /// c5# /
+
+        d2 g5 /// e5 / b3 f5# /// a3# c5# ///
+        b3 d5 /// e5 / f3# f5# /// d5 /
+        g3 e5 %%% a3 %% g3 f5# /// f3# e5 /// c5# /
+        b3 d5 /// e5 / f3# d5 /// b4 / ;
+
+: p7    f3# c5# %%% g3 %% f3# d5 /// e3 c5# /// b4 /
+        c4# a4# /// b4 / e3 c5# /// a4# /
+        e3 f4# %%% f3# %% e3 // d3 b4 /// c3# a4# ///
+        d3 b4 /// b2 // c3# f4# /// d3 //
+
+        e3 g4 %%% a4 % f3# g4 /// e3 f4# /// c3# //
+        d3 b4 /// e3 // d3 f4# /// b2 //
+        c3# f4# %%% g4 % d3 f4# /// c3# e4 /// b2 //
+        a2# c5# /// c3# // b2 e4 /// a2# //
+
+        b2 e4 %%% f4# % e4 / b3 d4 /// a3# c4# ///
+        b3 d4 /// f4# / g3 e4 /// g4 /
+        d3 f4# /// f3# // e3 // g3 d5 ///
+        f3# a4# %%% b4 % a4# / f2# // b4 /
+
+        b2 b4 3 1/2 ;
+
+: invent15     30 init-fudge 
+        p1 p2 p3 p4 p5 p6 p7  ;
+
+: all invent1 | 5000 ms invent2 | 5000 ms invent3 | 5000 ms
+      invent4 | 5000 ms invent5 | 5000 ms invent6 | 5000 ms
+      invent7 | 5000 ms invent8 | 5000 ms invent9 | 5000 ms
+      invent10 | 5000 ms invent11 | 5000 ms invent12 | 5000 ms
+      invent13 | 5000 ms invent14 | 5000 ms invent15 | ;
+
+[[ all ]]
+
+
+
+

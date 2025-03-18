@@ -1,0 +1,1406 @@
+\ die kunst der fuge, the art of fugue, bwv 1080      08apr88cht
+\ part 2
+\ 2 23 thru ( fugue6)
+\ 24 42 thru ( fugue7)
+\ 43 75 thru ( fugue8)
+\ 76 98 thru ( fugue9)
+\ contrapunctus 6, a 4, in stile francese             29mar88cht
+decimal
+0 constant bass
+0 constant tenor
+0 constant alto
+0 constant soprano
+0 constant flute
+0 constant pedal
+0 constant z
+: init z to bass z to tenor z to alto z to soprano z to pedal z to flute ;
+
+variable fudge 30 fudge ! ( quater note )
+: notes ( duration -- )
+  >r 0.1 bass tenor alto soprano pedal flute r> poly ;
+hex
+: play ( n1 n2 n3 n4 n5 n6 bits duration -- )
+  >r >r 
+  r@ 1 and if to soprano then  
+  r@ 2 and if to alto then
+  r@ 4 and if to tenor then
+  r@ 100 and if to flute then
+  r@ 200 and if to bass then
+  r@ 400 and if to pedal then
+  r> drop r> notes ;
+
+decimal
+: ppqn   constant   does 0 q@ fudge @ * play ;
+192 ppqn 3/2
+128 ppqn 1/1    64 ppqn 1/2    32 ppqn 1/4   16 ppqn 1/8
+  8 ppqn 1/16    4 ppqn 1/32    2 ppqn 1/64   1 ppqn 1/128
+ 96 ppqn 3/4    48 ppqn 3/8    24 ppqn 3/16  12 ppqn 3/32
+ 12 ppqn 1/12'  10 ppqn 1/12   22 ppqn 1/6
+  6 ppqn $.      5 ppqn $       3 ppqn ]      2 ppqn [
+hex
+: | z z z z z z 707 1/128 ;
+decimal
+
+hex
+: .  z swap 1/128 ;
+: %%   1/2 ;
+: %    1/4 ;
+: /    1/8 ;
+: //   1/16 ;
+: &    1/32 ;
+: &1   swap rot 2 for 1 1/32 next ;
+: &2   swap rot 2 for 2 1/32 next ;
+: &3   swap rot 2 for 4 1/32 next ;
+: &4   swap rot 2 for 400 1/32 next ;
+: /.   3/16 ;
+: tr   ( n1 n2 ch)   swap over 2over
+   2 for 1/32 next ;
+: qt   ( . . . . # )  2 pick over 5 pick over 8 pick over
+   3 for   1/32   next  drop 2drop ;
+: tri ( ... #)   z over 1/128 
+        dup >r 2swap r@ rot r> 2 for 1/16 next ;
+: /// ( ... n)   z over 1/128 
+        dup >r 2swap r@ rot r> 2 for 1/16 next ;
+: .. ( n #)   z over 1/128  swap over 1/8  z swap 1/128 ;
+: ... ( n1 n2 #)  >r  z z r@ 1/128  r@ 1/8  z z r> 1/128 ;
+: .... ( .... )   4dup 4dup 2 for 407 / | next ;
+
+\ contrapunctus 6                                     29mar88cht
+: m1   d3 400 %%  a3 400 3/8  g3 400 / ;
+: m2   f3 a5 401 %  d5 1 / e3 400 // e5 1 //
+   d3 f5 401 /. g5 1 //  a5 1 % ;
+: m3   c3# b5b 401 %  a5 1 /. g5 1 //   d3 d4 f5 403 %  a4 2
+   // e5 1 // e3 f5 401 // g4 g5 3 // ;
+: m4   f3 f4 a5 403 /. e4 g5 3 //  d4 f5 3 // e5 1 // d5 1 //
+   c5 1 //  c4# c5 3 & b4b c5 1 tr g3 c5 401 & b4b 1 &
+   f3 d4 a4 403 /. e3 e4 402 // ;
+: m5   d3 f4 402 /. d2 b4 401 //  e2 c5 401 // g4 2 // f4 2 //
+   f2 e4 402 //  g2 d4 402 /. a2 b4 401 //
+   g2 e4 c5# 403 /. f26 f4 d5 403 // ;
+: l1   m1 m2 m3 m4 m5 ;
+\ contrapunctus 6                                     09mar88cht
+: m6   e2 g4 e5 403 /. e3 400 //  f3 f4 402 // f5 1 // e5 1 //
+   g3 d5 401 //  a3 c5# 401 /. b3b f4 d5 403 /.
+   g3 g4 e5 403 // ;
+: m7   f3 d4 a4 f5 407 /. e5 1 //  d3 a3 f5 405 /. b3 d5 5 //
+   a3 c4 e5 405 /. d4 b4 6 //  e4 c5 6 / c5 2 & b4 2 &
+   a4 2 & g4# 2 & ;
+: m8   f4 a4 6 /. d5 1 //  e4 c5 5 /. f4 b4 5 //  c4 e5 a4 7 /.
+   a5 1 //  g5 1 // b3 4 // c4 d5 6 // d4 f5 5 // ;
+: m9   e4 c5 e5 7 /. e3 400 //  a3 z 401 / b4 2 // g3 400 //
+   f3 a4 402 /. e3 400 //  f3 d4 404 /. d3 400 // ;
+: m10   e3 g4# 402 /. b3 4 //  e4 4 / e3 400 // d4 4 //
+   f3 c4 a4 a4 407 /. e3 d4 404 //
+   f3# c4 e5 405 / b4 2 // g3# b3 d5 405 // ;
+: l2   m6 m7 m8 m9 m10 ;
+\ contrapunctus 6                                     29mar88cht
+: m11   a3 a3 c5 c5 407 /. g3 e4 b4 405 //  f3 a4 401 /. d4# 4
+   //  e3 e4 g4# 405 /. b3 d5 6 //  c4 c5 a4 7 /. g3# b4 b4 7 //
+   ;
+: m12   z a3 a4 c5 407 /. e3 4 // f3 4 // d5 1 // c5 1 //
+   g4# b4 3 //  a4 a4 3 // g3 4 // f3 4 // e3 4 //
+   d3 4 /  a4 2 & g4 2 & f4 2 & e4 2 & ;
+: m13   f4 2 / d3 4 & a3 4 & b3b 4 & c4 4 &  d4 4 /
+   z 1 & a4 1 & c4 b4b 5 & c5 1 &  b3b d5 5 /. c4 4 //
+   b3b 400 / z 2 & f4 2 & a3 g4 6 & a4 2 & ;
+: m14   g3 b4b 6 / g3 4 & d4 4 & e4 4 & f4 4 &  g4 4 /
+   z 1 & d5 1 & f4 e5 5 & f5 1 &  e4 g5 5 /. f4 b4 6 //
+   e4 d5 6 / c5# 2 & b4 2 & d4 c5# 6 & d5 2 & ;
+: l3   m11 m12 m13 m14 ;
+\ contrapunctus 6                                     29mar88cht
+: m15   a3 c4# e5 406 /. f5 1 & e5 1 &  d3 a3 f5 405 /. e3 d5 g5
+   403 & c5# 2 &  f3 d5 a5 403 /. g3 g5 401 & f5 1 &
+   a3 z e5 405 /. c5 f5# 3 // ;
+: m16   b3b d4 b4b g5 407 /. g4 2 //  a3 f4 z 403 /. g3 c4 402
+   // f3 a4 d4 a5 407 /. c5# 2 //  d5 d5 3 // e3 400 //
+   f3 g4 404 // g3 e5 401 // ;
+: m17   a3 f4 f5 405 /. b4 g5 3 //  c5# a5 3 / e4 4 // a4 2 //
+   z d4 f4 b5b 407 /. e4 2 //  f4 a5 3 / b3b 400 //
+   g4 g5 3 // ;
+: m18   a3 c4# a4 f5 407 /. g3 400 //  f3 100 // e5 1 // f5 1 //
+   b4b g5 3 //  d4 a4 a5 7 / f3 400 & g3 400 & f3 g5 402 &
+   e3 400 &  d3 f5 z 403 // e5 2 // e4 d5 6 // c5# 2 // ;
+: l4   m15 m16 m17 m18 ;
+\ contrapunctus 6                                     29mar88cht
+: m19   z f4 d5 406 / z 400 & d3 400 & e3 400 & f3 400 &
+   g3 400 // c5 2 // b4 2 // a4 2 //  b4 2 / g3 400 //
+   e3 400 & f3 g4 g4 406 & g3 400 &  a3 f4 c5 406 /.
+   g3 e4 404 // ;
+: m20   f3 d4 404 /. d3 b4 402 & a4 2 &  g3 z c5 406 &
+   b4 c5 2 tr g3 c5 402 //  e3 c4 c5 406 / e3 400 & c3 400 &
+   d3 b4b 402 & e3 400 &  f3 b4b 402 & a4 b4b 2 tr
+   e3b g4 402 & a4 2 & ;
+: m21   d3 f3 b4b 406 /. c3 d5 402 //  d3 c5 402 / g3 4 //
+   e3 b4b 402 //  f3 a3 a4 406 /. e3 d5 401 //
+   f3 c5 401 / b3b 4 // g3 g4 b4b 403 // ;
+: m22   a3 c4 f4 a4 407 /. g4 b4b 3 //  f4 c5 3 / a3 400 & f3
+   400 &  g3 e4b 402 & g3 400 &  b3b d4 d4 406 / c5 1 & f4 1 &
+   a3 g4 401 & a4 1 &  g3 g4 b4b 403 /. f3 c5 401 // ;
+: l5   m19 m20 m21 m22 ;
+\ contrapunctus 6                                     29mar88cht
+: m23   e3 c4 b4b 405 /. c3 e4 a4 403 & g4 1 &  f3 f4 a4 403 /
+   b3b 4 // b4b 1 //  a3 c5 5 /. g3 e4 c5 403 //
+   f3 f4 d5 403 /. e3 g4 e5 403 // ;
+: m24   d3 a4 f5 403 /. a3 e5 5 //  a3 d5 f5 7 /. b3 g5 5 //
+   c3 c4 g4 e5 407 / e5 1 & g3 400 & a3 d5 401 & b3b 400 &
+   c4 z z e5 407 /. b3b 400 // ;
+: m25   a3 f4 402 /. f3 d5 401 & c5# 1 &  b3b d5 401 / d5 1 &
+   c5 1 & d4 b4b 401 & a4 1 &  e3 c5 g4 405 /. b4b 1 //
+   a4 1 / b4b 2 & c3 400 & d3 g4 401 & e3 400 & ;
+: m26   f3 c4 a4 f4 407 /. e3 400 //  d3 f3 404 // e4 1 //
+   g4 d4 3 // g3 c4# 5 //  a3 f4 d4 7 // d3 400 //
+   c3 400 // b2b b3b 404 //  a2 c4 z 405 // f2 400 //
+   g2 400 // a2 d5 401 // ;
+: l6   m23 m24 m25 m26 ;
+\ contrapunctus 6                                     29mar88cht
+: m27   b2b d4b e4 g4 407 // g2 400 // a2 400 // b2b 400 //
+   c3 c4 404 // b4b 1 // a4 1 //  c3# b3b g4 405 //  d3 a3 d4 f4
+   407 // c3# a4 401 // d3 b4 401 // e3 c5# 401 //
+   f3 d5 401 // g3 4 // a3 g4 6 // b3b 4 // ;
+: m28   c4 a4 z 7 // e3 c5 401 // f3 d5 401 // g3 e5 401 //
+   a3 f5 401 // b3 4 // c4 4 // d4 e5 5 & d5 1 &  e4 c5 5 /.
+   g3 b4b 402 // f3 z f4 406 /. e3 g4 402 // ;
+: m29   d3 f4 402 /. a4 1 //  d5 1 / d3 400 & d2 400 & e2 c5 401
+   & f2 400 &  g2 b4b 401 /. d4 2 //  g4 2 / g2 400 & f2 400 &
+   e2 f4 402 & d2 400 & ;
+: m30   d2 e4 402 /. g4 1 //  c5 1 / c2 400 & c3 400 & d3 b4b
+   402 & e3 400 &  f3 a4 401 /. a4 2 //  f4 2 / f3 400 &
+   e3 400 & d3 e4 402 & c2 400 & ;
+: l7   m27 m28 m29 m30 ;
+\ contrapunctus 6                                     29mar88cht
+: m31   b2b d3 d4 406 /. g4 1 & f4 1 & g4 1 /. e4 1 //
+   a2 a3 f4 405 /. g4 1 //  c4# e4 3 / g3 4 /  ;
+: m32   f3 a4 6 /. d4 1 & c4# 1 &  d4 d4 3 / e3 4 // e4 2 //
+   d3 f4 6 /. g4 e4 3 //  a4 f4 3 /. d4 1 // ;
+: m33   c3# b4b g4 7 / g4 1 & e5 1 & f5 1 & g5 1 &  a4 f5 3 /
+   a2 400 // g4 e5 3 //  b2b d3 f4 d5 407 /. a2 c5 401 /
+   g2 b4b 401 // e4 2 // e3 f4 6 // g4 2 // ;
+: m34   f2 f3 a4 a4 407 / z 1 // g2 b4b 402 //  a2 c5 402 /.
+   b2b d5 402 //  c3 g4 402 /. g3 e5b 6 //
+   f3 a4 6 /. e3b b4b 6 & c5 2 & ;
+: l8   m31 m32 m33 m34 ;
+\ contrapunctus 6                                     29mar88cht
+: m35   d3 f4# d5 7 /. f3# a4 6 //  g3 d4 6 / c3 400 // a3 4 //
+   b2b b3b g4 405 /. d4 2 //  c4 e4 6 / a2 a4 401 // f4# 2 // ;
+: m36   g2 d4 g4 b4b 407 /. f4# 2 //  d3 g4 402 // c4 4 //
+   b3b 4 // c3 a3 a4 c5 407 //  b2b g3 b4b d5 407 /. a2 c5 402 &
+   d5 2 &  g2 z c5 406 // b3b 2 // a4 2 // g4 2 // ;
+: m37   f2# c5 e5b 403 /. b4b 2 & a4 2 &  g2 b4b 402 /. a2 f4#
+   402 //  b2b d4 g4 d5 407 /. a4 2 & b4b 2 &  g3 e4 6 //
+   c3 400 // b2b c5 401 // a2 a3 f4# 406 // ;
+: m38   g2 b3b g4 b4b 407 / g3 400 // c4 4 //  f4 z 6 /  g3 400
+   &  f3 400 & e3b 400 & d3 400 &  c3 e4b 404 /. f3 a4 401 //
+   g3 d4 b4b 405 /. a3 c4 c5 405 // ;
+: l9   m35 m36 m37 m38 ;
+\ contrapunctus 6                                     11mar88cht
+: m39   b3b b3b d5 405 /. a3 400 //  g3 400 // a3 e5b 5 //
+   b3b d5 5 // c4 c5 5 //  d4 b4b 5 // d5 1 // e5b 1 //
+   f3 f5 401 //  e3b g5 401 // g3 4 // a3 4 // b3 4 // ;
+: m40   c4 4 // a5b 1 // g5 1 // d3 f5 401 //  c3 z e5b 405 //
+   d5 1 // c5 1 // d3 b4b 401 //  e3b b4b 401 & a4 1 & g3 b4b
+   401 & a4 1 & f3 b4b 401 & a4 1 & e3b g4 401 & f4 1 &
+   d3 b4b 401 // c3 400 // b2b 400 // a2 400 // ;
+: m41   g2 400 // a4 1 // g4 1 // f2 a4 401 //  g2 b4b 401 //
+   c5 1 // d5 1 // b2b e5 401 //  a2 f5 401 // f2 400 //
+   g2 400 // a2 e5b 401 //  b2b d5 401 // c3 c5 401 //
+   d3 b4b 401 // e3b a4 401 // ;
+: m42   d3 f4 b4b 403 /. c5 1 & d5 1 &  e3b b3b g4 403 /.
+   c4 g5 3 //  f3 d4 b4b 403 /
+   b4b 1 & a4 1 & e4b g4 3 & a4 1 &  f4 a4 3 /. b4b 1 // ;
+: l10   m39 m40 m41 m42 ;
+\ contrapunctus 6                                     29mar88cht
+: m43   g4 b4b 3 // e3b 400 & d3 400 & e3b 400 // c3 400 //
+   b2b f4 z 403 & a2 b2b 400 tr g2 e4b c5 403 & a2 400 &
+   b2b d4 f4 403 / f4 1 & g4 1 & b3b f4 401 & e4 1 &
+   a3 f4 401 // c4 2 // d4 2 // g3 e4 g4 403 // ;
+: m44   f3 f4 a4 403 /. f2 c4 402 //  e2b f4 402 // g4 1 //
+   a4 1 // d2 b4 401 //  c2 c5 401 /. c3 g4 401 //
+   b2b e4 c5 403 // d4 2 // e4 2 // a2 f4# 402 // ;
+: m45   g2 g4 402 /. g3 d4 402 //  f3 g4 b4 403 // a4 1 //
+   b4 1 // e3 c5# 401 //  d3 d5 401 / d5 1 & a3 400 & b3 e5 401
+   & c4# 400 &  d4 f4 f5 403 / f4 2 & a4 2 & c4 b4b 402 & c5 2 /
+   ;
+: m46   b3b d5 402 /. 1 . a3 f5 401 //  b3b g4 e5 403 /. g3 d5
+   401 //  a3 c5# 401 /. a4 1 //  z f4  d5 403 /. d4 2 // ;
+: l11   m43 m44 m45 m46 ;
+\ contrapunctus 6                                     29mar88cht
+: m47   a2 e4 402 /. c5 1 & b4 1 &  a4 c5 3 /. g4 2 //  d2 f4
+   402 /. e4 b4b 3 & a4 1 &  d4 b4b 3 /  e2 400 // c4# 2 // ;
+: m48   f2 d3 d4 z 407 // b4b 1 // a4 1 // g4 1 //  a3 f4 5 /
+   g2 400 // g3 4 //  a2 f3 404 /. e3 e4 g4 7 //
+   d3 f4 a4 7 /. g4 b4b 3 // ;
+: m49   b2b c3# d4 g4 407 /. e5 1 & f5 1 &  d3 z g5 7 /.
+   e3 g4 c5# 7 //  a2 f3 f4 d5 407 /. g4 e5 3 //  a4 d5 3 &
+   c5 1 & a3 d5 5 & c5 1 & g2 g3 d5 405 & c5 1 &
+   e3 d5 5 // ;
+: m50   f2 d3 d5 405 /. c3# e5 5 //  d3 z f5 7 /. e3 g5 5 //
+   f3 a5 5 / z 2 & e5 2 & e2 d5 402 & c5# 2 &  f2 d5 402 /
+   z 1 & a5 1 & g2 g5 401 & f5 1 & ;
+: l12   m47 m48 m49 m50 ;
+\ contrapunctus 6                                     29mar88cht
+: m51   a2 e5 401 / z e3 f3# g3# 4 qt  a3 4 / z d5 c5 b4 2 qt
+   c5 2 / z 4 & c3 400 & b2 d5 401 & a2 400 &  g2 z e5 403 /
+   z 4 & a2 400 & g2 f5 401 & f2 400 & ;
+: m52   e2 g5 401 / z 2 & d5 2 & d2 c5 402 & b4 2 &  e2 c5 402 /
+   z 1 & g5 1 & f2 f5 401 & e5 1 &  g2 d5 401 / z d3 e3 f3# 4 qt
+   g3 4 / z c5 b4b a4 2 qt ;
+: m53   b4b 2 / z 4 & b2b 400 & a2 c5# 401 & g2 400 &  f2 d5 401
+   / z 4 & g2 400 & f2 e5 401 &  e2 400 &  d2 f5 401 / z 2 &
+   c5 2 & c2 b4b 402 & a4 2 &  d2 b4b 402 / 4 1 & f5 1 &
+   e2 e5 401 & d5 1 & ;
+: l13   m51 m52 m53 ;
+\ contrapunctus 6                                     01may88cht
+: m54   f2 c5 401 / z c3 d3 e3 4 qt  f3 4 / z b4b a4 g4 2 qt
+   a4 2 // a3 4 // z f3 404 // e3 c5 5 //
+   d3 f5 5 // f3 4 // g3 4 // a3 e5 5 // ;
+: m55   b3b e5 5 // c4 4 // b3b 4 // a3 d4 c5 7 //  g3 g4 b4b
+   7 // f3 4 // e3 4 // d3 f4 6 //  c3# e4 6 // g3 4 // a3 4 //
+   b3b d4 e4 7 //  a3 c4# a4 7 // g3 4 // f3 4 // e3 g4 5 // ;
+: m56   d3 d4 f4 7 // a3 4 // b3b 4 // c4 f4# 5 //  b3b g4 5 //
+   a3 4 // g3 4 // f3# a4 5 //  g3 b4b 5 //  2 . d4 2 // e4 2 //
+   f4 b4 3 //  e4 c5# 3 // d4 2 // c4# 2 // b3 d5 3 // ;
+: m57   c4# e5 3 // b3b 4 // a3 4 // g3 4 //  f3 a5 5 //
+   a3 2 // b3 2 // c4# g5 3 //  d4 f5 3 /. e4 e5 3 //
+   b3b f4 d5 7 /. g4 2 // ;
+: l14   m54 m55 m56 m57 ;
+\ contrapunctus 6                                     29mar88cht
+: m58   a3 a4 c5# 7 /. a2 400 //  b2 z d5 405 /. c3# e5 401 //
+   d3 d4 d4 f5 407 /. e3 400 //  f3 a4 404 // g5 1 //
+   e4 f5 3 // g4 e5 5 // ;
+: m59   f3 f4 f4 d5 407 / z 400 & f3 400 & g3 e4 404 & a3 400 &
+   b3b d4 z 405 / g4 2 // b2b 400 //  a2 c4# a4 406 //
+   b3b 400 // a3 400 // g3 400 //
+   f3 d4 404 // e3 400 // d3 400 // c3# e4 404 // ;
+: m60   d3 f4 b4b 406 // c4 400 // b3b 400 // a3 400 //
+   g3 400 // f3 a4 404 // e3 g4 404 // d3 f4 404 //
+   c3# e4 a4 406 // d4 f4 404 // c4# e4 404 // b3 d4 404 //
+   a3 c4# 404 // g3 400 // f3 g4 402 // e3 400 // ;
+: m61   d3 d4 f4 406 // e3 400 // d3 400 // c3 a3 404 //
+   b2b d4 404 // a2 400 // g2 400 & c4 4 & f2 b3b 404 & a3 4 &
+   g2 b3b 404 // d3 400 // c3 400 // b2b g3 e4 406 //
+   a2 c4 f4 406 // g2 400 // f2 400 // e2 g4 402 // ;
+\ contrapunctus 6                                     29mar88cht
+: m62   f2 a4 402 // c3 400 // d3 400 // e3 400 //
+   f3 z 404 // g3 c4 402 // f3 d4 402 // e3 e4 402 //
+   d3 f4 402 // f3 g4 402 // g3 f4 402 // a3 e4 402 //
+   b3b d4 402 // c4 f4 402 // b3b g4 402 // a3 a4 402 // ;
+: m63   g3 b4b 402 // g2 c5 402 // a2 b4b 402 // b2b a4 402 //
+   c3 g4 402 // d3 g3 402 // c3 a3 402 // b2b b3b 402 //
+   a2 f3 c4 406 // b2b d4 402 // a2 c4 402 // g2 b3b 402 //
+   f2 c4 a3 406 // b3b 2 // a3 2 // b3b g3 6 // ;
+: m64   a3 f3 6 / f3 2 & a3 2 & g3 b3 6 & c4# 2 &
+   f3 d4 6 / f2 e2 f2 g2 400 qt
+   a2 e3 a4 405 // b3b 400 // a3 400 // g3 c4# 402 //
+   f3 f3 d4 406 // e3 400 // d3 400 // g3 e4 6 // ;
+: l15   m58 m59 m60 m61 ;
+: l16   m62 m63 m64 ;
+\ contrapunctus 6                                     11mar88cht
+: m65   d3 a3 f4 d4 407 // c3 400 // b2b 400 // a2 400 //
+   b2b z 402 // g2 b3b 404 // c3# a3 e4 405 // g3 4 //
+   d3 f3 d4 f4 407 // b2b g3 404 // a2 f3 404 // g2 e3 404 //
+   f2 d3 a4 406 // g2 400 // f2 g4 401 // e2 a3 g4 406 // ;
+: m66   d2 d4 f4 a4 407 // a2 400 // b2b 400 // c3 c4 e4 406 //
+   d3 b3b d4 406 // e3 400 // f3 400 // a3 4 //
+   z g3 c4# b4b 407 // e3 400 // f3 z 404 // g3 400 //
+   f3 e4 402 // e3 400 // d3 400 // c3# e4 402 // ;
+: m67   d3 f4 a4 405 // e4 4 // f4 4 // g3 4 //
+   a4 4 // g4 2 // f4 g4 3 // e4 2 //
+   d4 f4 3 // b3b 4 // a3 4 // g3 a3 6 //
+   f3 b3b 6 // e3b 400 // d3 400 // c3 c4 402 // ;
+: l17   m65 m66 m67 ;
+\ contrapunctus 6                                     01may88cht
+: m68   b2b d4 402 // e3 4 // d3 4 // c3# e4 5 //
+   z d3 f4 405 // b2b 400 // a2 400 // g2 g4 401 //
+   f2# a4 401 /. a3 2 //  z z d4 406 /. d3 c4 6 // ;
+: m69   g3 b3b 6 / a4 1 & d4 1 & f3 a3 e4 7 & f4 1 &
+   e3 b3b g4 7 /. g2 d3 404 //  c3 e3 404 / c3 400 & d3 400 &
+   c3 g3 402 & b2b 400 &  a2 c4 402 /. c3 b3b 6 // ;
+: m70   z f3 a3 406 / g4 1 & c4 1 & e3 g3 d4 7 & e4 1 &
+   d3 a3 f4 7 /. f2 c3# 404 //  b2b d3 404 / b2b 400 & c3 400 &
+   b2b d4 401 & a2 400 &  b2b g3 g4 403 /. b2 g3 d4 f4 407 // ;
+: m71   c3 c4 e4 403 /. b2b e4 g4 403 //  a2 z f4 c5 407 /.
+   c3 e3 g4 b4b 407 //  f3 a3 f4 a4 407 /. e3b g3 g4 c5 407 //
+   d3 f3 a4 f5 407 /. f3 c4 e5b 405 // ;
+: l18   m68 m69 m70 m71 ;
+\ contrapunctus 6                                     29mar88cht
+: m72   b3b d4 d5 405 /. a3 c4 f4# 406 //  g3 b3b g4 406 /
+   z 1 // f3 a3 a4 d5 407 //  e3 g3 b4b c5# 407 /. f3 400 //
+   e3 400 / z z z 7 // d3 g3 b4b e5 407 // ;
+: m73   c3# g3 e4 a4 407 % |  z 1 / a2 a3 c5# e5 407 & f5 1 &
+   g5 1 //  d3 a3 d5 f5 407 // e5 1 // z z d5 7 //
+   e3 c5# 401 //  f3 d5 401 /. g3 b3b e4 406 // ;
+: m74   a3 a3 f4 406 /. g3 b3b g4 e5 407 // a3 a3 e4 c5# 407 /
+   z 4 // a2 g4 d5 403 //  d2 a3 g4 d5 407 / z g4 f4# e4 2 qt
+   d4 f4# z 7 /. c4 a4 6 // ;
+: m75   b3b d4 6 /. a3 c4 6 // g3 b3b 6 /. e4b 2 //  f3# a3 d5 7
+   / a3 a4 b4b c5 2 qt  b3b b4b 6 // a4 2 // g4 2 //
+   a3 f4# 6 // ;
+: l19   m72 m73 m74 m75 ;
+\ contrapunctus 6                                     11mar88cht
+: m76   b3b g4 g4 7 /. d4 2 // e4 2 // c4 4 // b3b a4 5 //
+   a3 f4 6 //  g3 g4 b4b 7 /. d5 100 //  g5 d5 102 /
+   a3 c5 5 // f5# c5 102 // ;
+: m77   g5 b3b b4b d5 107 /. a5 c4 a4 106 //  a5 d4 g4 106 /.
+   g5 b3b 104 //  a5 c4 f4# e5b 107 /. b5b a3 104 & c6 100 &
+   b5b b3b g4 106 // a5 100 // g5 100 // f5# c4 a4 106 // ;
+: m78   g5 d4 b4b d5 107 / d4 d3 e3 f4# 4 qt  g3 4 // c5 2 //
+   b4b c5 3 // a3 a4 6 //  b3b g4 b4b 7 /. c4 4 //
+   d4 4 // c4 a4 6 // b3b g4 6 // a3 f4# 6 // ;
+: m79   g3 e4 6 / z z 6 // f5# a4 101 //  g5 b4b 101 /.
+   d3 g3 e5 b3b e4 c5 707 //  d3 a3 f5# f3# a4 d5 707 %% | ;
+: l20   m76 m77 ;
+\ contrapunctus 6                                     08apr88cht
+decimal
+: fugue6   20 fudge !
+   l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13 l14 l15
+   l16 l17 l18 l19 l20
+   5 fudge +! m78   5 fudge +! m79 ;
+
+\ contrapunctus 7, a. 4. per augmen et diminu         29mar88cht
+hex
+: m1   d4 4 %  a4 4 /. g4 4 //  f4 4 /. e4 4 //  d4 4 % ;
+: m2   c4# a5 5 %  d4 4 /. e4 4 //  f4 d5 5 % f4 4 //
+   g4 4 // f4 e5 5 // e4 4 // ;
+: m3   d4 d5 f5 7 // c4# 4 // d4 4 /  a4 2 / c4 g5 5 // b3 b4 5
+   //  a3 c5 a5 7 // g3# 4 // a3 4 // d5 2 //
+   e5 2 // a3 b3 c4# 4 tri ;
+: m4   d4 f5 b5b 7 // c4 b3b a3 4 tri  c3 e5 6 // f3# 4 //
+   g3 4 // d5 2 //  c5# a5 3 // b3b a3 g3 4 tri
+   f3 4 // a4 2 // b4 g5 3 // e3 c5# 6 // ;
+: l1   m1 m2 m3 m4 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         12mar88cht
+: m5   d2 d3 d5 f5 407 // b4b a4 g4 2 tri  f4 2 // a3 b3 c4# 4
+   tri   d3 4 // a4 2 // b4 e5 3 // c5# 2 //
+   d5 f5 3 // a3 4 // g3 g5 5 // f3 4 // ;
+: m6   a2 e3 a5 405 // d5 c5 b4 2 tri  a3 c5 6 // g5 1 // f5 1
+   // e5 1 //  f3 d5 5 // c5 b4 a4 2 tri
+   b2 d3 g4# 406 // d5 e5 g5 1 tri ;
+: m7   c3 c3 a4 e5 407 //  e5 a4 3 // 4 . e3 4 // f3# z 5 //
+   f3# d5 6 //  a3 c5 6 // e5 1 // a5 1 // b4 g5 3 //
+   d3 z a4 f5 407 //  e5 d5 c5 1 tri ;
+: m8   e3 g4# b4 403 // b3 e4 d4 4 tri  c4 a4 z 7 // b3 4 //
+   a3 4 // g3# a4 6 //  a3 c5 6 //  d5 e5 f5 1 tri
+   z g5 5 // d5 c5 b4b 2 tri ;
+: l2   m5 m6 m7 m8 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         29mar88cht
+: m9   f3 a3 a4 406 // g5 f5 e5 1 tri  d3 f5 5 // 2 . a4 2 //
+   b4 2 // e3 c5# 6 //  f3 d5 6 // g5 1 // f5 1 // g3 e5 5 //
+   a3 d5 5 // c5 b4b a4 2 tri ;
+: m10   e3 b3b g4 406 // f5 e5 d5 1 tri  a3 c5# 5 // e4 2 //
+   f4 2 // g3 g4 6 //  f3 a4 6 // c5# d5 e5 1 tri
+   d3 f5 401 // e3 g4 6 // f3 a4 6 // g3 b4 6 // ;
+: m11   c3 a3 c5 406 // e5 1 // d5 f5 3 // e5 g5 3 //
+   f5 a5 3 // c3 d3 e3 4 tri  f3 g5 5 // 2 . f5 2 // e5b 2 //
+   g3 d5 6 //  c4 e5b 6 // b5b 1 // a5 1 // b3b g5 5 // ;
+: m12   a3 f5# 5 // d5 c5 b4b 2 tri   a2 c5 402 // 1 . d3 f5# 5
+   // e3 g5 3 // f3# a5 5 //  b2b g3 d5 405 // c5 b4b a4 2 tri
+   c3 g4 e5b 405 // f3# 4 // g3 c5 6 // a3 4 // ;
+: l3   m9 m10 m11 m12 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         29mar88cht
+: m13   d3 b3b f4# d5 407 // d4 e4 f4 2 tri  g4 z 3 //
+   a3 b3b c4 4 tri  z d4 a4 405 // g4 f4# e4 2 tri
+   f4# d5 3 // c4 4 // b3b 4 // a3 c5 5 // ;
+: m14   g3 g4 b4b 7 // g2 400 // a2 400 // b2b f4 a4 403 //
+   c3 e4b g4 403 // g3 a3 b3b 4 tri  a3 d4 f4# 7 // a2 d3 c3
+   400 tri  b2b z g4 405 // a2 400 // g2 400 // f2# a4 401 // ;
+: m15   g2 g3 b4b 403 // b2b c3 d3 400 tri  e3b 400 // c5 1 //
+   a3 b4b 3 // a4 1 //  b3b g4 3 // 400 . e3b 400 // d3 400 //
+   c3 c4 402 //  c3 d4 402 & b2 400 & c3 a4b 401 & b2 400 &
+   c3 g4 401 & b2 400 & a2 f4 401 & b2 400 & ;
+: m16   c3 e4b e4b 403 // g4 a4 b4b 1 tri  c5 1 // d3 e3b f3
+   400 tri  g3 d4 402 // c5 b4b a4 1 tri
+   f3 b4b 401 // c5 1 // c4 d5 3 // e3b e5b 401 // ;
+: l4   m13 m14 m15 m16 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         29mar88cht
+: m17   d3 b3b b3b f5 407 // e5b d5 c5 1 tri  f4 b4b 5 // e3b
+   400 // d3 400 // c3 e4b 404 //  b2b d4 404 // a4 1 // d3 a3
+   g4 403 // c4 f4 5 //  g2 b3b b3b e4 407 //
+   g4 1 // c4 f4 3 // e4 1 // ;
+: m18   f2 a3 d4 f4 407 // a2 b2b c3 400 tri  d3 b3b z 406 //
+   c3 400 // d3 b4b 401 // e3b c4 404 //  f3 d4 404 // b4b a4 g4
+   1 tri  a4 1 // e4b 4 // d4 a4b b4 7 // c4 c5 5 // ;
+: m19   b3 g4 d5 7 // d4 b4 5 // e4b z c5 7 // f4 d5 5 //  g4 g4
+   5 // e3b 400 // d3 c5 e5b 403 // c3 400 //  d5 1 // 2 . c5 2
+   // d4 b4b 6 // a4 2 //  b4b 2 // 4 . d4 4 //
+   c4 e5 5 // b3b 4 // ;
+: m20   f3 c4 f5 406 // b4b a4 g4 2 tri  z f4 a4 406 // b4b 2 //
+   c4 2 // e4b c5 6 //  f3 d4 404 // b4b 2 // a4 2 // c4 e5b 5 /
+   b2b b3b d5 406 // d4 2 // g4 2 // c3 400 // ;
+: l5   m17 m18 m19 m20 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         31mar88cht
+: m21   d3 a3 404 // a4 1 // f4 d5 3 // e3b g4 402 //  f3 a4 402
+   // c5 1 // b3b d5 5 // c4 e5b 5 //  d4 f5 5 // b4b c5 a4 2
+   tri  g3 b4b 402 // e4b g5 5 // d4 f5 5 // c4 e5b 5 // ;
+: m22   b3b d5 5 // 2 . b4b 2 // f3 a4 402 // e3b g4 402 //
+   d3 f4 402 // 1 . b3b d5 5 // a3 c5 5 // g3 b4b 5 //
+   f3 a4 5 // c3 e5b 401 // d3 b3b d5 405 // e3 400 //
+   f3 c5 401 // 4 . b3b g4 5 // a3 f4 5 // g3 e4 5 // ;
+: m23   a3 f4 6 // g3 b4b 5 // f3 a4 5 // e3 g4 5 //  z f3 c5 a4
+   407 // b2b g4 401 // a2 f4 401 // g2 b4b 402 //  f2 a4 c5 403
+   // a2 400 // b2b 400 // c3 g4 402 //
+   d3 f4 402 // b4 c5 d5 1 tri ;
+: m24   z c4 e4 g4 407 // c2 c3 b2b 400 tri  a2 f4 z 403 // g2
+   400 // f2 400 // e2 g4 402 //  f2 a4 c5 403 // c3 f3 e3 400
+   tri  d3 b3b f4 405 // b4b 2 // a4 2 // g4 g4 3 // ;
+: l6   m21 m22 m23 m24 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         29mar88cht
+: m25   a3 f4 a4 7 // 400 . d3 400 // c3 400 // b2b b4b 401 //
+   a2 c5 401 // g4 2 // f4 2 // a2 e4b 402 //  b2b d4 d5 403 //
+   e4 2 // f4 2 // b2 400 //  c3 g3 c5 405 //
+   2 . f4 2 // e4 2 // c3# b4b 401 // ;
+: m26   d3 f3 a4 405 // 2 . e4 2 // d4 2 // e3 c4# 402 //  f3 d4
+   402 // g4 1 // a4 1 // g3 b4b 401 //  a3 c4 c5 403 // e4 2 //
+   f4 2 // b3b g4 402 //  c4 a4 402 //
+   d5 1 // c5 1 // d4 b4 401 // ;
+: m27   g3 e3 g4 c5 407 // d5 1 // z e5 401 // a4 f5 3 //
+   b4b g5 3 //  d4 c4# b4 2 tri  c4# 2 // f5 e5 d5 1 tri
+   z c5# 3 // b4b a4 g4 2 tri ;
+: m28   d3 f3 a4 d5 407 // g4 f4 e4 2 tri  a3 d4 z 403 // a4 1
+   // z b4 3 // g3 c5# 401 //  f3 d5 401 // a4 e5 3 // d5 f5 3 /
+/ e3 c5 402 //  d3 g3 b4b 406 // a4 2 // b4b e5 3 // g4 2 // ;
+: l7   m25 m26 m27 m28 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         12mar88cht
+: m29   c3# a3 e4 406 // 1 . e5 1 // z a5 3 // g5 1 //
+   d3 f5 401 // e5 1 // d5 1 // e3 c5# 401 //
+   f3 d4 d5 403 // b4b a4 g4 1 tri
+   a4 f4 3 // g3 e4 401 // f3 d4 401 // e3 g4 c4# 403 // ;
+: m30   d3 f4 d4 403 // a4 1 // d5 1 // e4 2 //
+   z b3b d4 406 // f5 1 // g3 e5 401 // d5 1 //
+   a3 c4# e5 7 // a5 1 // f3 400 // a4 1 //
+   g3 d4 b4b 7 // d5 1 // e3 g5 401 // e4 g4 3 // ;
+: m31   f3 f4 a4 7 // c5 1 // d3 f5 401 // c3 e5 401 //
+   b2 z d5 405 // g4 2 // g3 a4 6 // c3# e4 e5 403 //
+   d3 d4 a4 403 // a3 4 // b2b g3 d5 405 // f3 4 //
+   g2 e3 z 406 // e5 1 // a2 a3 d5 405 // c5 1 // ;
+\ contrapunctus 7, a. 4. per augmen et diminu         12mar88cht
+: m32   d3 f5 401 // b3b 4 // e3 a3 b4b 405 // g3 4 //
+   f3 f3 404 // a3 c5 5 // d4 b4b 5 // c4 a4 5 //
+   b3b g4 5 // a3 400 // g3 b3 g5 405 // f3 400 //
+   e3 c4 404 // b5b 1 // a3 c4# a5 405 // g5 1 // ;
+: l8   m29 m30 m31 m32 ;
+: m33   d3 d4 f5# 405 // c4 4 // z b3 f5 405 // a3 4 //
+   g3 b3 404 // a5 1 // z b3b g5 405 // f5 1 //
+   c3 e5 401 // d4 4 // z c4 e5b 405 // b3b 4 //
+   f3 a3 404 // g5 1 // z a4 f5 405 // e5b 1 // ;
+: m34   b2b d5 401 // 4 . a4 4 // b3b g4 404 // f4 4 //
+   e4 c5# 5 // a3 400 // g3 e4b c5 405 // f3# 400 //
+   g3 d4 404 / a3 c4# b4b 405 // a4 1 //
+   b3b d4 g4 405 // f5 1 // g3 g4 e5 405 // d5 1 // ;
+\ contrapunctus 7, a. 4. per augmen et diminu         12mar88cht
+: m35   a3 a4 c5# 403 // f4 4 // e4 4 // d4 d5 5 //
+   c4# e5 5 // b3b 400 // a3 e4 404 // g3 c5# 401 //
+   f3 a3 d5 405 // f5 1 // z e5 5 // g3 d5 401 //
+   a3 c5# 401 // e5 1 // z c3# a4 405 // g4 1 // ;
+: m36   z d3 d4 f4 407 // b2b g4 401 // a2 z f4 405 // g2 e4 401
+   //  f2 d4 401 // e2 f4 401 // d2 b4b 401 // c2# a4 401 //
+   d2 d3 g4 405 // f4 e4 f4 1 tri
+   z e4 g4 403 // g3 b4b 401 // f3 d5 401 // e3 c5# 401 // ;
+: l9    m33 m34 m35 m36 ;
+: m37   d3 a3 f4 d5 407 // c3# d3 e3 400 tri
+   f3 z 401 // d5 1 // g3 c5 5 // b4b 1 //
+   z f3 a4 405 // f2 g2 a2 400 tri
+   b2b g4 z 403 // c5# 1 // g2 e3 d5 405 // e5 1 // ;
+\ contrapunctus 7, a. 4. per augmen et diminu         12mar88cht
+: m38   d3 d3 a4 f5 407 // d2 g5 401 // d3 f5 401 // e3 e5 401
+   //  f3 d5 401 // a3 g3 f3 400 tri
+   e3 c3# a5 405 // d3 e3 f3 400 tri
+   e3 400 // f3 400 // d3 g5 401 // e3 400 // ;
+: m39   f3 d3 b4b f5 407 // e3 f3 g3 400 tri
+   f3 400 // e3 400 // d3 e3 e5 405 // c3# 400 //
+   d3 f3 d5 405 // c3 b2b a2 400 tri
+   g2 400 // a2 b2b g2 400 tri ;
+: m40   a2 a4 c5# 403 // g2 400 // a2 g3 404 //
+   a2 f3 404 // a3 400 // g3 e3 404 // a3 400 //
+   f3 d3 d5 405 // a3 d4 c4 400 tri
+   b3b g4 e5 403 // a3 g3 b3b 400 tri ;
+: l10   m37 m38 m39 m40 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         12mar88cht
+: m41   a3 f4 f5 403 // g3 f3 e3 400 tri
+   d3 z 404 // c3 400 // b2b c3# 404 // a2 400 //
+   b2b 400 // e3 4 // d3 g5 5 // c3# 4 //
+   a2 d3 f5 405 // e3 4 // f3 e5 5 // g3 4 // ;
+: m42   a3 d5 5 // g3 a4 5 // f3 d5 5 // g3 4 //
+   z a3 e4 406 // e5 d5 c5# 1 tri
+   f4 d5 3 // e4 4 // d4 a5 5 // c4 4 //
+   b3b g4 d5 7 // a3 4 // g3 4 // e5 1 // ;
+: m43   z d4 a4 f5 407 // b3b 400 // a3 400 // g3 g5 401 //
+   f3 z d4 a5 407 // e3 400 // d3 d4 404 // e4 2 //
+   z f4 b5b 403 // c4# 4 // d4 4 // e4 g4 6 //
+   f4 a4 a5 7 // g4 4 // f4 4 // e4 g5 5 // ;
+\ contrapunctus 7, a. 4. per augmen et diminu         12mar88cht
+: m44   z d4 b4b f5 407 // g3 a3 b3b 400 tri
+   c4 c4 a4 406 // e5 1 // c3 f5 401 // g4 g5 3 //
+   f3 f4 a5 403 // f5 1 // g3 e5 401 // d5 1 //
+   a3 c5 401 // e4 2 // g3 f4 z 403 // g4 2 // ;
+: l11   m41 m42 m43 m44 ;
+: m45   f3# c4 a4 z 407 // e4b d4 c4 4 tri
+   z b3b d5 406 // d3 400 // e3 400 // f3 a3 c5 406 //
+   g3 g3 b4b 406 // d3 400 // g3 400 // f3 a4 402 //
+   e3b z g4 406 // d3 400 // c3 e4b 404 // b2b 400 // ;
+: m46   c3 a3 f4# 406 // e3b 400 // d3 z 404 // c3 400 //
+   b2b d4 g4 406 // a2 400 // g2 400 // f2# a4 402 //
+   g2 g3 b4b 406 // d3 400 // g3 400 // a3 4 //
+   b3b 4 // f3# c5 402 // g3 b4b 402 // a3 c4 a4 406 // ;
+\ contrapunctus 7, a. 4. per augmen et diminu         12mar88cht
+: m47   b3b d4 g4 406 // g3 a3 b3b 400 tri
+   c4 e4b 404 // f4# 2 // c3 g4 402 // a4 2 //
+   g3 d4 b4b 406 // c5 2 // b4b 2 // c4 a4 6 //
+   z b3b g4 406 // f4 2 // g2 e4 402 // d4 2 // ;
+: m48   c3 e4 402 // g3 4 // a3 4 // b2b b3b 404 //
+   a2 c4 404 // 2 . e4 2 // f4 2 // g2 g4 402 //
+   f2 a4 402 // 4 . c4 4 // b3b d4 6 // a3 4 //
+   e2 g3 404 // f3 4 // e3 c4 6 // d3 b3b 6 // ;
+: l12   m45 m46 m47 m48 ;
+: m49   f2 c3 a3 406 // c4 2 // d4 2 // g2 e4 402 //
+   a2 z f4 406 // g4 a4 b4b 2 tri
+   z c5 6 // b2b d4 404 // a2 c4 e4b 406 // g2 d4 404 //
+   f2 a3 404 // e3b g4 402 // d3 f4 402 // c3 e4 402 // ;
+\ contrapunctus 7, a. 4. per augmen et diminu         29mar88cht
+: m50   b2b d4 d5 403 // d3 e3 f3# 4 tri
+   z g3 z 406 // b3b 400 // a3 z 404 // g3 400 //
+   f3# 400 // a4 2 // d3 b4b 402 // c5 2 //
+   g3 b4b 402 // f4 a4 6 // e4 g4 6 // d4 a4 6 // ;
+: m51   c4# e4 a5 7 // 400 . g3 400 // f3 e5 402 // e3 400 //
+   f3 a4 402 // a3 4 // d4 4 // d3 b4 402 //
+   a3 e4 c5# 406 // f4 4 // e4 4 // d4 d5 6 //
+   z c4# e5 g5 407 // a2 400 // b2 z 404 // c3# 400 // ;
+: l13   m49 m50 m51 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         29mar88cht
+: m52   d3 z f5 f5 407 // a3 4 // b3 4 // c4# 4 //
+   z d4 e5 406 // e3 400 // f3 z 404 // g3 d5 402 //
+   a3 c5# 402 // b3 c4# d4 4 tri
+   e4 e5 5 // f4 a4 6 // g4 b4 6 // a4 c5# 6 // ;
+: m53   z f4 d5 d5 407 // b3b a3 f3 400 tri
+   f3 z a4 406 // e3 d3 f3 400 tri
+   b2b 400 // d3 4 // e3 g4 6 // f3# a4 6 //
+   g3 b4b 6 // a3 4 // b3b g4 6 // g3 4 // ;
+: m54   a2 a3 c5# 405 // a4 2 // e3 g4 6 // f4 2 //
+   z z e4 406 // a3 d4 402 // g3 e4 402 // f3 f4 402 //
+   e3 b3b g4 406 // d3 400 // e3 g3 b4b 406 // f3 400 //
+   g3 z z 406 // b3b a3 g3 400 tri ;
+: l14   m52 m53 m54 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         29mar88cht
+: m55   f3 b3 a4 d5 407 // g3 400 // f3 400 // e3 g4 402 //
+   d3 d4 f4 406 // e3 400 // f3 400 // c4 e4 6 //
+   b3b d4 6 // a3 400 // g3 400 // f3 a3 404 //
+   e3 g3 c4# e5 407 // a3 g3 a3 400 tri ;
+: m56   d3 f5 f3 d4 z 507 // d5 1 // c5 1 // e4 b4b 3 //
+   z f4 a4 403 // f3 g3 a3 4 tri
+   g4 b4b 3 // f4 a4 3 // e4 g4 3 //
+   d4 f4 3 // c4 4 // b3b g4 5 // a3 b4b 5 // ;
+: m57   z g3 b4b 405 // a3 400 // g3 z b4b d5 407 // f3 400 //
+   e3 g5 c5# 501 // d3 400 // c3# a4 d5 403 // e3 g4 402 //
+   a2 f5 a4 502 // b2 4 // c3# f4 d5 7 // d3 4 //
+   e5 e3 g4 106 // f3 4 // g3 e4 c5# 7 // e3 4 // ;
+: l15   m55 m56 m57 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         13mar88cht
+: m58   a2 d5 a3 f4 d5 507 // g3 b4b 401 // f3 z z a4 407 //
+   e3 g4 401 //  d3 f4 401 // c3 a4 401 // b2b f3 d4 406 //
+   d3 g4# 401 //  g2# b4 401 // e5 100 // | d5 c5# d5 100 tri
+   e5 f5 e5 100 tri ;
+: m59   g5 f5 e5 100 tri  d5 e5 c5# 100 tri
+   b2b d5 d3 g3# f4 507 // e3 4 // a2 f3 a3 406 // d4 e4 f4 1
+   tri  c5# e3 g4 105 // a4 b4b g4 1 tri ;
+: m60   d3 d5 d3 b3b f4# 507 // a4 g4 f4# 1 tri
+   z g4 5 // c4# 2 // d5 d4 b4b 106 // a3 2 //
+   c5# e4 g3 106 // f3# 2 // c5 g4 e3 b4b 107 // g3 2 //
+   d4 f3# a4 7 // e5b 100 // d5 a3 104 // c5 100 // ;
+: m61   d3 b4b b3b g3 e4 507 // a4 g4 b4b 100 tri
+   e3 c4# 5 // b4b a4 g4 100 tri
+   d2 f4# d3 a4 d4 507 %% | ;
+: l16   m58 m59 ;
+\ contrapunctus 7, a. 4. per augmen et diminu         08apr88cht
+decimal
+: fugue7   20 fudge !
+   l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12 l13 l14 l15 l16
+   5 fudge +! m60   5 fudge +! m61 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+hex
+: m1   z 2 %% d4 2 %%  c4 2 %  f4 2 %  b3 2 % b3b 2 % ;
+: m3   a3 2 %  d4 2 %
+   a3 2 & g3 2 & a3 2 & g3 2 & a3 2 & g3 2 & f3 2 & g3 2 &
+   g3 2 % ;
+: m4   f3 2 %  g3 2 %  a3 2 / g3 2 / a3 2 % ;
+: m5   d3 2 %  d4 2 % c4 2 % b3 2 % ;
+: m6   c4 2 % f4 2 %  a3 e4 6 %  d4# 2 % ;
+: m7   g3 e4 6 %  c4 4 %  f3# z 6 / d4 2 /
+   f3 c4 6 / b3 2 / ;
+: m8   e3 c4 6 % a3 4 %   e3 4 & d3 4 & e3 4 & d3 4 &
+   e3 b3 6 & d3 4 & c3 4 & d3 4 &
+   a3 2 / g3# 2 / ;
+: l1   m1 m3 m4 m5 m6 m7 m8 ;
+\ contrapunctus 8, a 3.                               05jun88cht
+: m9   c3 a3 6 / c4 2 /  d3 b3 6 / d4 2 /
+   e3 g3# 6 / d3 f4 6 /  e3 e4 6 / d4 2 / ;
+: m10   a2 c4 6 / b3 2 /  g3 c4 6 / e4 2 /
+   f3 a4 6 / d4 2 /  e3 c4# 6 / e4 2 / ;
+: m11   f3 d4 6 / f4 2 /  b3b e4 6 / g4 2 /
+   a3 f4 d5 7 / c4 2 / g3# b4 6 / f4 2 / ;
+: m12   a3 e4 c5 7 %  c4 f5 3 %  z d4 b4 7 / g3 4 /
+   f3 g4 b4b 7 / e3 4 / ;
+: m13   f3 c4 a4 7 % a3 d5 3 %  z b3 a4 7 & g4 1 &
+   a4 1 & g4 1 &    e3 a4 5 & g4 1 & f4 1 & g4 1 &
+   d3 e4 6 / c3# 4 / ;
+: m14   d3 a3 f4 7 /  c4 2 /  b3b g4 3 / d4 2 /
+   z c4 a4 7 / c3 g4 5 /  b2b a4 5 / a2 4 / ;
+: l2   m9 m10 m11 m12 m13 m14 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m15   b2b c4 d4 7 / b3b 2 /  a3 d5 3 / g3 2 /
+   c3 a3 c5 7 / f3 2 /  g3 b4b 3 / e3 2 / ;
+: m16   f2 f3 a4 7 / a2 c5 6 /  g2 b4b f5 7 / f2 a4 6 /
+   g2 b4b e5 7 / e2 g4 6 /  f2 a4 d5 7 / d2 f4 6 / ;
+: m17   a2 e4 c5# 7 / g3 4 /  f3 b4b 6 / e3 4 /
+   f3 a4 z 7 / d3 4 /  e3 g4 c5# 7 / c3# d5 5 // e5 1 // ;
+: m18   d3 f4 a4 7 / d5 1 /  e3 c5 3 / b4b 1 /
+   f3# c5 3 / a4 1 /  g3 b4b 3 / g4 1 / ;
+: m19   c3# a4 5 / g4 2 /  a3 f4 6 / e4 2 /
+   d3 f4 6 / d4 2 /  f3 e4 6 / c4# 2 / ;
+: m20   b2b d4 6 / 1 . a4 1 /  a2 g4 5 / f4 1 /
+   b2b g4 5 / e4 1 / g2 f4 5 / d5 1 / ;
+: l3   m15 m16 m17 m18 m19 m20 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m21   a2 g4 5 & f4 1 & g4 1 & f4 1 &   a3 g4 5 & f4 1 &
+   g4 1 & f4 1 &   g3 c4# e4 7 / f3 4 /
+   g3 a4 z 7 / e3 c5# 5 /  f3 d5 5 / d3 4 / ;
+: m22   e3 g4 6 / b4 1 /  c5 a4 3 / g4 1 /
+   d3 f4# a4 7 / c5 1 /  g3 f4 b4 7  %  ;
+: m23   c3# e4 6 / g4# 1 /  b2 a4 f4# 7 / e4 1 /  b2 e4 f4# 7 &
+   d4 2 & e4 2 & d4 2 &   e4 a4 3 & d4 2 & c4 2 & d4 2 &
+   e3 g4 5 / b4 1 / ;
+: m24   a2 c4 a4 7 / c5 1 /  d4 b4 3 / d5 1 /
+   z e4 c5 7 / d4 2 /  a3 e4 6 / g3 4 / ;
+: m25   f3# a3 6 / e5b 1 /  d3 f3# d5 7 / c5 1 /
+   e3 g3 d5 7 / b4b 1 /  f3# a3 c5 7 / a4 1 / ;
+: m26   g2 b4b 5 / a4 2 /  a2 g4 6 / f4# 2 /
+   b2b g4 6 / e4 2 /  g2 f4 6 / d4 2 / ;
+: l4   m21 m22 m23 m24 m25 m26 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m27   c3 e4 6 / d5 1 / d3 f4 c5 7 / b4b 1 /
+   e3 g4 c5 7 / a4 1 /  c3 e4 b4b 7 / g4 1 / ;
+: m28   f2 f4 a4 7 / g3 4 /  f3 a4 d5 7 / e3 4 /
+   f3 z g4# 7 / d3 b3 6 /  e3 c4# g4 7 / c3# e4 6 / ;
+: m29   d3 f3 f4 7 / e3b 4 /  d3 f4 b4b 7 / c3 4 /
+   d3 z e4 7 / b2b g3 6 /  c3 a3 e4b 7 / a2 c4 6 / ;
+: m30   b2b f3 d4 7 / c3 4 /  b2b d4 g4 7 / a2 4 /
+   b2b z c4# 7 / g2 e3 6 /  a2 f3# c4 7 / f2# a3 6 / ;
+: m31   g2 d3 6 / 1 . c4 1 /  f3# b3b 3 / a3 1 /
+   g3 b3b 3 / d4 1 /  a3 c4 3 / e4b 1 / ;
+: m32   b3b d4 3 / a4 1 /  a3 g4 3 / f4# 1 /
+   b3b g4 3 / b4b 1 /  c4 a4 3 / c5 1 / ;
+: l5   m27 m28 m29 m30 m31 m32 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m33   d4 b4b 3 / a2 f4 6 /  g2 e4 6 / f2 d4 6 /
+   g2 c4# 6 / e2 g4 5 /  f2 d4 a4 7 / d2 f4 5 / ;
+: m34   c2# e4 g4 7 / b2b d4 6 /  a2 c4# 6 / g2 b3 6 /
+   a2 c4# z 7 / f2 4 /  g2 e4 c5# 7 / e2 4 / ;
+: m35   f2 a4 d5 7 / g4 1 /  a2 c3# f4 7 / e4 1 /
+   d3 d3 f4 7 / a4 1 /  a4 g4 3 / b4b 1 / ;
+: m36   c3 e3 a4 7 / e4 1 /  f3 a3 d4 7 / c4# 1 /
+   b2 d4 5 / f4 1 /  b2b g3 e4 7 / g4 1 / ;
+: m37   a2 c3 f4 7 / c4 1 /  d3 f3 b3 7 / a3 1 /
+   a2 b3 5 & g2 4 & a2 4 & g2 4 &   a2 d4 5 & g2 4 & f2 4 &
+   g2 4 %   e3 c4# 3 / e4 1 / ;
+: m38   f2 a3 d4 7 / f4 1 /  g2 z e4 7 / g4 1 /
+   a2 f4 5 / g2 e4 5 /  a2 g3 d4 7 / c4# 1 / ;
+: l6   m33 m34 m35 m36 m37 m38 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m39   d2 g3 c4# 7 / f3 d4 3 /  z 400 %  | d5 1 % g4 2 % ;
+: m40   c5 1 / g4# 2 /  a4 f5 3 / 2 . a4 2 / 2 .
+   a4 b4 3 / f4# 2 /  g4 b4b 3 / 2 . g4 2 / ;
+: m41   2 . g4 a4 3 / e4 2 /  f4 d5 3 / 2 . f4 2 / 2 .
+   f4 a4 3 & f4 1 & a4 1 & g4 1 &   e4 a4 3 & g4 1 &
+   f4 1 & g4 1 &  d4 2 / c4# 1 / ;
+: m42   z d4 f4 7 / b3b 4 /  a3 g4 5 / g3 4 /
+   f3# a4 5 / g3 g4 5 /  e3 c4 a4 7 / f3# 4 / ;
+: m43   g3 d4 5 / 2 . c4 2 / d3 b3b 6 / a3 2 /
+   g3 b3b z 7 / d4 2 /  c4 e5b 3 / b3b 2 / ;
+: m44   f3 a3 6 / c5# 1 /  b3b z d5 7 / 1 . d5 1 / 1 .
+   e3 g4 d5 7 / b4 1 /  e3b c5 5 / 1 . c5 1 / 1 . ;
+: l7   m39 m40 m41 m42 m43 m44 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m45   d3 f4 c5 7 / a4 1 /  g3 d4 b4b 7 / 1 . b4b 1 / 1 .
+   d3 e4b b4b 7 & c3 4 & d3 4 & c3 4 &   d3 a4 5 % c3 4 &
+   b2b 4 & c3 4 &   g4 1 / f4# 1 / ;
+: m46   b2b g4 5 / d4 2 /  c3 c4 3 / b3b 2 /
+   d3 a3 6 / c3 b3b 6 /  d3 g3 f4 7 / a3 2 / ;
+: m47   g2 b3 6 / g4 1 /  c4 f4 3 / e4b 1 /
+   z d4 5 / e4b 1 /  g3 b3b c4 7 / d4 1 / ;
+: m48   c3 e4 5 / a3 c5 3 /  g3 b4b 3 / f3 a4 3 /
+   z e3 g4 7 / f3 a4 3 / c3 d3 f4 7 / e3 g4 3 / ;
+: m49   f2 f3 a4 7 / g4 1 /  z f4 3 / e4 1 /
+   z a4 d4 7 / e4 1 /  f3 c4 5 / d4 1 / ;
+: m50   g4 b3 3 / d3# 4 /  e3 c5 g4 7 / 4 . e3 4 / 4 .
+   e3 f4# a4 7 / c3# 4 / d3 f4 b4b 7 / 4 . d3 4 / 4 . ;
+: l8   m45 m46 m47 m48 m49 m50 ;
+\ contrapunctus 8, a 3.                               13mar88cht
+: m51   d3 e4 g4# 7 / b2b 4 /  c3 a4 e5 7 / 4 . c3 4 / 4 .
+   c3 d4 z 7 / b2 4 /  a2 4 / g2# 4 / ;
+: m52   a2 c4 z 7 / e5 1 / d4 d5 3 / c5 1 /
+   z e4 b4 7 / d4 c5 3 /  g3 e4 a4 7 / b4b 1 / ;
+: m53   a3 c5# 3 / f3 4 /  e3 d5 5 / d3 4 /
+   c3# z e5 7 / d3 d5 5 /  b2 g2 e5 7 / c3# 4 / ;
+: m54   d3 a4 5 / f3 2 /  g3 b4b 3 / a3 a4 3 /
+   z b3b g4 7 / a3 f4 3 /  e3 c4 g4 7 / b3b 2 / ;
+: m55   f3 a3 6 / c4 1 /  f2 d4 5 / g2 e4 5 /
+   a2 z f4 7 / e4 1 /  b2 d4 g4 7 / f4 1 / ;
+: m56   c3 e4 5 / g3 2 /  b2b a3 6 / b3b 2 /
+   a2 c4 z 7 / b3b 2 /  f3# d4 a4 7 / c4 2 / ;
+: l9   m51 m52 m53 m54 m55 m56 ;
+\ contrapunctus 8, a 3.                               13mar88cht
+: m57   g2 b3b 6 / f3 d4 5 /  e3 e4 5 / d3 f4 5 /
+   c3# z g4 7 / d3 f4 5 /  b2 e4 a4 7 / c3# g4 5 / ;
+: m58   d3 f4 5 /  e3 c4# 6 / f3 d4 6 / g3 e4 6 /
+   a3 f4 z 7 / g3 e4 6 /  b3b g4 d5 7 / a3 f4 6 / ;
+: m59   g3 e4 6 / f3 4 /  a3 c5 5 / g3 4 /
+   f3 d4 6 / e3 4 /  g3 b4b 5 / f3 4 / ;
+: m60   e3 c4 6 / f3 4 /  g3 f4 a4 7 / a3 4 /
+   b3b g4 5 / a3 4 /  c4 e4 6 / b3b 4 / ;
+: m61   a3 f4 f4 7 / g3 c5 5 / f3 d5 5 / e3 e5 5 /
+   d3 z f5 7 / a3 4 / c3 d5 6 / b2 4 / ;
+: m62   c3 e5 5 / b4 2 / c5 a5 3 / 2 . c5 2 / 2 .
+   c5 d5 3 / a4 2 /  b4b d5b 3 / 2 . b4b 2 / 2 . ;
+: l10   m57 m58 m59 m60 m61 m62 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m63   b4b c5 3 / g4# 2 / a4 f5 3 / 2 . a4 2 / 2 .
+   z a4 c5 7 & b4b 1 & c5 1 & b4b 1 &   g4 c5 3 & b4b 1 &
+   a4 1 & b4b 1 &   c3# f4 6 / e4 2 / ;
+: m64   d3 f4 a4 7 / d4 4 /  c4 b4b 5 / b3b 4 /
+   a3 c5 5 / b3b b4b 5 /  g3 e4b c5 7 / a3 4 / ;
+: m65   b3b f4 5 / a3 d4 6 /  g3 e4 z 7 / f3 f4 6 /
+   e3 g4 6 / f3 f4 6 /  d3 g4 b4b 7 / e3 4 / ;
+: m66   f3 c4 6 / e3 a4 5 /  d3 d4 b4 7 / c3 e4 c5 7 /
+   b2 f4 d5 7 / c3 e4 c5 7 /  a2 f4 d5 7 / b2 4 / ;
+: m67   c3 e4 g4 7 / d3 b4 5 /  e3 z c5 7 / f3 d5 5 /
+   g3 e5 5 / a3 f5 5 /  b3b d4 g5 7 / 1 . g3 g5 5 / 1 . ;
+: m68   a3 c4 g5 7 / e5 1 /  d4 a4 f5 7 / 1 . f5 1 / 1 .
+   g3 b4b f5 7 / d5 1 /  g3b b3b e5b 7 / 1 . e5b 1 / 1 . ;
+: l11   m63 m64 m65 m66 m67 m68 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m69   f3 a3 e5b 7 / c5# 1 /  a3 f4 d5 7 / 1 . d5 1 / 1 .
+  f3 g4 d5 7 & e3b 4 & f3 4 & e3b 4 &   f3 c5 5 & e3b 4 &
+   d3 4 & e3b 4 &   g3 b4b 3 / a4 1 / ;
+: m70   d3 d3 b4b 7 / f4 f4 3 /  e3b e4b b4b 7 / d4 2 /
+   f3 c4 6 / e3b d4 6 /  f3 b3b a4 7 / c4 2 / ;
+: m71   b2b d4 b4b 7 / f5 1 /  b3b z e5b 7 / d5 1 /
+   c5 1 / d5 1 /  a3 b4b 5 / c5 1 / ;
+: m72   b3b d5 5 / g3 4 /  a3 b4b g5 7 / b3b 4 /
+   c4 a4 6 / b3b 4 /  d4 f5# 5 / c4 4 / ;
+: m73   b3b d4 g5 7 / d5 1 /  e4b a4 c5 7 / b4b 1 /
+   c4 a4 5 / b4b 1 /  d4 f4# g4 7 / a4 1 / ;
+: m74   g3 g4 b4b 7 / d4 2 /  e3b g4 6 / 2 . g4 2 / 2 .
+   c3# g4 a4 7 / e4 2 /  d3 f4 6 / 2 . f4 2 / 2 . ;
+: l12   m69 m70 m71 m72 m73 m74 ;
+\ contrapunctus 8, a 3.                               13mar88cht
+: m75   b2 f4 d5 7 / d4 2 /  c3 e4b g4 7 / 2 . e4b 2 / 2 .
+   a2 e4b f4 7 / c4# 2 /  b2b d4 6 / 2 . d4 2 / 2 . ;
+: m76   g2 d4 e4b 7 / b3 2 /  a2b c4 6 / 2 . c4 2 / 2 .
+   f2# c4 d4 7 / b3b 2 /  g2 a3 e4b 7 / g3 2 / ;
+: m77   a3 c4# 3 / e2 4 /  f2 d4 5 / 4 . f2 4 / 4 .
+   f2 b3 g4 7 / d2 4 /  e2 c4# 6 / 4 . e2 4 / ;
+: m78   d2 d4 6 / a3 e4 3 /  z d4 f4 7 / 1 . f4 1 /
+   e4 1 / b3 2 /  c4 a4 3 / 2 . c4 2 / 2 . ;
+: m79   z c4 d5 7 / a3 2 /  g3 b3b 6 / 2 . b3b e5 3 /
+   a3 c5# 3 / e3 4 /  f3 a4 d5 7 / 4 . f3 4 / 4 . ;
+: m80   f3 g4 b4 7 / d3# 4 /  e3 c5 c5 7 / 4 . e3 4 / 4 .
+   e3 f4# z 7 / c3# 4 /  d3 f4 b4b 7 / 4 . d3 4 / 4 . ;
+: l13   m75 m76 m77 m78 m79 m80 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m81   d3 e4 g4# 7 / b2 4 /  c3 a4 a4 7 / 4 . c3 4 / 4 .
+   c3 d4 z 7 / b2 4 /  a2 b4 d5 7 / g2# 4 / ;
+: m82   a2 c5 5 / g4# 2 /  a4 f5 3 / 2 . a4 2 / 2 .
+   z a4 b4 7 / f4# 2 /  d3 g4 b4b 7 / 2 . g4 2 / 2 . ;
+: m83   c3# g4 a4 7 / e4 2 /  c3 f4 d5 7 / 2 . f4 2 / 2 .
+   b2 f4 a4 7 & g4 1 & a4 1 & g4 1 &   e4b a4 3 & g4 1 &
+   f4 1 & g4 1 &   c3 d4 6 / c4 2 / ;
+: m84   d4 f4# 3 / b2b 4 /  a2 g4 5 / g2 4 /
+   f2# z a4 7 / g2 g4 5 /  e2 c4 a4 7 / f2# 4 / ;
+: m85   g2 d4 5 / e4 1 /  g3 b3b f4# 7 / g4 1 /
+   c4 a4 3 / g4 1 /  f3# d4 b4b 7 / a4 1 / ;
+: m86   g3 e3 c5 7 / b4 1 /  f3 b3 d5 7 / c5# 1 /
+   e3 c4# e5 7 / d5 1 /  d3 d4 f5 7 / e5 1 / ;
+: l14   m81 m82 m83 m84 m85 m86 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m87   c3# a3 g5 7 / b3b d5 5 /  a3 z c5# 7 / g3 e5 5 /
+   f3 a4 5 / g3 4 /  e3 c5# g5 7 / f3 4 / ;
+: m88   d3 d5 f5 7 / e3 4 /  c3 z a5 7 / d3 4 /
+   b2b d5 5 / c3 e5 5 /  a2 c5 f5 7 / 1 . b2b f5 5 / 1 . ;
+: m89   g2 b4b f5 7 / 2 . b4b d5# 3 / 2 .  c3 b4b e5 7 / 1 .
+   g4 e5 3 / 1 .  f2# a4 e5 7 / 2 . a4 c5# 3 / 2 .
+   f2 a4 d5 7 / 1 . f4 d5 3 / 1 . ;
+: m90   e2 g4 d5 7 / 2 . g4 b4 3 / 2 .  a2 g4 c5 7 / 1 .
+   e4 c5 3 / 1 .  d2 f4 c5 7 / a4 1 /  g3 d4 b4b 7 //
+   f3 4 // 1 . e3 g4 b4b 7 // d3 4 // ;
+: m91   c3# e4 b4b 7 // d3 4 // e3 g4 5 // f3 4 //
+   e3 z c5# 7 // d3 4 // 1 . c3# c5# 5 // b2 4 // 1 .
+   a2 c5# 5 // b2 4 // c3# g4 5 // d3 4 //
+   c3# g4 e5 7 // b2 4 // |  a2 g4 e5 7 // g2 4 // | ;
+: l15   m87 m88 m89 m90 m91 ;
+\ contrapunctus 8, a 3.                               17mar88cht
+: m92   f2 g4 f5 7 / e4 c5# 3 /  z f4 d5 7 // d2 4 // e2 4 &
+   f2 4 & g2 4 & a2 4 &   | c3 4 & b2b 4 & a2 c5 5 & b2b 4 &
+   c3 b4b 5 & b2b 4 & c3 a4 5 & b2b 4 &  c3 g4 g4 7 & b2b 4 &
+   c3 g5 5 & b2b 4 & c3 f5 5 & b2b 4 & a2 d5 5 & b2b 4 & ;
+: m93   a2 a4 c5# 7 / a3 4 /  g3 4 / f3 4 /
+   e3 z z 7 / f3 a4 5 /  d3 b4 5 / e3 c5# 5 / ;
+: m94   f3 d5 5 / c5# 1 /  a4 e5 3 / d5 1 /
+   z d4 f5 7 / e3 4 /  d3 e4 b4b 7 / c3# 4 / ;
+: m95   d3 z 6 / a4 1 /  f4 d5 3 / c5 1 /
+   z g4 e5b 7 / c3 d5 5 /  b2b a4 f4# 7 / a2 c5 5 / ;
+: m96   g2 z b4b 7 / d5 1 /  g3 g4 e5b 7 / g5 1 /
+   a3 a4 f5 7 / d5 1 /  a2 g4 e5 7 / c5# 1 / ;
+: l16   m92 m93 m94 m95 m96 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m97   b2b z c5# 7 / d5 1 /  f4 d4 3 / e4 2 /
+   z f4 d5 7 / b3b 4 /  a3 g4 e5 7 / g3 4 / ;
+: m98   g3 a4 c5# 7 / e3 4 /  f3 d5 5 / 4 . f3 4 / 4 .
+   f3 b4 g5 7 / d3 4 /  e3 c5# 6 / 4 . e3 4 / ;
+: m99   d3 d5 6 / e5 1 /  d4 a4 f5 7 / 1 . f5 1 / 1 .
+   a3 f5 5 / f4 2 /  b3 g4 6 / 2 . g4 2 / 2 . ;
+: m100   z g4 6 / e5 1 /  c4 e4 a5 7 / 1 . a5 1 / 1 .
+   d4 z a5 7 / f5 2 /  e4 e5 f5# 7 / d5 2 / ;
+: m101   z c5 a5 7 / b4 2 /  f4 a4 d5 7 / b4 1 /
+   e4 c5 5 / 2 . a4 2 /  d4 b4 5 / c4# 2 / ;
+: m102   z a4 a4 7 / e4 2 /  c4 a4 z 7 / b3 g4# 6 /
+   c4 a4 6 / c5 2 /  d4 b4 6 / d5 2 / ;
+: l17   m97 m98 m99 m100 m101 m102 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m103   e4 c5 z 7 / e5 2 /  a4 c6 3 / a5 1 /
+   d5 b5 3 / g5# 1 /  c5 a5 3 / f5# 1 / ;
+: m104   b4 g5# 3 / e5 1 /  g3# d5 z 7 / f4 b4b 6 /
+   a3 c5 6 / e4 a4 6 /  b4 b4 6 / d4 g4# 6 / ;
+: m105   c4 a4 z 7 / b3 4 /   c4 e5 5 / g4 2 /
+   f4# a4 3 / b3 4 /  a3 f4 b4 7 / g3# 4 / ;
+: m106   a3 z 5 / d4 2 /  e4 c5 3 / g3 4 /
+   f3 z d5 7 / e3 4 /  d3 a4 e5 7 / c3 4 / ;
+: m107   b2 z 5 / g4# 2 /  e2 d5 f5 7 / g4# 2 /
+   f2# a4 e5 7 / c5 2 /  g2# b4 d5 7 / f4 2 / ;
+: m108   a2 e4 z 7 / d4# 2 /  e4 c5 3 / g2# b4 5 /
+   a2 z c5 7 / c3 4 / b2 d5 5 / d3 4 / ;
+: l18   m103 m104 m105 m106 m107 m108 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m109   c3 z e5 7 / e4 2 /  g4# 2 / b4 2 /
+   z a4 6 / f4# 2 /  c3# g4 6 / e4 2 / ;
+: m110   d3 f4 6 / a4 1 /  a2 f4# c5 7 / e5b 1 /
+   b2b g4 d5 7 / b4b 1 /  d3 c5 5 / f4# a4 3 / ;
+: m111   g2 g4 b4b 7 / d3 4 /  g3 z z 7 / b3b d5 g5 7 /
+   a3 c5 f5# 7 / c4 a4 6 /  b3 d5 f5 7 / d4 a4b 6 / ;
+: m112   e3b g4 z 7 / g3 e5b 5 /  f3 a4b d5 7 / a3b c5 5 /
+   b2 d5 5 / d3 g4 6 /  c3 f4# e5b 7 / e3b g4 6 / ;
+: m113   f2# a4 6 / a2 d5 5 /  g2 b4b c5# 7 / b2b d5 5 /
+   c2# z e5 7 / f5# 1 /  b4b g5 3 / 1 . g5 1 / 1 . ;
+: m114   d2 a4 g5 7 / e5 1 /  d5 f5 3 / 1 . f5 1 / 1 .
+   g4# f5 3 / d5 1 /  g4 e5b 3 / 1 . e5b 1 / 1 . ;
+: l19   m109 m110 m111 m112 m113 m114 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m115   f4 e5b 3 / c5# 1 /  b4b d5 3 / 1 . d5 1 / 1 .
+   e4 d5 3 / b4 1 /  e4b c5 3 / 1 . c5 1 / 1 . ;
+: m116   d4 c5 3 / a4 1 /  g4 b4b 3 / 1 . b4b 1 / 1 .
+   c4# b4b 3 / g4 1 /  c4 a4b 3 / 1 . a4b 1 / 1 . ;
+: m117   b3 a4b 3 / f4# 1 /  d3 b3b g4 7 / 4 . d3 4 / 4 .
+   d3 b3b 6 & a3 2 & b3b 2 & a3 2 & b2 b3b 6 & a3 2 &
+   g3 2 & a3 2 &   c3 f4# 5 / 4 . c3 4 / 4 . ;
+: m118   c3 g3 g4 7 / a2 4 /  b2b d4 6 / 2 . g2 d4 6 / 2 .
+   d3 d4 f4# 7 / b3b g4 3 /  d2 c4 a4 7 / 2 . c4 2 / 2 . ;
+: m119   g2 c4 6 / a3 2 / b3b g4 3 // a2 4 // 4 .
+   b2b b3b g4 7 // c3 4 // 1 .  d3 a3 g4 7 / e4 1 /
+   c3 d4 f4 7 // b2 4 // | a2 d4 f4 7 // g2 4 // | ;
+: m120   c3 d4 e4b 7 / b3 2 /  g2 c4 a4 7 // f2# 4 // |
+   e2 c4 a4 7 // d2 4 // |  g2 b3b a4 7 / g4 1 /
+   g3 g4 b4b 7 // f3 4 // | e3 g4 b4b 7 // d3 4 // | ;
+\ contrapunctus 8, a 3.                               17mar88cht
+: l20   m115 m116 m117 m118 m119 m120 ;
+: m121   c3# g4 a4 7 / e4 2 /  d3 f4 d5 7 // c3 4 // |
+   b2 f4 d5 7 // a2 4 // |  g2# e4 d5 7 / b4 1 /
+   a2 a4 c5 7 // g2 4 // | f2 a4 c5 7 // e2 4 // ;
+: m122   d2 a4 b4 7 / g4# 2 /  c2 b4 e5 7 / a4 2 /
+   d2 c5 f5# 7 / b4 2 /  e2 d5 g5# 7 / c5 2 / ;
+: m123   f2 e5 a5 7 / d5 2 /  d2 f5 b5 7 / e5 2 /
+   e2 d5 e5 7 / c5 2 /  e3 b4 g5# 7 / c5 2 / ;
+: m124   a2 a4 a5 7 / e3 4 /  a3 4 / 4 . a3 4 / |
+   a3 4 / f3 4 / g3 4 / | g3 4 / | ;
+: m125   g3 4 / e3 4 /  f3 a5 5 / | f3 a5 5 / |
+   f3 d4 a5 7 / d3 f5 5 /  b3b g5 5 / 1 . g5 1 / 1 . ;
+: m126   a3 c4 g5 7 / d5 1 /  d4 c5 f5 7 / 1 . f5 1 / 1 .
+   g3# b3 f5 7 / e5 1 /  g3 b3b d5 7 / c5# 1 / ;
+: l21   m121 m122 m123 m124 m125 m126 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m127   f3 a3 d5 7 / f5 1 /  b3b d4 e5 7 / d5 1 /  e3 a3 c5 7 &
+   g3 2 & a3 2 & g3 2 &   a3 d5 3 & g3 2 &
+   f3 2 & g3 2 &   b4 1 / c5# 1 / ;
+: m128   f3 d5 3 / a4 1 /  d3 g3 b4b 7 / g4 1 /
+   a3 e4 3 / g3 2 /  a3 g4 3 / c3# 4 / ;
+: m129   d3 d3 6 / 1 . g4 1 /  z d4 f4 7 / e4 1 /
+   c4 f4# 3 / d5 1 /  b3 g4# 3 / b4 1 / ;
+: m130   c4 2 / b4 1 /  f4 a4 3 / g4# 1 /
+   e4 a4 3 / f5 1 /  d4 b4 3 / d5 1 / ;
+: m131   e4 2 / 1 . d5 1 /  a4 c5 3 / b4 1 /
+   a3 g4 c5# 7 / a5 1 /  f4 d5 3 / f5 1 / ;
+: m132   g3 b4 5 / d4# 2 /   c4 e4 e5 7 / 2 . e4 2 / 2 .
+   f3# e4 a5 7 / c4# 2 /  f3 d4 a4 7 / 2 . d4 2 / 2 . ;
+: l22   m127 m128 m129 m130 m131 m132 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m133   e3 d4 g4 7 / b3 2 /  a3 c4 c5 7 / 2 . c4 2 / 2 .
+   e3 c4 f5 7 & d3 4 & e3 4 & d3 4 &   e3 b3 6 & d3 4 &
+   c3 4 & d3 4 &   a3 f4 3 / g3# 2 / ;
+: m134   c3 a3 e4 7 / e5 1 /  d3 d5 5 / c5 1 /
+   e3 b4 5 / d3 c5 5 /  e3 g3# a4 7 / b4 1 / ;
+: m135   a2 a3 c5 7 / c4 e5 3 /  z b3 d5 7 / a3 f5 5 /
+   g3# e5 3 / a3 2 /  b2 f3# d5 7 / g3# 2 / ;
+: m136   c3 a3 6 / b2 e4 6 /  c3 a4 c5 7 / d3 4 /
+   e3 b4 5 / d3 4 /  f3 g4 c5# 7 / e3 4 / ;
+: m137   f3 d5 5 / d3 f4 a4 7 /  g3 e4 g4 7 /  d4 f4 3 /
+   c4# e4 3 / d4 d4 3 /  f3 b3 e4 7 / e3 c4# 6 / ;
+: m138   f3 d4 d4 7 / e4 1 /  a3 z f4 7 / g4 1 /
+   f3# a4 5 /  g4 1 /  d3 f3# b4b 7 / a4 1 / ;
+: l23   m133 m134 m135 m136 m137 m138 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m139   g3 g3 b4b 7 / a3 2 / b3b 2 / c4 2 /  z d4 c5 7 & b4 1 &
+   c5 1 & b4 1 &   c4 c5 3 & b4 1 & a4 1 & b4 1 &
+   g3 e4 6 / d4 2 / ;
+: m140   c3 e4 c5 7 / c4 f4 6 /  b3b g4 6 / a3 a4 6 /
+   g3 b4b z 7 / a3 a4 6 /  f3 c5 6 / g3 b4b 6 / ;
+: m141   a3 c5 z 7 / b3b f5 5 /  c4 z e5 7 / d4 d5 5 /
+   e4 c5 5 / d4 d5 5 /  f4 b4b 5 / e4 c5 5 / ;
+: m142   f4 z a4 7 / a4 c5 3 /  b3b g4 b4b 7 / f4 a4 3 /
+   c4 e4 g4 7 / f4 a4 3 /  c3 d4 f4 7 / e4 g4 3 / ;
+: m143   f3 f4 a4 7 / g3 c4 6 /  a3 f4 6 / b3b 4 /
+   c4 g4 5 / b3 4 /  d4 e4 6 / c4# 4 / ;
+: m144   d4 f4 5 / b2 4 /  c3# d4 6 / d3 4 /
+   e3 e4 5 / d3 b3 6 /  f3 c4# 6 / e3 e4 6 / ;
+: l24   m139 m140 m141 m142 m143 m144 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m145   g3 a3 d4 7 / f3 b3 6 /  e3 c4# z 7 / d3 d4 6 /
+   c3# e4 6 / d3 d4 6 /  b3 f4 6 / c3# e4 6 / ;
+: m146   d3 g4 6 / c3 f4# 6 /  b2 g4# 6 / a2 a4 6 /
+   g2# b4 6 / a2 a4 6 /  f2# c5 6 / g2# b4b 6 / ;
+: m147   a2 d5 6 / c5 2 /  a3 b4 6 / a4 2 /  b4 f5 3 / c5 2 /
+   g3# b4 6 / d5 2 / ;
+: m148   a3 d5 e5 7 / b4 2 /  c4 c5 a5 7 / 2 . c5 2 / 2 .
+   f3# c5 d5# 7 / a4# 2 /  g3# b4 d5 7 / 2 . b4 2 / 2 . ;
+: m149   z b4 c5 7 / g4# 2 /  a3 a4 f5 7 / 2 . a4 2 / 2 .
+   b3b a4 c5 7 & b4b 1 & c5 1 & b4b 1 &   g4 c5 3 & b4b 1 &
+   a4 1 & b4b 1 &   c4 f4 6 / e4 2 / ;
+: m150   z f4 a4 7 / a4 2 /  d4 g4 b4b 7 / f4 2 /
+   c4 e4 c5 7 / f4 b4b 3 /  b3b d4 c5 7 / e4 2 / ;
+: l25   m145 m146 m147 m148 m149 m150 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m151   z f4 f4 7 / a4 2 /  a3 c5 f5 7 / g3 b4b 6 /
+   a3 c5 6 / e5 1 /  b3 z d5 7 / f5 1 / ;
+: m152   c4 e5 5 / d4 4 /  c4 a5 5 / b3 g5# 5 /
+   a3 c5 a5 7 / c4 4 /  f4# d5# 5 / a4 4 / ;
+: m153   4 . a4 b4 e5 7 / f4# 4 /  g4 e5 g5 7 / 4 . g4 4 / 4 .
+   g4 a4# c5# 7 / e4 4 /  f4 a4 d5 7 / 4 . f4 4 / 4 . ;
+: m154   f4 g4 z 7 / d4# 4 /  e4 c5 e5 7 / 4 . e4 4 / 4 .
+   e4 g4 f5 7 & f4 2 & g4 2 & f4 2 &   d4 g4 6 & f4 2 &
+   e4 2 & f4 2 &   c4 g5 5 / b3 4 / ;
+: m155   c4 e4 z 7 / e4 4 /  d4 f4 a5 7 / c4 4 /
+   b3 g4 g5 7 / c4 f4 6 /  a3 g4 f5 7 / b4 4 / ;
+: m156   c4 c4 z 7 / d4 4 /  c4 c5 e5 7 / b3b d5 5 /
+   a3 e5 5 / b4b 2 /  d4 a4 f5# 7 / c5 2 / ;
+: l26   m151 m152 m153 m154 m155 m156 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m157   g4 b4b g5 7 / d5 1 /  c4 a4 e5 7 / f5# 1 /
+   b3b g4 g5 7 / f5# 1 /  a3 f4# a5 7 / g5 1 / ;
+: m158   g3 g4 b5b 7 / f4 a5 3 /  e4b g5 3 / d4 f5 3 /
+   z c4 e5b 7 / b3b d5 5 /  a3 z e5b 7 / 1 . e5b g3 5 / 1 . ;
+: m159   f3 z e5b 7 / c5# 1 /  b3b d4 d5 7 / 1 . d5 1 / 1 .
+   e3 g3 d5 7 / b4 1 /  e3b a3 c5 7 / 1 . c5 1 / 1 . ;
+: m160   d3 z c5 7 / a3 1 /  g3 b3b b4b 7 / 1 . b4b 1 / 1 .
+   c3 c4 b4b 7 / a4 1 /  d4 g4 3 / f4# 1 / ;
+: m161   b2b z g4 7 / b4b 1 /  c3 e4b a4 7 / g4 1 /
+   d3 d4 f4# 7 / c3 g4 5 /  d3 c4 e4 7 / f4# 1 / ;
+: m162   g2 z g4 7 / d4 1 /  b3b g4 3 / a3 2 /
+   z b3b 6 / b4b 1 /  c4 a4 3 / c5 1 / ;
+: l27   m157 m158 m159 m160 m161 m162 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m163   z d4 b4b 7 / e4b 2 /  g3 d4 6 / a3 c4# 6 /
+   g3 d4 6 / f4 2 /  c3# e4 6 / g4 1 / ;
+: m164   d3 f4 6 / e4 2 /  d4 f4 a4 7 / g4 1 /
+   a4 1 / c4 e4 6 /  b3b d4 d5 7 / a3 f4 6 / ;
+: m165   g3 e4 6 / f4# c5 3 /  g4 b4 3 / f3 d5 5 /
+   e3 c5# 5 / d3 f4 d5 7 /  c3# e4 e5 7 / b3b g4 6 / ;
+: m166   a3 f4 6 / g4 d5 3 /  a4 c5# 3 / g3 e5 5 /
+   f3 d5 5 / e3 g4 e5 7 /  d3 f4 f5 7 / c4 a4 6 / ;
+: m167   b3 g4# 6 / a4 e5 3 /  b4 d5 3 / a3 f5 5 /
+   g3# e5 5 / b3 d5 5 /  e3 a4 c5# 7 / g4 b4 3 / ;
+: m168   a3 a4 c5# 7 / e4 2 /  a4 f5 3 / 2 . a4 2 / 2 .
+   a4 b4 3 / f4# d5 3 /  g4 c5# 3 / 2 . g4 e5 3 / 2 . ;
+: l28   m163 m164 m165 m166 m167 m168 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m169   g4 a4 3 / e4 2 / f4 a5 3 / 1 . d4 a5 3 / 1 .
+   b3 a5 3 / d4 f5# 3 /  c4# g5 3 / 1 . e4 g5 3 / 1 . ;
+: m170   z a3 g5 7 / e5 1 /  d4 f5 3 / 1 . c4 f5 3 / 1 .
+   d3 b3 f5 7 / d5 1 /  b3b e5 3 / 1 . e5 1 / 1 . ;
+: m171   c3 e5 5 /  g3# 2 /  f3 a3 a4 7 / 2 . a3 2 / 2 .
+   b2 a3 d4 7 / f3# 2 /  b2b g3 e4 7 / 2 . g3 2 / 2 . ;
+: m172   a2 g3 z 7 / e3 2 /  d3 f3 f4 7 / 2 . f3 2 / 2 .
+   a2 f3 g4 7 & g2 4 & a2 4 & g2 4 &   a2 e3b 6 & g2 4 &
+   f2 4 & g2 4 &   d3 a4 3 / c3# 2 / ;
+: m173   f2 d3 z 7 / f3 2 /  g2 e3 b4b 7 / d3 2 /
+   a2 c3# a4 7 / g2 d3 6 /  a2 b2 g4 7 / c3# 2 / ;
+: l29   m169 m170 m171 m172 m173 ;
+\ contrapunctus 8, a 3.                               18mar88cht
+: m174   d2 d3 z 7 / e3 2 /  d3 f3 f4 7 / g3 e4 3 /
+   a3 f4 3 / c3 4 /  b2b d4 g4 7 / d3 4 / ;
+: m175   c3 f3# a4 7 / g4 1 /  c4 a3 f4# 7 / a4 1 /
+   d4 d4 3 / b3b 4 /  a3 f4# d5 7 / c4 4 / ;
+: m176   b3b g4 6 / c5 1 /  b2b b4b 5 / f4 d5 3 /
+   e4 g4 3 / a2 4 /  g2 e4b c5 7 / b2b 4 / ;
+: m177   a2 4 / d4 b4b 3 /  a3 c4 a4 7 / e4b c5 3 /
+   d4 b4b 3 / g3 4 / 2 .  f3# d4 b4b 7 / a3 4 / ;
+: /// ( ... # )   2swap swap >r over r> over
+   2 for 1/16 next ;
+: m178   g3 4 // c5 b4b a4 1 /// 4 . g3 b3b g4 7 // b4b 1 // |
+   g3 b3b c5 7 // d5 1 // |  g3 b3b e5b 7 // f5 e5b d5 1 ///
+   e3 g3 c5# 7 // d5 1 // | e3 g3 e5 7 // f5 1 // | ;
+: l30   m174 m175 m176 m177 m178 ;
+\ contrapunctus 8, a 3.                               31mar88cht
+: m179   e3 g3 g5 7 // a5 g5 f5 1 /// c3# b3b e5 7 // f5 1 // |
+   c3# b3b g5 7 // a5 1 // |  c3# e3 b5b 7 / a5 1 // g5 1 //
+   z z f5 7 // e5 d5 c5# 1 /// ;
+: m180   z z d5 7 / f4 2 / 2 .  g3# f4 6 / e4 2 / 2 .
+   a3 e4 6 / g4 2 / 2 .  a2 g4 c5# 7 / f4# 2 / 2 . ;
+: m181   d3 f4# d5 7 / a4 2 / 2 . a4 c5 3 / g4 2 /
+   2 . g4 b4 3 / g5 1 / 1 .  b4b g5 3 / f5# 1 / 1 . ;
+: m182   d3 a4 f5# 7 / a5 1 / 1 .  c5 a5 3 / g5 1 / 1 .
+   z b4b g5 7 / a4 f5 3 /  b4b e5b 3 / d5 1 / ;
+: m183   z c5# 5 / g4# 2 / a2 a4 f5 7 / 2 . a4 2 / 2 .
+   d2 a4 b4 7 / f4# 2 /  e2 g4 b4b 7 / 2 . g4 2 / 2 . ;
+: l31   m179 m180 m181 m182 m183 ;
+\ contrapunctus 8, a 3.                               03jun88cht
+: m184   z g4 a4 7 / e4 2 /  f2 f4 d5 7 / 2 . f4 2 / 2 .
+   g2 f4 a4 7 &  g4 1 & a4 1 & g4 1 &   e4b a4 3 & g4 1 &
+   f4 1 & g4 1 &   a2 d4 6 / c4# 2 / ;
+: m185   z d4 f4 7 / f4 2 /  b2b e4 g4 7 / d4 2 /
+   a2 c4# a4 7 / d4 g4 3 /  g2 b3 a4 7 / c4# 2 / ;
+: m186   z d4 d4 7 / b3b 2 /  f2 a3 6 / e2 g3 6 /
+   f2 a3 6 / d4 2 // c4 2 //  g2 b3b 6 // a3 2 // g3 2 / ;
+: m187   a2 f3 6 // b3 c4# d4 1 /// e3 e4 3 // f4 1 //
+   d2 g4 3 // e4 1 //  e3 d4 3 & c4# 1 & d4 1 & c4# 1 &
+   f3 d4 3 & c4# 1 & d4 1 & c4# 1 &  g3 d4 3 & c4# 1 &
+   d4 1 & c4# 1 &  d4 1 / ;
+: m188   d2 g3 d4 7 %  f3# 2 % | ;
+: l32   m184 m185 ;
+\ contrapunctus 8, a 3.                               08apr88cht
+decimal
+: fugue8   20 fudge !
+   l1 l2 l3 l4 l5 l6 l7 l8 l9 l10
+   l11 l12 l13 l14 l15 l16 l17 l18 l19 l20
+   l21 l22 l23 l24 l25 l26 l27 l28 l29 l30 l31 l32
+   5 fudge +! m186   5 fudge +! m187   5 fudge +! m188 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+hex
+: m1   d4 2 % d5 2 %%  z 1 % c5# 2 / b4 2 / a4 2 / g4 2 /
+   f4 2 / e4 2 / d4 2 / c4# 2 / d4 2 / e4 2 / f4 2 /
+   d4 2 / e4 2 / f4 2 / ;
+: m4   g4 2 / f4# 2 / g4 2 / a4 2 / b4b 2 / g4 2 / a4 2 / b4b 2
+   / ;
+: m5   b4b c5 3 for 2dup 2 & 2 & next 2drop
+   a4 2 %  z 2 / a4 2 / g4 2 / a4 2 / ;
+: m6   b4b 2 / d5 2 /  c5 2 / b4b 2 /
+   c5 2 / b4b 2 /  a4 2 / g4 2 / ;
+: l1   m1 m4 m5 m6 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+: m7   f4 2 / b4b 2 / a4 2 / g4 2 /
+   a4 2 / g4 2 / f4 2 / e4 2 / ;
+: m8   d4 2 / g4 2 /  f4 a4 3 / e4 2 /
+   f4 a5 3 / e4 2 / d4 2 / c4 2 / ;
+: m9   b3 2 %  e4 g5# 3 / f5# 1 /  g4# e5 3 / d5 1 /
+   e4 c5 3 / b4 1 / ;
+: m10   c4 a4 3 / d4 g4# 3 /  c4 a4 3 / b3 b4 3 /
+   a3 c5 3 / a4 1 /  g4 b4 3 / c5 1 / ;
+: m11   f4 d5 3 / g4 c5# 3 /  f4 d5 3 / e4 e5 3 /
+   d4 f5 3 / d5 1 /  d5 e5 3 / f5 1 / ;
+: m12   g4# g5 3 & g5 f5 2 for 2dup 1 & 1 & next 1 & drop
+   a4 e5 3 / b4 2 /  c5 z 3 / e5 1 / b4 d5 3 / e5 1 / ;
+: l2   m7 m8 m9 m10 m11 m12 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+: m13   a4 f5 3 / a5 1 /  g5 1 / f5 1 /
+   z g5 3 / f5 1 / g4# e5 3 / d5 1 / ;
+: m14   a4 c5 3 / f5 1 / e5 1 / d5 1 /
+   z e5 3 / d5 1 /  e4 c5 3 / b4b 1 / ;
+: m15   f4 a4 3 / d5 1 /  d3 c5 401 / b4b 1 /
+   d4 z c5 403 / b4b 1 /  f4 a4 3 / g4# 1 / ;
+: m16   e4 a4 3 %  c4# e5 401 / b3 400 /
+   a3 z c5# 403 / g3 400 /  f3 g4 402 / e3 400 / ;
+: m17   d3 d5 401 / c3# 400 /  d3 f4 402 / e3 g4 402 /
+   f3 a4 z 403 / d3 400 /  e3 c5 401 / f3 400 / ;
+: m18   g3 d4 402 / f3# 400 /  g3 b4b 401 / a3 d5 401 /
+   b3b z g5 403 / g3 400 /  a3 g4 e5 403 / b3b 400 / ;
+: l3   m13 m14 m15 m16 m17 m18 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+: m19   b3b e4 c5# 403 %  a3 f4 402 / g4 2 /
+   z f4 z 403 / a3 400 /  g3 e4 c5# 403 / a3 400 / ;
+: m20   b3b d4 d5 403 / d4 400 /  c4 z f5 403 / b3b 400 /
+   c4 e5 401 // f5 1 // b3b g5 401 /  a3 e4 b4b 403 / g3 400 /
+   ;
+: m21   e3 f4 a4 403 / b3b 400 / a3 z d5 403 / g3 400 /
+   a3 c5# 401 // d5 1 // g3 e5 401 /
+   f3 c4# g4 403 / e3 400 / ;
+: m22   d3 z d4 f4 407 / g3 400 /  f3 a3 404 / e3 400 /
+   f3 a4 z z 407 / e3 400 /  d3 e4 c5 403 / c3 400 / ;
+: m23   d3 f4 b4 403 %  b2 g4# d4 406 / f4# 4 /
+   e3 e4 z z 407 / d4 f4 6 /  c4 e4 f4# 7 / b3 d4 6 / ;
+: m24   a2 a3 c4 a4 407 / g3# b3 6 /  a3 c4 6 / b3 d4 6 /
+   c4 e4 6 / a3 c4 6 /  b3 d4 6 / c4 e4 6 / ;
+: l4   m19 m20 m21 m22 m23 m24 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+: m25   z d4 f4 a4 407 / g3 c4# 404 /  f3 d4 z 406 / e3 e4 404 /
+   d3 f4 404 / c3 d4 404 /  b2 e4 404 / a2 f4 404 / ;
+: w   g2# a2 g2# 2 for 400 1/32 next ;
+: m26   a2 f4 b4 405 & w a2 c5 401 & w a2 e4 d5 405 & w
+   f2# b4 401 // g2# 400 //  a2 z c5 405 / g2 e4 404 /
+   f2 d4 404 / e2 e4 404 / ;
+: m27   d2 f4 404 / a4 4 /  d3 g4 404 / f4 4 /
+   e3 g4 b4b 405 / f4 4 /  c3 e4 404 / d4 4 / ;
+: m28   f3 c4 a4 405 / f4 4 /  b2 e4 404 / d4 4 /
+   c3# e4 g4 405 / d4 4 /  a2 c4# 404 / b3 4 / ;
+: m29   d3 a3 f4 405 / a4 1 /  b3b e4 5 / a3 f4 5 /
+   z b3b g4 405 / f4 1 /  d3 e4 401 / d4 1 / ;
+: m30   e3 g4 401 / b4b 1 /  c4 a4 5 / b3b g4 5 /
+   z c4 a4 405 / g4 1 /  c3 f4 401 / e4 1 / ;
+: l5   m25 m26 m27 m28 m29 m30 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m31   f3 a4 401 / a3 400 /  g3 z c5 405 / f3 400 /
+   g3 f5 401 / f3 400 /  e3 a4 402 / d3 400 / ;
+: m32   g3 b4b 402 / b3b d5 402 /  a3 c5 402 / g3 b4b 402 /
+   a3 c5 e5 403 / g3 b4b 402 /  f3 a4 402 / e3 g4 402 / ;
+: m33   a3 f4 402 / a4 2 /  g4 2 / f4 2 /
+   z g4 d5 403 / f4 2 /  b3b e4 402 / d4 2 / ;
+: m34   g3 e4 402 / b4b 2 /  e3 a4 402 / g4 2 /
+   a3 a4 c5# 403 / g4 2 /  a2 f4 402 / e4 2 / ;
+: m35   b2b z d4 d5 407 / c5 2 /  f3 d3 b4b 406 / a4 2 /
+   b3b d4 g4 406 / f4 2 / e4 2 / f4 2 / ;
+: m36   a3 f4 a5 403 %  c4# e4 6 / b3 4 /
+   z a3 z 406 / g3 4 /  f3 c5# 6 / e3 4 / ;
+: l6   m31 m32 m33 m34 m35 m36 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m37   d3 d5 f5 7 / c3# 4 /  d3 a4 6 / e3 4 /
+   f3 d5 6 / d3 4 /  e3 c5 6 / f3 4 / ;
+: m38   g3 d5 5 / f3# 4 /  g3 b4b 6 / a3 a4 6 /
+   b3b g4 6 / g3 4 /  a3 f4 6 / b3b 4 / ;
+: m39   4 . b3b e4 c5# 7 %  a3 f4 6 / g4 2 /
+   z f4 6 / a3 4 /  g3 e4 6 / a3 4 / ;
+: m40   b3 d4 d5 7 / d4 4 /  c4 g4 6 / b3b 4 /
+   c4 e5 5 / b3b 4 /  a3 b4b 6 / g3 4 / ;
+: m41   f3 a4 f5 7 / b3b 4 /  a3 c5 6 / g3 4 /
+  a3 f4 6 / g3 4 /  f3 a4 6 / e3 g4 6 / ;
+: m42   d3 a4 6 / e5  2 /  d5 g5 3 / c5# 2 /
+   z d5 f5 7 / d3 c5 6 /  e3 b4b e5 7 / f3 a4 6 / ;
+: l7   m37 m38 m39 m40 m41 m42 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m43   g3 b4b d5 7 / a3 4 /  g3 c5 6 / f3 4 /
+   g3 b4b 6 / f3 4 /  e3 a4 6 / d3 4 / ;
+: m44   e3 g4 6 / 1 . f3 d5 5 /  e3 c5 5 / d3 b4b 5 /
+   e3 z c5 7 / c3 b4b 5 /  d3 a4 5 / e3 g4 5 / ;
+: m45   f3 z a4 7 / c6 1 /  c4 b5b 3 / a5 1 /
+   c5 b5b 3 / a5 1 /  g5 1 / f5 1 / ;
+: m46   c4 e5 5 / f5 1 /  b4b g5 3 / a4 2 /
+   g4 z 3 / f4 2 /  e4 g5 3 / d4 2 / ;
+: m47   1 . a3 c4 g5 7 / b3b 2 / c4 f5 3 /
+   e4 z 3 / c4 c5 3 /  d4 b4b 3 / e4 c5 3 / ;
+: m48   f3 f4 a4 7 / e4 2 /  f4 d5 3 / g4 2 /
+   a4 c5 3 / f4 2 /  g4 b4 3 / a4 2 / ;
+: l8   m43 m44 m45 m46 m47 m48 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+: m49   2 . e3 a4 c5 7 %  g4 b4b 3 / a4 1 /
+   z b4b 3 / g4 2 /  f4 2 / g4 2 / ;
+: m50   f3 a4 a4 7 / c5 2 /  b4b f5 3 / a4 2 /
+   g3 b4b d5 7 / a4 2 /  g4 2 / f4 2 / ;
+: m51   a3 e4 6 / a4 c5 3 /  g4 b4b 3 / f4 a4 3 /
+   g4 b4b 3 / f4 a4 3 /  e4 g4 3 / d4 f4 3 / ;
+: m52   c4 e4 3 / f4 1 /  b3b g4 5 / a4 1 /
+   a3 z b4b 7 / c4 2 /  g3 d4 6 / e4 2 / ;
+: m53   f3 f4 6 / a4 1 /  d4 b4 5 / c5 1 /
+   c4 d5 5 / e4 2 /  b3 f4# 6 / g4# 2 / ;
+: m54   a3 a4 6 / c5 1 /  f4 d5 5 / e5 1 /
+   e4 f5 5 / g4 2 /  d4 a4 6 / b4 2 / ;
+: l9   m49 m50 m51 m52 m53 m54 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m55   c4 c5 6 / 1 . f5 1 /  e4 e5 3 / d5 1 /
+   b3 f4# e5 7 / d5 1 /  g4# c5 3 / b4 1 / ;
+: m56   a3 a4 c5 7 / d5 1 / c4 c5 3 / b4b 1 /
+   g3 d4 c5 7 / b4b 1 /  e4 a4 3 / g4 1 / ;
+: m57   f3 f4 a4 7 / b3b 4 /  a3 g4 c5# 7 / g3 4 /
+   a3 f4 d5 7 / g3 4 /  f3 c4# e5 7 / e3 4 / ;
+: m58   f3 c4# a4 7 / g3 b4b 5 /  f3 d4 a4 7 / e3 g4 5 /
+   f3 z a4 7 / e3 g4 5 /  d3 f4 5 / c3# e4 5 / ;
+: m59   z d3 d4 f4 407 / c5 1 /  d2 b4b 401 / a4 1 /
+   d3 z b4b 405 / a4 1 /  g4 1 / f4 1 / ;
+: m60   a4 e4 3 %  c3# e5 401 / b2 400 /
+   a2 z 401 / g2 e5 401 /  f2 d5 401 / e2 c5# 401 / ;
+: l10   m55 m56 m57 m58 m59 m60 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m61   d2 f4 d5 403 / c2# 400 /  d2 a4 401 / e2 400 /
+   f2 d5 401 / d2 400 /  e2 c5 401 / f2 400 / ;
+: m62   g2 b4b 401 / f2# 400 /  g2 a4 401 / a2 400 /
+   b2b g4 401 / g2 400 /  a2 f4 401 / b2b 400 / ;
+: m63   400 . b2b c4# e4 403 / d4 1 /  a2 e4 401 / f4 1 /
+   z g4 401 / a2 e4 401 /  g2 a4 401 / a2 400 / ;
+: m64   b2b d4 402 / d3 f4 401 /  c3 b4b 401 / b2b 400 /
+   c3 e4 402 / b2b g4 401 /  a2 c5 401 / g2 b4b 401 / ;
+: m65   f2 f4 a4 403 / b2b d5 401 /  a2 c5 401 / g2 b4b 401 /
+   a2 c5 401 / g2 a4 401 /  f2 c5 401 / e2 400 / ;
+: m66   d2 400 / d5 1 /  g4 c5 3 / b4b 1 /
+   z f4 c5 403 / b4b 1 /  e4 a4 3 / g4 1 / ;
+: l11   m61 m62 m63 m64 m65 m66 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m67   z d4 f4 403 / e4 2 /  d2 d4 402 / c4# 2 /
+   e2 d4 402 / c4 2 /  f2 b3 402 / a3 2 / ;
+: m68   g2 b3 402 / a4 1 /  g3 g4 401 / f4 1 /
+   e3 g4 401 / f4 1 /  g3 e4 401 / d4 1 / ;
+: m69   c3 e4 401 / d4 2 /  c2 c4 402 / b3 2 /
+   d2 c4 402 / b3 2 /  e2 a3 402 / g3# 2 / ;
+: m70   f2 a3 402 / g5 1 /  a3 z f5 403 / e5 1 /
+   d3 f5 401 / e5 1 /  f3 d5 401 / c5 1 / ;
+: m71   b2 z d5 403 / c5 2 /  d3 b4 402 / a4 2 /
+   g2# b4 402 / a4 2 /  b2 g4# 402 / f4# 2 / ;
+: m72   e2 g4# 402 / f5 1 /  e3 z e5 403 / d5 1 /
+   f3# e5 401 / d5 1 /  g3# c5 401 / b4 1 / ;
+: l12   m67 m68 m69 m70 m71 m72 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+: m73   a3 a3 z c5 407 / e5 1 /  e4 d5 3 / c5 1 /
+   e5 d5 3 / c5 1 /  b4 1 / a4 1 / ;
+: m74   e4 b4 5 / g3# 400 /  a3 d5 z 403 / f3# c5 402 /
+   g3# b4 402 / a4 2 /  b3 g4# 402 / f4# 2 / ;
+: m75   400 . b3 c4 e4 z 407 / d4 2 /  a3 e4 e4 403 / f4# 2 /
+   z g4# e5 403 / e4 2 / e3 f4 402 / g4# 2 / ;
+: m76   f3 a3 a4 406 / g4# 2 /  a4 d5# 3 / b4 2 /
+   c5 z 3 / a4 2 /  b4 d5# 3 / c5 2 / ;
+: m77   2 . e3 g3# c5 e5 407 / f5 1 /  b4 e5 3 / d5 1 /
+   z e5 3 / b4 d5 3 /  a4 c5 3 / b4 b4 3 / ;
+: m78  z a3 c5 a4 407 / e5 2 / d5 b5b 3 / c5 2 /
+   b3 d5 d5 7 / c5 2 /  b4 f5 3 / a4 2 / ;
+: l13   m73 m74 m75 m76 m77 m78 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+: m79   c4 g4 6 / c5 e5 3 /  b4 d5 3 / a4 c5 3 /
+   b4 d5 3 / a4 c5 3 /  g4# b4 3 / f4# a4 3 / ;
+: m80   z e4 g4# 403 / d3 400 /  c3 d4 f4 406 / b2 400 /
+   c3 c4 e4 a4 407 / b2 400 /  a2 b3 b4 405 / g2# 400 / ;
+: m81   a2 a3 c5 405 / g3# 4 /  2 . z a3 e4 406 / b3 4 /
+   c4 a4 6 / a3 4 /  b3 g4 6 / c4 4 / ;
+: m82   d4 f4# 6 / c4# 4 /  d4 z a4 7 / e4 4 /
+   f4# d5 5 / d4 4 /  e4 c5 5 / f4# 4 / ;
+: m83   g3 z b4 7 / f3# 4 /  g3 d4 6 / a3 4 /
+   b3 g4 6 / g3 4 /  a3 f4 6 / b3 4 / ;
+: m84   c4 e4 6 / b3 4 /  c4 z g4 7 / d4 4 /
+   e4 c5 5 / c4 4 /  d4 b4b 5 / e4 4 / ;
+: l14   m79 m80 m81 m82 m83 m84 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m85   f3 z a4 7 / e5 2 /  e3 d5 6 / c5 2 /
+   f3# d5 6 / c5 2 /  d3 b4 6 / a4 2 / ;
+: m86   g3 b4 e5 7 / c5 2 /  f3# b4 6 / a4 2 /
+   g3# b4 6 / a4 2 /  e3 g4# 6 / f4# 2 / ;
+: m87   a3 e4 c5 7 / a5 1 /  b3b g5 5 / a3 f5 5 /
+   b3b g5 5 / f5 1 / g3 e5 5 / d5 1 / ;
+: m88   a4 c5# 3 / g4 e5 5 / f4 d5 5 / e4 c5 5 /
+   f4 d5 5 / e4 c5# 5 /  d4 b4 5 / c4# a4 5 / ;
+: m89   d3 f4 d5 405 / e3 4 /  f3 d5 a4 7 / g3 e5 6 /
+   a3 f5 a5 7 / g3 4 /  a3 e5 6 / b3 d5 6 / ;
+: m90   a3 c4# e5 406 / b3 4 /  c4# z g5 7 / d4 f5 5 /
+   c4# e5 5 / d4 d5 5 /  e4 c5# 5 / b4 1 / ;
+: l15   m85 m86 m87 m88 m89 m90 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m91   f3 a4 401 / g4 1 /  d4 a4 5 / b4 1 /
+   a3 c5 5 / c4 a4 3 / d4 b4 3 / e4 c5# 3 / ;
+: m92   d3 f4 d5 403 / c5# 1 /  f3 z d5 7 / e5 1 /
+   b3b f5 5 / f4 d5 3 /  d4 g4 e5 7 / a4 f5 3 / ;
+: m93   1 . c3# g3 b4b f5 407 / a4 2 /  b3b g4 e5 7 / b4b 2 /
+   e3 a4 z 7 / g3 e5 5 /  f3 d5 5 / e3 e5 5 / ;
+: m94   d3 d3 f5 405 / a5 1 /  z b4b g5 7 / f5 1 /
+   e3 g5 401 / f5 1 /  c5 e5 3 / b4b d5 3 / ;
+: m95   f3 a4 c5 403 / f5 1 /  a3 f4 e5 7 / d5 1 /
+   b3b g4 e5 7 / d5 1 /  e4 c5 3 / b4b 1 / ;
+: m96   c4 f4 a4 7 / d5 1 /  g3 z z c5 407 / b4b 1 /
+   f3 c5 401 / b4b 1 /  e3 g3 c4# a4 407 / g4 1 / ;
+: l16   m91 m92 m93 m94 m95 m96 ;
+\ contrapunctus 9, a 4. alla duodecima                08apr88cht
+: m97   d3 a3 d4 f4 407 / b4b 1 /  e3 z a4 7 / g4 1 /
+   f3 a4 5 / g4 1 /  a3 f4 5 / e4 1 / ;
+: m98   b3b d4 5 / e3b c4 404 /  d3 b3b 404 / c3 a3 404 /
+   d3 b3b 404 / c3 a3 404 /  b2b g3 404 / a2 f3# 404 / ;
+: m99   b2b g3 404 / d5 1 /  d4 c5 3 / b4b 1 /
+   z d5 c5 403 / b4b 1 /  b3b a4 401 / g4 1 / ;
+: m100   f3# d4 a4 405 % a3 c5 z 403 / b4b 2 /
+   f3# a4 402 / g4 2 /  d3 f4# 402 / e4 2 / ;
+: m101   g3 b3b d4 z 407 / c4# 2 /  d4 2 / e4 2 /
+   d3 f4# b4b 403 / d4 2 /  e4 2 / f4# 2 / ;
+: m102   e3b g3 g4 406 / f4# 2 /  f3 g4 b4 403 / a4 2 /
+   e3 b4b c5 403 / g4 2 /  e3b a4 c5# 403 / b4b 2 / ;
+: l17   m97 m98 m99 m100 m101 m102 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m103   d3 f3# b4b z 407 / d5 1 /  a4 c5 3 / b4b 1 /
+   z z c5 403 / c3 a4 402 / b2b g4 d5 403 / a2 a4 402 / ;
+: m104   g2 g3 b4b b4b 407 / d5 2 /  z c5 g5 403 / b4b 2 /
+   a3 c5 6 / b4b 2 /  a4 f5 3 / g4 e5b 3 / ;
+: m105   b3b f4 d5 7 / b4b 2 /  e3b a4b e5b 403 / g4 2 /
+   d3 a4 f5 403 / g4 2 /  g3 f4 z 403 / e4b 2 / ;
+: m106   f3 d4 z 403 / a3b 400 / g3 c4 404 / f3 400 /
+   g3 b3b e4b 406 / f3 400 /  e3b a3b f4 406 / d3 400 / ;
+: m107   e3b g3 b3b 406 / f3 400 /  e3b b3 402 / d3 400 /
+   e3b c4 402 / d3 400 /  c3 d4 402 / b2 400 / ;
+: m108   c3 e4b 402 / d3 400 /  4 . c3 g3 404 / b2b 400 /
+   c3 a3 404 / b2b 400 /  a2 b3b 404 / g2 400 / ;
+: l18   m103 m104 m105 m106 m107 m108 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m109   a2 c4 e4b 406 / b2b g4 402 /  a2 f4 402 / g2 e4b 402 /
+   a2 f4 402 / g2 e4b 402 /  f2# d4 402 / e2 c4 402 / ;
+: m110   f2# a4 402 / e4b 4 / d4 4 / c4 4 /
+   z d4 404 / c4 4 /  f3# b3b 404 / a3 4 / ;
+: m111   g3 b3b 404 / b4b 2 /  e3b a4 402 / g4 2 /
+   c3 c4 b4b 406 / a4 2 /  d3 a3 g4 406 / f4# 2 / ;
+: m112   g2 b3b g4 406 / d4 1 /  z c4 z e4 407 / f4# 1 /
+   b3b g4 5 / f4# 1 /  a3 g4 5 / a4 1 / ;
+: m113   g3 b4b 5 / g4 1 /  f3 a4 401 / b4 1 /
+   e3b a3 c5 405 / b4 1 /  d3 b3 c5 406 / d5 1 / ;
+: l19    m109 m110 m111 m112 m113 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m114   c3 c4 z e5b 407 / b3 2 /  z z c4 d5 407 / d4 2 /
+   e4b c5 3 / c4 2 /  d4 b4b 3 / e4 2 / ;
+: m115   f4 a4 3 / e3 g4 401 /  f3 a4 401 / g3 b4b 401 /
+   a3 c5 401 / f3 a4 401 /  g3 b4 401 / a3 c5# 401 / ;
+: m116   b3b d5 401 / c4 4 /  z b3b g4 405 / a3 4 /
+   g3 e4 6 / b3b 4 /  a3 f4 5 / g3 4 / ;
+: m117   f3 d4 6 / g3 e4 401 /  f3 z d4 405 / e3 c4 402 /
+   d3 b3b 402 / f3 400 /  e3 g4 401 / d3 400 / ;
+: m118   c3# a3 402 / b4b 1 /  e3 z a4 403 / g4 1 /
+   c3# a4 401 / g4 1 /  a2 f4 401 / e4 1 / ;
+: l20   m114 m115 m116 m117 m118 ;
+\ contrapunctus 9, a 4. alla duodecima                19mar88cht
+: m119   d3 z d4 f4 407 / e4 1 /  c3 d3 f4 405 / a4 1 /
+   b2b d4 g4 405 / f4 1 /  e4 1 / d4 1 /    ;
+: m120   a2 a4 e4 403 %  c4# 4 / b3 4 /
+   z a3 z 405 / g3 4 /  a2 f3 c5# 405 / e3 4 / ;
+: m121   b2b d3 f4 d5 407 / c3# 4 / d3 4 / e3 4 /
+   f3 4 / d3 c5 5 /  e3 b4b 5 / f3 a4 5 / ;
+: m122   g3 d4 g4 7 / f3# 4 / g3 4 / a3 4 /
+   z b3b 404 / e3 g3 404 /  f3 a3 404 / g3 b3b 404 / ;
+: m123   a2 b3b c4# 406 / e3 400 /  a3 a3 404 / g3 400 /
+   f3 z 404 / a3 4 /  e3 g3 404 / a3 4 / ;
+: m124   d3 b3b d4 f4 407 / d4 4 /  c4 4 / b3b 4 /
+   z c4 e4 z 407 / b3b 4 /  c3# a3 b4b 405 / g3 4 / ;
+: l21   m119 m120 m121 m122 m123 m124 ;
+\ contrapunctus 9, a 4. alla duodecima                05jun88cht
+: m125   d3 f3 f4 a4 407 / b3b 4 /  a3 4 / g3 4 /
+   z a3 z 405 / g3 4 /  a2 f3 c5# 405 / e3 4 / ;
+: m126   b2b d3 d5 405 / c5 1 /  g4 b4b 3 / a4 1 /
+   z z f4 b4b 407 / a4 1 /  c3 a3 e4b g4 407 / f4# 1 / ;
+: m127   b2b b3b d4 g4 407 / c3 400 / b2b 400 / a2 400 /
+   b2b z z 406 / a2 400 /  g2 b3b d4 406 / f2 400 / ;
+: m128   e2 c3# e4 406 / b4b 1 /  e3 g3 c4# a4 407 / g4 1 /
+   f3 f3 d4 a4 407 / g4 1 / g3 b3b f4 405 / e4 1 / ;
+: m129   a3 a3 f4 405 %  g3 400 / g4 1 /
+   a3 c4# e4 403 %  a2 g3 404 / d4 1 / ;
+: m130   1 . d3 f3# a3 d4 407 1/1 | ;
+: l22   m125 m126 m127 ;
+\ contrapunctus 9, a 4. alla duodecima                05jun88cht
+decimal
+: fugue9   15 fudge !
+   l1 l2 l3 l4 l5 l6 l7 l8 l9 l10 l11 l12
+   l13 l14 l15 l16 l17 l18 l19 l20 l21 l22
+   5 fudge +! m128   5 fudge +! m129   5 fudge +! m130 ;
+
+: all fugue6 5000 ms fugue7 5000 ms
+      fugue8 5000 ms fugue9 ;
+
+[[ all ]]

@@ -1,0 +1,740 @@
+\ chorale themes by j. s. bach               15feb86cht
+\   jesu, joy of man's desiring ( jesu BWV147)
+\   sheep may safely graze ( sheep )
+\   christ laid in death's boundage ( christ BWV4 )
+\   from deep grief i call on you ( aus BWV686 )
+decimal
+0 constant bass
+0 constant tenor
+0 constant alto
+0 constant soprano
+0 constant flute
+0 constant pedal
+0 constant z
+: init z to bass z to tenor z to alto z to soprano z to pedal z to flute ;
+
+variable fudge 30 fudge ! ( quater note )
+: notes ( duration -- )
+  >r 0.1 bass tenor alto soprano pedal flute r> poly ;
+hex
+: play ( n1 n2 n3 n4 n5 n6 bits duration -- )
+  >r >r 
+  r@ 1 and if to soprano then  
+  r@ 2 and if to alto then
+  r@ 4 and if to tenor then
+  r@ 100 and if to flute then
+  r@ 200 and if to bass then
+  r@ 400 and if to pedal then
+  r> drop r> notes ;
+
+decimal
+: ppqn   constant   does 0 q@ fudge @ * play ;
+192 ppqn 3/2
+128 ppqn 1/1    64 ppqn 1/2    32 ppqn 1/4   16 ppqn 1/8
+  8 ppqn 1/16    4 ppqn 1/32    2 ppqn 1/64   1 ppqn 1/128
+ 96 ppqn 3/4    48 ppqn 3/8    24 ppqn 3/16  12 ppqn 3/32
+ 12 ppqn 1/12'  10 ppqn 1/12   22 ppqn 1/6
+  6 ppqn $.      5 ppqn $       3 ppqn ]      2 ppqn [
+hex
+: | z z z z z z 707 1/128 ;
+decimal
+
+hex
+: cord1 ( n1 n2 n3 n4 m1 l1 l2 )
+   >r >r >r   407 1/8   r> 1 1/8   r> r> 3 1/8 | ;
+: cord2 ( n1 n2 n3 n4 m1 l1 l2 l3 )
+   >r >r >r >r   407 1/8   r> 1 1/8   r> r> r> 7 1/8 | ;
+: /   407 3/8 ;
+: //   407 1/8 ;
+: m1  g2 400 1/8  g4 1 1/8  a4 1 1/8  g3 d4 g4 b4 d5 f4# c5
+   cord1  e3 e4 g4 c5 e5 a4 d5 cord1 ;
+: m2  b2 g4 b4 d5 g5 a4 f5# cord1  e3 e4 b4 g5 d5 g4 b4 cord1
+   e2 b3 e4 g4 a4 d4 b4 cord1 ;
+: m3  a2 a3 e4 c5 d5 f4# e5 cord1  b2 d4 g4 d5 c5 d4 b4 cord1
+   c3 c4 e4 a4 b4 b3 c4 g4 cord2 ;
+: m4  d3 a3 c4 f4# g4 d4 c4 a4 cord2  f3# a3 d4 d4 f4# g4 a4
+   cord1  d3 a3 f4# c5 b4 d4 f4# a4 cord2 ;
+\ jesu, joy of man's desiring                         10feb86cht
+: m5  g3 d4 g4 b4 g4 f4# a4 cord1  e3 g3 g4 b4 d5 f4# c5 cord1
+   c3 e4 g4 c5 e5 a4 d5 cord1 ;
+: m6  b2 g4 b4 d5 g5 a4 f5# cord1  e3 e4 b4 g5 d5 g4 b4 cord1
+   d3 b3 e4 g4 a4 g4 b4 cord1 ;
+: m7  c3 a3 e4 e4 d5 f4# c5 cord1  c3# e4 g4 b4 a4 e4 g4 cord1
+   d3 a3 d4 d4 g4 c4 f4# cord1 ;
+: m8  g2 b3 d4 g4 b4 g4 d5 cord1  g2 d4 b4 g5 d5 b4 b4 cord1
+   g4 1 1/8 b4 1 1/8 g4 d5 3 1/8 | ;
+: m9  g3 b3 b4 g5 // z z 3 1/8  f3# d4 b3 d4 /
+   e3 c4 e4 g4 / | ;
+: m10  f3# d4 a3 a4 /  e3 g4 401 3/8  d3 d4 b3 f4# / | ;
+: m11  e3 c4 b3 g4 /  f3# c4 a3 d4 /  g3 b3 g3 d4 / | ;
+: m12  d3 a3 f3# z d4 z e4 cord1  d3 a3 d4 f4# a4 e4 g4 cord1
+   d3 z f4# a4 c5 g4 b4 cord1 ;
+: p1   m2 m3 m4 m5 m6 m7 ;
+\ jesu, joy of man's desiring                         10feb86cht
+: m13  d3 a3 f4# c5 a4 z f4# cord1  d3 f3# d4 d4 f4# f4# a4
+   cord1  d3 a3 f4# c5 b4 f4# a4 cord1 ;
+: m14  g3 b3 d4 b4 g4 f4# a4 cord1  f3# b3 g4 b4 d5 f4# c5 cord1
+   e3 c4 g4 c5 e5 a4 d5 cord1 ;
+: m15  b3 d4 g4 d5 g5 a4 f5# cord1  b2 d4 g4 g5 d5 f4# b4 cord1
+   e3 b3 g4 g4 a4 g4 b4 cord1 ;
+: m16  c3 a3 e4 e4 d5 f4# c5 cord1  d3 b3 f4# b4 a4 e4 g4 cord1
+   d2 a3 c4 d4 g4 c4 f4# cord1 ;
+: m17  g2 g3 b3 g4 b4 d4 a4 cord1  g3 g3 g4 b4 d5 f4# c5 cord1
+  e3 e4 g4 c5 e5 a4 d5 cord1 ;
+: p2  m10 m11 m12 m13 m14 m15 m16 m17 ;
+: m24  g3 b3 d4 g4 /  f3# 400 3/8  e3 c4 e4 g4 / | ;
+: p3   m1 p1   m8 m9 p2   p1 m24   p2   p1 ;
+\ jesu, joy of man's desiring                         10feb86cht
+: m39  g2 b3 g4 g4 b4 g4 d5 cord1  g2 d4 b4 g5 d5 g3 b4 cord1
+   f3# z g4 g4 b4 e3 c5# cord1 ;
+: m40  d3 a3 f4# d5 d4 e4 e4 cord1  c3 a3 d4 f4# a4 z g4# cord1
+   b2 b3 d4 g4 b4 z a4 cord1 ;
+: m41  a2 c4 e4 a4 c5 d4 b4 cord1  a3 c4 e4 c5 a4 g3 c4 e4
+   cord2   f3 c4 a3 c4 d4 e3 a3 e4 cord2 ;
+: m42  d3 b3 a4 f4 // f4 d5 3 1/8 e4 c5 3 1/8  b2 f4 d5 403 1/8
+   b4 1 1/8 c4 d4 g4# 7 1/16 e4 4 1/16
+   e3 b3 e4 e4 f4# d4 g4 cord1 ;
+: m43  a2 a3 c4 a4 c5 e4 b4 cord1  f3 a3 a4 c5 e5 g4# d5 cord1
+   d3 f4 a4 d5 f5 b4 e5 cord1 ;
+: m44  c3 a4 c5 e5 a5 b4 g5# cord1  f3 f4 c5 a5 e5 a4 c5 cord1
+   e3 c4 f4 a4 b4 a4 c5 cord1 ;
+: p4   m39 m40 m41 m42 m43 m44 ;
+\ jesu, joy of man's desiring                         10feb86cht
+: m45  d3 d4 a4 f5 e5 g4# d5 cord1  d3# f4# a4 c5 b4 z a4 cord1
+   e3 b3 e4 e4 a4 d4 g4 cord1 ;
+: m46  a2 c4 a4 4 // c5 2 1/8 e5 2 1/8  a3 a5 402 1/8
+   z 2 3/8  b3 d4 g4 z / | ;
+: m47  c4 e4 g4 z // c5 1 1/8 d5 1 1/8  a3 c5 e5 403 1/8
+   g5 1 1/8 f5 1 1/8  e3 e4 c5 g5 b5b z a5 cord1 ;
+: m48  f3 d4 d5 a5 c6 d5 b5 cord1  d3 f5 c6 403 1/8 a5 1 1/8
+   e4 d5 f5 7 1/16 f4 4 1/16  g3 d4 b4 d5 e5 b4 f5 cord1 ;
+: m49  c3 c4 g4 e5 g5 g4 f5 cord1  e3 c4 g4 g5 e5 g4 c5 cord1
+   c3 e4 g4 g4 a4 d4 b4b cord1 ;
+: m50  f3 c4 f4 a4 c5 f4 b4 cord1  d3 c4 f4 c5 a4 c4 f4 cord1
+   g3 g3 b3 d4 e4 d4 f4 cord1 ;
+: m51  c3 g2 c4 e4 c4 g3 d4 cord1  z z c4 e4 g4 c2 d4 f4# cord2
+   b2 d4 z g4 b4 d3 f4# a4 cord2 ;
+: p5   m45 m46 m47 m48 m49 m50 m51 ;
+\ jesu, joy of man's desiring                         10feb86cht
+: m52  g2 b3 d4 b4 g4 f4# a4 cord1  g3 b3 g4 b4 d5 f4# c5 cord1
+   e3 c4 g4 c5 e5 a4 d5 cord1 ;
+: m53  b2 d4 g4 d5 g5 a4 f5# cord1  e3 d4 g4 g5 d5 f4# b4 cord1
+   e2 d4 g4 g4 a4 d4 b4 cord1 ;
+: m54  a2 c4 e4 c5 d5 f4# e5 cord1  b2 b3 g4 d5 c5 d4 b4 cord1
+   c3 b3 e4 a4 b4 e4 g4 cord1 ;
+: m55  d3 a3 z f4# d4 c4# e4 cord1  z a3 d4 f4# a4 d3 e4 g4
+   cord2  d3 z f4# a4 c5 d3 g4 b4 cord2 ;
+: m56  d2 a3 f4# c5 a4 c4 f4# cord1  f3# d4 5 1/8 f4# 1 1/8
+   d3 d4 f4# a4 //  c5 1 1/8 b4 1 1/8 a4 1 1/8 ;
+: m57  m14 ;
+: m58  m15 ;
+: m59  m16 ;
+: p6   m52 m53 m54 m55 m56 m57 m58 m59 ;
+\ jesu, joy of man's desiring                         10feb86cht
+: m60  g2 g3 b3 g4 b4 g4 d5 cord1  g2 g3 b4 g5 d5 g4 b4 cord1
+   g2 g3 g4 g4 b4 g4 d5 cord1 ;
+: m61  g2 z b4 f5 d5 g4 b4 cord1  g2 d4 z g4 b4 b3 g4 d5 cord2
+   g2 e4 z e5 c5 c4 z a4 cord2 ;
+: m62  g2 a3 z c4 f4# a4 c5 cord1  g2 b3 z d5 b4 d4 z g4 cord2
+   g2 b3 d4 e4 g4 g3 e4 b4 cord2 ;
+: m63  g2 a3 f4# c5 a4 d4 f4# cord1  g2 a3 d4 d4 f4# d4 f4# a4
+   cord2  g2 d4 f4# c5 b4 f4# a4 cord1 ;
+: m64  g2 d4 g4 b4 g4 g4 a4 cord1  g3 d4 g4 b4 d5 f4# c5 cord1
+   e3 e4 g4 c5 e5 a4 d5 cord1 ;
+: m71  g2 b3 d4 g4 407 1/1 | ;
+: p7   m60 m61 m62 m63 m64 p1 m71 ;
+: jesu   12 fudge !   p3 p4 p5 p6 p7 ;
+decimal
+\ christ lag in todesbanden                           10feb86cht
+hex
+: /   507 1/4 ;
+: //   507 1/8 ;
+: ///   swap 1 1/16  1 1/16 ;
+: m1  e3 400 1/4  e3 b4 e4 e4 g5 /  e3 a4 c4 f4# f5# //
+   a3 4 1/8  d3# a4 b3 f4# b4 / | ;
+: m2  e3 g4 b3 e4 b4 /  e3 b4 b3 e4 g5 /  e3 a4 c4 f4# f5# //
+   a3 4 1/8  d3# a4 b3 f4# b4 / | ;
+: m3  e3 g4 b3 e4 b4 / |  b4 1 1/4  a4# 1 1/4
+   f3# f4# c4# c4# a4# / | ;
+: m4  e3 g4 c4# e4 z / |  b4 1 1/4  a4# 1 1/4
+   f3# f4# c4# c4# a4# / | ;
+: m5  f3# g4 b3 d4 z /  e3 g4 c4# e4 b4 /
+   e3 a4# c4# f4# a4# /  d3 b4 b3 f4# b4 // c3# c5# 401 1/8 | ;
+: p1   m1 m2 m3 m4 m5 ;
+\ christ lag in todesbanden                           10feb86cht
+: m6  b2 b4 b3 f4# d5 /  g3 b4 b3 e4 e5 /  f3# b4 d4 f4# d5 /
+   e3 b4 g3# g4# c5# / | ;
+: m7  f3# b4 c4# f4# c5# // d5 e5 ///  c3# a4 c4# e4 c5# //
+   c5# b4 ///  d3# a4 f3# f4# b4 /  e3 g4 b3 e4 g5 / | ;
+: m8  c3# a4 a3 e4 g5 /  d3# b4 d4# f4# f5# /  e3 g4 b3 g4 f5#
+   // e5 1 1/8  c3 a4 c4 e4 e5 / | ;
+: m9  b2 b4 f3# f4# d5# /  a2 b4 b3 f4# d4# /  g2 b4 c4# g4 e5 /
+   f2# a4 d4# a4 f5# / | ;
+: m10  e2 b4 e4 g4 b4 // g4 b4 101 1/8  d2 a4 c5 501 1/8
+   b4 d5 101 1/8  c2 c5 e4 g4 e5 // e3 g3 6 1/8
+   b2 f3# a3 406 1/8 g3# b3 6 1/8 | ;
+: m11  a2 c5 a3 c4 e5 // d5 e5 101 1/8  g3 c5 f5# 501 1/8
+   b4 g5 101 1/8 |  f3# a4 a5 501 1/8  b3 c4# 6 1/8
+   e3 b4 a3 d4# 506 1/8  c5 g3 e4 106 1/8 | ;
+: p2   m6 m7 m8 m9 m10 m11 ;
+\ christ lag in todesbanden                           10feb86cht
+: m12  d3# b4 f3# f4# a5 // b5 1 1/8  e3 g3 e4 g5 407 1/8
+   d4 2 1/8  a2 a4 e3 c4 g5 // f5 e5 /// |
+   c6 a5 /// f5 a5 /// | ;
+: m13  d5# 1 1/8 e5 f5# ///  a2# e4 c4# c4# g4 /
+   b2 e4 b3 b3 f4# / d4# 100 1/8 a3 a3 6 1/8 | ;
+: m14  e2 e4 g3# b3 e4 507 1/1 | ;
+: p3   m12 m13 m14 ;
+: sinfonia   20 fudge !   p1 p2 p3 ;
+decimal
+
+\ chorale                                             11feb86cht
+hex
+: /   407 1/4 ;
+: //   407 1/8 ;
+: /-   407 1/2 ;
+: m1  e3 e4 g4 b4 // d4 4 1/8  f3# c4# f4# g4# // e3 400 1/8
+   d3 d4 f4# b4 // c3# a3# f4# c5# //  b2 b3 f4# d5 /
+   a2# c4# f4# e5 /  b2 b3 f4# d5 /  f2# a3# f4# c5# //
+   e4 2 1/8  b2 f3# d4# b4 /- | z 1 1/16 ;
+: m2  d3# b3 f4# b4 /  e3 b3 e4 g4 // c4 4 1/8  f3# b3 d4 a4 //
+   a3 4 1/8  g3 g3 d4 b4 // f3# a3 d4# b4 //  e3 b3 e4 a4 //
+   g4 1 1/8  a2 c4 e4 f4# // b2 e4 401 1/16 c3 400 1/16
+   b2 f3# d4# f4# // a3 4 1/8  e2 g3 b3 e4 /- | z 1 1/16 ;
+\ chorale                                             11feb86cht
+: m3  | z 1 1/4  e3 g3 b3 e4 // a3 f4# 5 1/8  b3 e4 g4 7 1/8
+   d3 400 1/8  c3 a3 e4 a4 // b2 b3 404 1/8  a2 c4 e4 405 1/8
+   d4# f4# 3 1/8  e3 b3 e4 g4 /  f3# a3 d4 a4 /
+   g3 g3 d4 b4 /- | z 1 1/16 ;
+: m4  g3 d4 g4 b4 // f3# a4 401 1/8  e3 g4 b4 e5 / f3# f4# a4
+   d5# /  g3# e4 b4 e5 // d4 4 1/8  a3# c4# f4# f5# //
+   e5 1 1/8  b3 b3 f4# d5 /  f3# a3# f4# c5# // e4 2 1/8
+   b2 f3# d4 b4 /- | z 1 1/16 ;
+: m5  e3 g3 e4 b4 /  d3 a3 f4# d5 /  g3 g3 d4 b4 // c5# 1 1/8
+   b2 g3 g4 d5 // c3 400 1/8  d3 d4 f4# a4 // c4 4 1/8
+   e3 b3 f4# g4 // e4 1 1/8  b2 a3 e4 f4# // d4# 2 1/8
+   c3 g3 e4 e4 /- | z 1 1/16 ;
+\ chorale                                             11feb86cht
+: m6  g3 g3 d4 b4 // e4 2 1/8  d3# f3# f4# a4 // b3 4 1/8
+   e3 b3 f4# g4 // d4# 2 1/8  c3 c4 e4 406 1/4  a2 f4# 401 1/4
+   b2 b3 d4# 406 1/8 a3 4 1/8  e2 g3# b3 e4 /- | ;
+decimal
+: chorale   20 fudge !   m1 m2 m1 m2   m3 m4 m5 m6 | ; ;
+\ variation                                           12feb86cht
+hex   : ///   407 1/16 ;
+: 4=1   >r >r >r   401 1/16   r> r> r> 3 1 -  for 1 1/16 next ;
+: 4=1-1   >r >r >r   405 1/16   r> r> r> 3 1 -  for 1 1/16 next ;
+: 2=1   >r   401 1/16   r> 1 1/16 ;
+: 4=1-2   >r >r >r >r 405 1/16  r> 1 1/16   r> r> 401 1/16
+   r> 1 1/16 ;
+: 2=1-1   >r   405 1/16   r> 1 1/16 ;
+: m1  e3 z e5 d5# e5 4=1  g3 e4 e5 2=1 e3 d5# e5 2=1
+   a3 c5 b4 2=1 f3# a4 g4 2=1  b3 f4# b4 2=1 b2 a4 b4 2=1 | ;
+: m2  e3 g4 g5 f5# g5 4=1  b2 g4 g5 2=1 g2 f5# g5 2=1
+   c3 e5 d5 2=1 a2 c5 b4 2=1  d3 a4 d5 2=1 d2 c5 d5 2=1 ;
+: m3  g2 g4 b5 a5 b5 4=1  d3 g4 b5 2=1 b2 a5 b5 2=1
+  e3 g5 f5# 2=1 c3# e5 d5 2=1  f3# c5# a5 2=1 f2# g5 a5 2=1 | ;
+: m4  b2 d5# a5 g5 a5 4=1  e3 e5 g5 2=1 g2 f5# g5 2=1
+   c3 a4 c5 2=1 a2 f5# a4 2=1  b2 g4 e5 f4# d5 4=1 | ;
+\ variation                                           12feb86cht
+: p1   m1 m2 m3 m4 ;
+: m5  e2 e4 e5 d5# e5 4=1  g3 b3 e4 e5 2=1-1 c3# d5 e5 2=1
+   f3# a3# c5# b4 2=1-1 e3 a4# g4# 2=1  d3 b3 f4# f5# 2=1-1
+   a2# c4# e5 f5# 2=1-1 | ;
+: m6  b2 d4 b4 b5 a5 b5 4=1-1  g3 e4 g4 b5 2=1-1 e3 a5 b5 2=1
+   b3 d4 b4 d5 2=1-1 d3 f5# b4 2=1  e3 c4# g5 b4 2=1-1
+   f3# e5 a4# 2=1 | ;
+: m7  b2 b3 d5 f5# e5 f5# 4=1-1 | d3 b4 b5 2=1 b2 a5 b5 2=1
+   e3 g5 f5# 2=1 c3# e5 d5 2=1  f3# c5# a5 2=1 f2# g5 a5 2=1 ;
+: m8  b2 d5# a5 g5 a5 4=1  e3 e5 g5 2=1 g2 f5# g5 2=1
+   c3 a4 c5 2=1 a2 f5# a4 2=1  b2 b3 g4 e5 f4# d5 4=1-1 | ;
+: m9  e3 g3 e4 e5 2=1-1 d3 d5# e5 2=1  c3 a3 e4 e5 2=1-1
+   c3# a5 g5 2=1  d3 b3 f5# e5 2=1-1  d3# d5# c5# 2=1
+   e3 g3 b4 f5# 2=1-1 g2 e5 d5 2=1 | ;
+: p2   m5 m6 m7 m8 m9 ;
+\ variation                                           12feb86cht
+: m10  a2 f3# c5 g4 2=1-1 c3 e3 f4# e4 2=1-1  b2 f3# d4#
+   c5 b4 a4 4=1-1  e3 e3 g4 a4 g4 f4# 4=1-1  g3 e4 e5 2=1
+   e3 d5# e5 2=1 | ;
+: m11  a3 c5 b4 2=1 f3# a4 g4 2=1  b3 f4# b4 2=1 b2 a4 b4 2=1
+   e3 g4 g5 f5# g5 4=1  b2 g4 g5 2=1 g2 f5# g5 2=1 | ;
+: m12  c3 e5 d5 2=1 a2 c5 b4 2=1  d3 a4 d5 2=1 d2 c5 d5 2=1
+   g2 g4 b5 a5 b5 4=1  d3 g4 b5 2=1 b2 a5 b5 2=1 | ;
+: m13  e3 g5 f5# 2=1 c3# e5 d5 2=1  f3# c5# a5 2=1 f2# g5 a5
+   2=1  b2 d5# a5 g5 a5 4=1  e3 e5 g5 2=1 g2 f5# g5 2=1 | ;
+: m14  c3 a4 c5 2=1 a2 f5# a5 2=1  b2 g4 e5 f4# d5# 4=1
+   e3 e4 e5 d5 e5 4=1  g3 b3 e4 e5 2=1-1 c3# d5 e5 2=1 | ;
+: m15  f3# a3# c5# b4 2=1-1 e3 a4# g4# 2=1  d3 b3 f4# f5#
+   2=1-1 a2# c4# e5 f5# 2=1-1  b2 d4 b4 b5 a5 b5 4=1-1
+   g3 e4 g4 b5 2=1-1 e3 a5 b5 2=1 | ;
+: p3   m10 m11 m12 m13 m14 m15 ;
+\ variation                                           12feb86cht
+: m16  b3 d4 b4 d5 2=1-1 d3 f5# b4 2=1  e3 c4# g5 b4 2=1-1
+   f3# e5 a4# 2=1  b2 b3 d5 f5# e5 f5# 4=1-1 |
+   d3 b4 b5 2=1 b2 a5 b5 2=1 | ;
+: m17  e3 g5 f5# 2=1 c3# e5 d5 2=1  f3# c5# f5# 2=1 f2# e5 f5#
+   2=1  b2 d5# f5# e5 f5# 4=1  g3 b4 e5 2=1 e3 d5 e5 2=1 | ;
+: m18  a3 c5 b4 2=1 f3# a4 g4 2=1  b3 b3 f4# b4 2=1-1 b2 a4 b4
+   2=1  e3 g3 e4 e5 2=1-1 d3 d5# e5 2=1  c3 a3 e4 e5 2=1-1
+   c3# a5 g5 2=1 | ;
+: m19  d3 b3 f5# e5 2=1-1 d3# d5# c5# 2=1  e3 g3 b4 f5# 2=1-1
+   g2 e5 d5 2=1  a2 f3# c5 g4 2=1-1 c3 e3 f4# e4 2=1-1
+   b2 f3# d4# c5 b4 a4 4=1-1 | ;
+: m20  e3 e3 g4# a4 g4# f4# 4=1-1  e3 z e4 g5 2=1-1 b2 f5# g5
+   2=1  c3 e5 d5 2=1 a2 c5 b4 2=1  d3 a4 d5 2=1 d2 c5 d5 2=1
+   | ;
+: p4   m16 m17 m18 m19 m20 ;
+\ variation                                           12feb86cht
+: m21  g2 b4 c4 b4 a4 4=1  g2 g4 b5 2=1 d3 a5 b5 2=1  e3 g5 f5#
+   2=1 c3# e5 d5 2=1  f3# c5# a5 2=1 f2# g5 a5 2=1 | ;
+: m22  b2 d5# a5 g5 a5 4=1  e3 e5 g5 2=1 g2 f5# g5 2=1
+   c3 a4 c5 2=1 a2 f5# a4 2=1  b2 g4 e5 f4# d5 4=1 | ;
+: m23  e3 e3 e4 e5 407 1/8 d3 400 1/8 |  c3 g3 404 1/8 b2 400
+   1/8  a2 a3 z e5 2=1-1 b2 d5# e5 2=1  c3 e3 a4 e5 2=1-1
+   a2 f3# d5 e5 2=1-1 | ;
+: m24  e3 g3 g4 e5 2=1-1 d3 d5# e5 2=1  c3 a3 e4 a5 g5# a5
+   4=1-1  b2 b3 d5 405 1/16 b3 400 1/16 |
+   3 1 -  for  a3 f4# b4 d5 407 1/16 b3 400 1/16 |  next ;
+: m25  2 1 -  for g3 e4 b4 e5 407 1/16 a3 400 1/16 | next
+   f3# a4 a4 e5 407 1/16 g3 400 1/16 | e3 g4 b4 e5 407 1/16
+   f3# 400 1/16 |  d3# a4 b4 f5# 407 1/16 e3 400 1/16 |
+   c3# e5 401 1/16 d3# 400 1/16  b2 b3 a4 d5# 407 1/16
+   c3# 400 1/16 a2 f4# c5# 403 1/16 b2 400 1/16 | ;
+\ variation                                           12feb86cht
+: m26  g2 e4 g4 b4 407 1/16 a2 400 1/16 g2 b4 e5 403 1/16
+   a2 400 1/16  f2# d4# a4 f5# 407 1/16 g2 400 1/16
+   f2# a4 f5# 403 1/16 g2 400 1/16  e2 e4 g4 b4 407 1/8
+   |  z 1 1/2 ;
+: p5    m21 m22 m23 m24 m25 m26 ;
+: m27  f4# 4 1/8  d4 4 3/8  f4# d5 3 1/8  g4# b4 3 1/8
+   d5 1 1/16 a4# 1 1/16  b4 1 1/8 e4 4 1/16 c4# 4 1/16
+   f3# d4 f4# b4 407 1/8 z 400 1/128  f3# c5# 401 1/16 e4 g4#
+   5 1/16  f2# c4# a4# 403 1/8 z 400 1/128 f2# 400 1/16
+   b4 1 1/16 | ;
+: m28  b2 b3 b4 f5# e5 f5# 4=1-1 |  d3 g4 b5 2=1 b2 a5 b5 2=1
+   | ;
+: m29  e3 g5 f5# 2=1 c3# e5 d5 2=1  f3# c5# f5# 2=1 f2# e5 f5#
+   2=1  b2 d5# f5# e5 f5# 4=1  g3 b4 e5 2=1 e3 d5 e5 2=1 | ;
+\ variation                                           12feb86cht
+: m30  a3 c5 b5 2=1 f3# a4 g4 2=1  b3 f4# b4 2=1 b2 a4 b4 2=1
+   e3 g4 b4 a4 b4 4=1  g3 b3 e4 g5 2=1-1 e3 f5# g5 2=1 | ;
+: m31  f3# d4 a4 a5 2=1-1 d3 g5 a5 2=1  g3 b3 g4 g5 2=1-1 g2 f5#
+   g5 2=1  f3# d4 a4 a5 2=1-1 e3 g4 g5 2=1  d3# a3 f4# f5#
+   2=1-1  b2 d5# f5# 2=1 | ;
+: m32  e3 g3 e5 e4 2=1-1 g2 b4 e5 2=1  a2 f3# c5 a4 2=1-1
+   b2 d4# a4 2=1  e2 e3 g4 b4 2=1-1 f2# a4 b4 2=1 |
+   g2 e4 e5 2=1 e2 d5 e5 2=1 | ;
+: m33  a2 c5 e5 2=1 b2 d5 e5 2=1  c3 a4 f5# 2=1 a2 e5 f5# 2=1
+  b2 d5# f5# 2=1 c3# e5 f5# 2=1  d3# g4 b5 2=1 b2 a5 b5 2=1 | ;
+: m34  e3 g5 f5# 2=1 b3 g5 5 1/16 a3 a5 5 1/16  b3 g5 5 1/16
+   c4 a4 5 1/16 a3 f5# 5 1/16 b3 g5 5 1/16  g3 e5 5 1/8
+   e3 g3 b4 g5 /// d3 f3# 404 1/16  e3 g3 c5 a5 /// f3# a3 404
+   1/16 d3 f4# d5 b5 /// e3 g3 404 1/16 | ;
+: p6   m28 m29 m30 m31 m32 m33 m34 ;
+\ variation                                           12feb86cht
+: m35  c3 e3 e5 c6 /// b2 400 1/16 c3 e4 g4 e5 /// d3 d4 404
+   1/16  c3 e4 a4 f5# /// d3 f4# 404 1/16 b2 d4 b4 g5# ///
+   c3 e4 404 1/16  a2 c4 c5 a5 /// b3 z g5# 7 1/16 a2 c4 z a5
+   /// d4 b5 5 1/16  b2 c4 a5 405 1/16 d4 b5 5 1/16 c3 b3 g5
+   405 1/16 c4 a5 5 1/16 | ;
+: m36  d3 a3 f5# 405 1/16 f3# d5 5 1/16 c3 g3 e5 405 1/16
+   a3 f5# 5 1/16  b2 b3 g5 405 1/16 c4 a5 5 1/16 g2 a3 f5#
+   405 1/16 b3 g5 5 1/16 |  g3 e5 5 1/16 c3 400 1/16 b2 a3 f5#
+   405 1/16 a2 400 1/16  b2 f3# d5# 405 3/16 e3 e5 5 1/16 | ;
+: m37  e3 e3 e5 b4 2=1-1 d3 c5 d5 2=1  c3 z e5 405 1/16
+   g3 e4 5 1/16 b2 a3 f4# 405 1/16 b3 g4# 5 1/16
+   a2 c4 a4 e5 2=1-1 g2 f5# g5# 2=1 |  f2# a5 401 1/16 a3 f5#
+   5 1/16 a2 b3 g5 405 1/16 c4 a5 5 1/16 | ;
+: p7 m35 m36 m37 ;
+\ variation                                           12feb86cht
+: m38  b2 d3# a4 f5# 2=1-1 c3 e3 g4 e5 2=1-1  a2 e3 c5 a4 2=1-1
+   b2 f4# 401 1/16 d3 b4 5 1/16  e2 e3 g4 e5 d5# e5 4=1-1 |
+   g3 e4 e5 2=1 e3 d5 e5 2=1 | ;
+: m39  a3 c5 b5 2=1 f3# a4 g4 2=1  b3 f4# b4 2=1 b2 a4 b4 2=1
+   e3 g4 g5 f5# g5 4=1  b2 g4 g5 2=1 g2 f5# g5 2=1 | ;
+: m40  c3 e5 d5 2=1 a2 c5 b4 2=1  d3 a4 d5 2=1 d2 c5 d5 2=1
+   g2 b4 b5 a5 b5 4=1  d3 g4 b5 2=1 b2 a5 b5 2=1 | ;
+: m41  e3 g5 f5# 2=1 c3# e5 d5 2=1  f3# d5# a5 2=1 f2# g5 a5
+   2=1  b2 d5# a4 g5 a4 4=1  e3 e5 g5 2=1 g2 f5# g5 2=1 | ;
+: m42  c3 a4 c5 2=1 a2 f5# a4 2=1  b2 g4 e5 f4# d5# 4=1
+   e2 e4 e5 405 1/2 | ;
+: p8   m38 m39 m40 m41 m42 ;
+: variation   20 fudge !
+   p1 p2 p3 p4 p5   5 fudge +! m27 -5 fudge +! p6 p7 p8 ;
+decimal
+\ christ lay in death's dark prison                   12feb86cht
+: christ
+   sinfonia |  5000 ms
+   chorale | 5000 ms
+   variation | ;
+
+\ sheep may safely graze, cantata 208                 14feb86cht
+hex   : .   z z z 403 1/128 ;
+: 1-2=1   >r   407 1/16   r> 4 1/16 . ;
+: 3=1-1   >r >r >r >r   407 1/32 r> r> 3 1/32 r> r> 3 1/16 . ;
+: 3=2=1   >r >r >r >r >r   407 1/32   r> r> 3 1/32
+   r> r> r> 7 1/16 . ;
+: 2=2=1   >r >r >r   407 1/16   r> r> r> 7 1/16 . ;
+: 3-1-2   >r >r >r >r >r   407 1/8 .   r> r> r> 403 1/16
+   r> r> 3 1/16 . ;
+: 3-2-2   >r >r >r >r >r >r   407 1/8 .   r> r> r> r> 407 1/16
+   r> r> 3 1/16 . ;
+: 2=1-1   >r >r   407 1/16  r> r> 3 1/16 . ;
+: //   407 1/8 . ;   : ///   407 1/16 ;
+: 3=2=2   >r >r >r >r >r >r   407 1/32   r> r> 3 1/32
+   r> r> r> r> 7 1/16 . ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m1  g2 g3 b4 d5 g2 b4 d5 g4 b4 3-1-2  g2 g3 b4 d5 g2 d3 b4 d5
+   g4 b4 3-2-2  g2 g3 b4 d5 // g2 e3 c5 e5 4dup // //
+   g2 c3 e5 g5 // | ;
+: m2  g2 f3# a4 c5 g2 a4 c5 f4# a4 3-1-2  g2 f3# a4 c5 g2 d3
+   a4 c5 f4# a4 3-2-2  g2 f3# a4 c5 e3 1-2=1 g2 d3 c5 f5# e3
+   1-2=1  g2 d3 a4 f5# e3 1-2=1 g2 d3 c5 a5 e3 1-2=1 | ;
+: m3  g2 d3 b4 g5 // g3 d4 b4 g5 c5 a5 d5 b5 3=1-1
+   f3# d4 b4 g5 d5 b5 2=1-1 f3# d4 c5 a5 a4 d5 2=1-1
+   e3 e4 b4 g5 // e3 g3 b4 g5 c5 a5 f3# d5 b5 3=2=1
+   d3 e3 b4 g5 f3# d5 b5 2=2=1 d3 e3 c5 a5 f3# a4 d5 2=2=1 | ;
+: m4  c3 e3 b4 g5 e4 1-2=1 c3 a3 g5 b5 a5 c6 b5 d6 3=1-1
+   d3 b3 g5 b5 d4 b4 g5 2=2=1 d3 e4 c5 a5 d4 d5 f5# 2=2=1
+   e3 b3 b4 g5 // d3 g3 g5 b5 407 1/32 a5 c6 3 1/32
+   c3 e3 b5 d6 407 1/16  d3 d3 g5 b5 b4 g5 2=1-1
+   d3 z c5 a5 a4 f5# 2=1-1 | ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m5  g2 g3 b4 g5 g2 b4 d5 g4 b4 3-1-2  g2 b3 b4 d5 g2 a3 a4 c5
+   f4# a4 3-2-2  g2 a3 a4 c5 g2 a4 c5 f4# a4 3-1-2
+   g2 a3 a4 c5 g2 b3 g4 b4 d4 g4 3-2-2 | ;
+: m6  f2# c4 a4 d5 f2# a4 d5 d4 a4 3-1-2  f2# e4 a4 c5 f2# d4
+   a4 c5 d4 a4 3-2-2  g2 b3 g4 b4 g2 g4 b4 d4 g4 3-1-2
+   g2 a3 b4 d5 g2 g3 b4 d5 g4 b4 3-2-2 | ;
+: m7  g2 b3 g4 d5 g2 g3 b4 d5 g4 b4 3-2-2  g2 f3# b4 e5 g2 e3
+   b4 e5 e4 b4 3-2-2  g2 a3 a4 c5# g2 a4 c5# e4 a4 3-1-2
+   f2# a3 a4 d5 g2 b3 d4 d5 g4 b4 3-2-2 | ;
+: m8  a2 f3# f4# a4 a2 f4# a4 d4 f4# 3-1-2  a2 e3 e4 g4 a2 d3
+   e4 g4 c4# e4 3-2-2  d3 d3 d4 f4# d3 d4 f4# a3 d4 3-1-2
+   c3 d3 f4# a4 c3 f4# a4 d4 f4# 3-1-2 | ;
+: p1   m1 m2 m3 m4 m5 m6 m7 m8 ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m9  b2 d3 b4 d5 b2 b4 d5 g4 b4 3-1-2  g2 f3 b4 d5 g2 e3 b4
+   d5 g4 b4 3-2-2  c3 e3 b4 d5 // c3 e4 c5 e5 //
+   b2 e3 c5 e5 //  b2 f3# e5 g5 // | ;
+: m10  a2 g3 c5 e5 a2 c5 e5 a4 c5 3-1-2  a2 b3 c5 e5 a2 a3 c5 e5
+   a4 c5 3-2-2  d3 f3# c5 e5 d3 d5 f5# d5 f5# 3-1-2
+   c3 e3 d5 f5# c3 d3 f5# a5 f5# a5 3-2-2 | ;
+: m11  b2 d4 404 1/8 .  b2 d4 b4 g5 c5 a5 d5 b5 3=1-1
+   c3 e4 b4 g5 d5 b5 2=1-1  c3 d4 c5 a5 a4 g5 2=1-1
+   g2 d4 b4 g5 g2 b3 b4 d5 g4 b4 3-2-2
+   a2 a3 c5 f5# a2 g3 c5 e5 d5 d5 3-2-2 | ;
+: m12  b2 d4  404 1/8 .  b2 d4 b4 g5 c5 a5 d5 b5 3=1-1
+   c3 e4 b4 g5 d5 b5 2=1-1 c3 d4 c5 a5 a4 f5# 2=1-1
+   g2 d4 b4 g5 g2 b4 b4 d5 g4 b4 3-2-2
+   b2 a3 f4# d5 b2 g3 g4 d5 d4 g4 3-2-2 | ;
+: p2   m9 m10 m11 m12 ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m13  a2 c4 f4# c5 a2 f4# c5 g4 a4 3-1-2  d3 c4 f4# c5 d3 d4
+   f4# a4 d4 c5 3-2-2  g2 b3 d4 b4 a2 a3 c4 f4# d4 d4 3-2-2
+   b2 g3 d4 g4 c3 a3 e4 e4 c4 a4 3-2-2 | ;
+: m14  d3 f3# a3 f4# d3 a4 c5 f4# a4 3-1-2  d2 f3# c4 f4#
+   d2 g3 c4 g4 a3 f4# 3-2-2  m1 ;
+: m15  g2 e4 a4 c5 g2 c4 a4 c5 f4# a4 3-2-2
+   g2 b3 a4 c5 g2 a3 a4 c5 f4# a4 3-2-2 | ;
+: m16  g2 d4 a4 f5# // g2 d4 b4 g5 //  c3 d4 b4 g5 // c3 e4 c5
+   a5 // |  d3 b3 z z //  d3 b3 g5 b5 a5 c6 b5 d6 3=1-1
+   d3 b3 g5 b5 b4 g5 2=1-1 d3 a3 c5 d5 g3 a4 f5# 2=2=1 | ;
+: m17 g2 g3 b4 g5 g2 b4 d5 g4 b4 3-1-2  g2 g3 b4 d5 g2 d3 b4 d5
+   g4 b4 3-2-2  g2 g3 b4 d5 // g2 e3 c5 e5 4dup // //
+   g2 c3 e5 g5 // | ;
+: p3   m13 m14 m15 m16 m17   m2 m3 m4 ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m21  g2 b3 b4 g5 g2 d5 g5 b4 g5 3-1-2  g3 e4 z e5 g3 b4 e5
+   e4 e5 3-1-2  f3# d4# a4 z f3# a4 d4# a4 b4 3-1-2
+   g3 d4# b4 f5# g3 e4 e5 e5 e4 e5 3-2-2 | ;
+: m22  a3 c4 c5 z a3 c5 f5# c5 e5 3-1-2  b3 b3 f4# d5# b3 b4
+   d5# a4 d5# 3-1-2  c3 g3 g4 z c3 g4 g5 g4 f5# 3-1-2
+   d3 f3# z e5 d3 e3 c5 e5 b4 e5 3-2-2 | ;
+: m23  c3 a3 a4 e5 c3 a4 f5 a4 e5 3-1-2  b2 b3 g4# e5 b2 g3# g4#
+   f5 g4# e5 3-2-2  c3 a3 a4 e5 c3 f4 z e4 z 3-1-2
+   g2# b3 d4 e4 g2# b3 f4 z e4 z 3-2-2 | ;
+: m24  a2 c4 c4 e4 a2 z f5 z e5 3-1-2  g2# d4 b4 e5 g2# b3 b4 f5
+   b4 e5 3-2-2  a2 c3 c5 e5 a2 g4 z f4 z 3-1-2
+   b2 e4 e4 g4 b2 d4 f4# a4 f4# g4# 3-2-2 | ;
+: p4   m21 m22 m23 m24 ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m25  c3 e4 e4 a4 c3 z f5 3 e5 3-1-2  d3 f4 a4 f5 d3 a4 g5 a4
+   f5 3-1-2  d3 g3# b4 e5 d3 z b4 z e4 3-1-2
+   c3 a3 a4 a4 d3 b3 a4 f5 a4 b4 3-2-2 | ;
+: m26  e3 c4 z c5 e3 a4 c5 f4# c5 3-1-2  e2 b3 g4# b4 //
+   e2 a3 g4# e4 //  a2 a3 c5 e5 a2 c5 e5 a4 c5 3-1-2
+   a2 a3 c5 e5 a2 e3 c5 e5 a5 c5 3-2-2 | ;
+: m27  a2 a3 c5 e5 // a2 f3 d5 f5 //  a2 f3 d5 f5 //
+   a2 d3 f5 a5 //  a2 g3# b4 d5 a2 b4 d5 g4# b4 3-1-2
+   a2 g3# b4 d5 a2 d3 b4 d5 g4# b4 3-2-2 | ;
+: m28  a2 g3# b4 d5 f3# 1-2=1 a2 e3 d5 g5# f3# 1-2=1  a2 e3 b4
+   g5# f3# 1-2=1 a2 e3 d5 b5 f3# 1-2=1  a2 e3 c5 a5 //
+   a3 e4 c5 a5 d5 b5 e5 c6 3=1-1  g3 e4 c5 a5 e5 c6 2=1-1
+   g3 e4 d5 b5 b4 e5 2=1-1 | ;
+: p5   m25 m26 m27 m28 ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m29  f3 f4 c5 a5 c4 1-2=1 f3 a3 c5 a5 d5 b5 g3 e5 c6 3=2=1
+   e3 f3 a4 a5 g3 e5 c6 2=2=1 e3 f3 d5 b5 g3 b4 e5 2=2=1
+   d3 f3 c5 a5 f4# 1-2=1 d3 b3 a5 c6 b5 d6 c6 e6 3=1-1
+   e3 c4 a4 c6 e4 c5 a5 2=2=1  e3 f4# d5 b5 e4 e5 g5# 2=2=1 | ;
+: m30  f3 c4 c5 a5 // e3 a3 a4 c5 407 1/32 b4 d5 3 1/32 d3 f3
+   c5 e5 ///  e3 e3 a4 c5 c4 a4 2=1-1 e2 z d4 b4 b3 g4# 2=1-1
+   a2 e3 c4 a4 a2 c4 e4 a3 c4 3-1-2  a2 g3 c4 e4 a2 f3# c4
+   f4# a3 c4 3-2-2 | ;
+: m31  b2 g3 d4 f4# b2 d4 f4# b3 d4 3-1-2  b2 g3 d4 g4 b2 b3
+   d4 g4 g3 d4 3-2-2  c3# a3 e4 g4 c3# e4 g4 a3 e4 3-1-2
+   c3# g3 e4 a4 // c3# f3# e4 a4 g3 a3 e4 2=2=1 | ;
+: m32  d3 f3# f4# a4 d3 f4# a4 d4 a4 3-1-2  c3# e3 f4# d5 c3#
+   d3 f4# d5 f4# a4 3-2-2  b2 d4 d5 f5# b2 d5 f5# b4 d5 3-1-2
+   a3 c4# d5 f5# a3 b3 d5 f5# b4 d5 3-2-2 | ;
+: p6   m29 m30 m31 m32 ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m33  g3 b3 d5 f5# // g3 b3 e5 g5 //  f3# b3 e5 g5 //
+   f3# d4 g5 b5 //  e3 c4# g4 e5 // e3 d4 g4 e5 e4 e4 c5# 2=2=1
+   e3 c4# g4 e5 e3 b3 g4 e5 e4 c5# 3-2-2 | ;
+: m34  f3# a3# c5# e5 // f3# a3# e5 a5# // e3 g3# c5# g5# //
+   e3 f3# e5 c6# //  d3# a3 c5 f5# d3# c5 f5# a4 d5# 3-1-2
+   b2 a3 d5# f5# b2 d5# f5# b4 d5# 3-1-2 | ;
+: m35  e3 a4 d5# f5# // e3 a3 e5 g5 //  d3 g3 e5 g5 //
+   d3 a4 g5 b5 f3# 1-2=1  c3# g3 e5 a5 c3# e5 a5 c5# e5 3-1-2
+   a2 g3 c5# e5 a2 c5# e5 a4 c5# 3-1-2 | ;
+: m36  d3 g3 c5# e5 // d3 f3# d5 f5# // d3 f3# d5 f5# //
+   d3 f3# f5# a5 //  d2 c4 f4# a4 d2 f4# a4 d4 f4# 3-1-2
+   d2 c4 f4# a4 d2 f4# a4 d4 f4# 3-1-2 | ;
+: p7   m33 m34 m35 m36 ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m37  g2 c4 f4# a4 // g2 c4 g4 b4 // g2 b3 g4 a4 //
+   g2 d4 g4 a4 c4# 1-2=1  e2 d4 g4# b4 e2 g4# b4 e4 g4# 3-1-2
+   e2 e4 g4# b3 e2 g4# b4 e4 g4# 3-1-2 | ;
+: m38  a2 d4 g4# b4 // a2 c4# a4 c5# //  a2 b3 a4 c5# //
+   a2 c4# c5# e5 //  g2 c4# c5# e5 g2 c5# e5 a4 c5# 3-1-2
+   f2# b3 d5 f5# f2# a3 d5 f5# b4 d5 3-2-2 | ;
+: m39  e2 g3 c5# g5 // e2 g3 e5 a5 //  e3 f3# c5# a5 //
+   e3 g3 e5 c6# e3 1-2=1  f2# a3 d4 a4 g3 1-2=1 f2# f3# d4 a4
+   g3 1-2=1  g2 a3 d4 b4 g3 1-2=1 g2 a3 d4 b4 b3 e4 e4 2=2=1 ;
+: m40  a2 f3# d4 f4# a2 d4 f4# a3 d4 3-1-2
+   a2 e3 c4# e4 a2 d3 c4# e4 a3 c4# 3-2-2  d3 d3 f3# d4
+   407 1/2 | z 1 1/4 ;
+: p8   m37 m38 m39 m40 ;
+\ sheep may safely graze, cantata 208                 14feb86cht
+: m61  g2 d3 b4 g5 407 1/2 | ;
+: s1   p1 p2 p3  ;
+: s2   p4 p5 p6 p7 p8 ;
+: s3   s1 m61 ;
+: sheep  15 fudge ! s1 s2 s3 ;
+decimal
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+hex
+: m1  b3 200 1/1  e3 200 1/2 b3 200 1/2 | ;
+: m2  c4 200 1/2 b3 200 1/4 a3 200 1/4  g3 200 1/2 a3 200 1/2 ;
+: m3  b3 200 1/4 e3 200 1/4 e4 100 1/4 d3 200 1/4  c3# a3 300
+   1/4 d3 200 1/4 e4 e5 101 1/4 c3# 200 1/4 | ;
+: m4  d3 f4 a4 301 1/4 d4 200 1/4  c4 e4 e5 301 1/4 b3 d4 300
+   1/4  a3 c4 f5 301 1/2  d4 e5 101 1/4 d5 1 1/4 ;
+: m5  e4 c5 101 1/4 c4 100 1/4  f4 d5 101 1/2  e4 b3 e5 103 1/4
+   g3# 200 1/8 f3# 200 1/8 g3# b4 300 1/4 d5 1 1/4 | ;
+: m6  a3 a3 c5 c5 303 1/4 a4 100 1/4 b3 b4 g4 d5 303 1/4
+   a4 f4 102 1/4  c4 g4 e4 e5 303 1/4 b3 d4 202 1/4
+   a3 a4 c4 302 1/4 f5# 1 1/4 ;
+: p1   m2 m3 m4 m5 m6 ;
+\ aus tiefer not schrei ich zu dir                    14feb86cht
+: m7  e3 g3 b4 b3 g5 703 1/4 e5 100 1/4 e3 200 1/4 d5 100 1/4
+   a2 c5 a3 502 1/4 f3 f5 3 1/4  e3 g3 b4 b3 702 1/4
+   c4 e5 3 1/4 ;
+: m8  f3 a3 a4 700 1/4 d4 d5 3 1/4  e3 e4 c5 403 1/4
+   d3 b3 g4# b4 701 1/4  c3 c4 a4 a4 701 1/4 c5 1 1/4
+   d3 z f4 d4 b4 703 1/4 c4 a4 3 1/4 ;
+: m9  e3 e4 b3 g4# 503 1/4 b2 d4 500 1/8 e4 c4 102 1/8
+   b3 f4 d4 302 1/4 a2 a4 401 1/4  g2# e3 e4 b3 b4 705 1/4
+   a2 c5 401 1/8 d5 1 1/8 b3 e5 201 1/8 c4 2 1/8 g2# d4 402 1/4
+   ;
+: m10  a2 c4 e3 c4 a4 607 1/4 b2 e4 402 1/8 d4 2 1/8  c3 b3 4
+   e4 e5 703 1/4 a3 a4 c4 302 1/4  b2 g3# d5 b3 d4 f5 707 1/4
+   a3 200 1/4  e3 b4 e4 e5 503 1/4 g3 d5 201 1/4 ;
+: p2   m7 m8 m9 m10 ;
+\ aus tiefer not schrei ich zu dir                    14feb86cht
+: m11  a2 a3 a4 c4 c5 705 1/4 b2 e5 401 1/8 d5 1 1/8  c3 e5 401
+   1/4 a2 c5 a5 501 1/4  d3 b3 f5 b3 d4 706 1/4 e3 c4 e5 g4 g5
+   703 1/4  f3 a3 a4 406 1/4 d3 d4 d5 f5 701 1/4 ;
+: m12  b2 g3 g3 406 1/4 g2 b3 g4 e5 603 1/8 d5 1 1/8  c3 g3 e4
+   e5 603 1/4 a3 c5 300 1/8 b3 b4 300 1/8  e3 c5 a3 304 1/4
+   a2 c4 f5 403 1/8 g5 1 1/8  f3 f3 a4 a5 701 1/4 b3 d5 3 1/8
+   a3 2 1/8 ;
+: m13  e3 b2 a4 b3 e4 e5 707 1/4 g4# b4 101 1/8 f4# 100 1/8
+   e2 b3 g4 e5 701 1/4 d5 1 1/4  a2 c4 a4 z c5 705 1/4
+   e5 1 1/4 | d4 f5# 201 1/4 g5# 1 1/4 | ;
+: m14  c4 a5 201 1/4 | b3 b3 202 1/4  a3 e4 c4 302 1/4 f4 d4
+   102 1/4  g3 g4 e4 302 1/4 b4 100 1/4 f3 c5 a4 302 1/4
+   d5 d4 102 1/4 ;
+: p3   m11 m12 m13 m14 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m15  e3 g4 d4 e5 303 1/4 f3 f4 c4 302 1/8 b3 2 1/8  e3 g3 e4
+   c4 702 1/4 f3 d5 401 1/8 c5 1 1/8  g3 z d4 g3 b4 703 1/4
+   b2 200 1/4  a3 c3 c4 z 701 1/4 d3 f3# 202 1/4 | ;
+: m16  g3 g3 e3 b3 606 1/4 f3 a3 402 1/4 e3 b3 402 1/4 a3 c4#
+   202 1/4  d3 d4 f3 b3b 606 1/4 f3# a3 a4 203 1/4  c3 g3# e4
+   g3# b4 703 1/4 a3 a4 a3 c5 303 1/4 ;
+: m17  b2 b3 a4 z d4 d5 707 1/4 c3 g4# e5 501 1/8 f4# 100 1/8
+   b2 g4# f5 501 1/4 a2 a4 500 1/4  g2# b4 b3 504 1/4
+   b3 f5 3 1/4  e2 g3# e4 e5 603 1/4 d5 1 1/4 ;
+: m18  a2 a3 c4 c5 605 1/4 a4 100 1/4  e3 b3b z z 603 1/4
+   g4 100 1/4  f3 a3 f4 d4 704 1/4 e3 g3 g4 601 1/4
+   f3 f3 a4 601 1/4 g3 b4 401 1/4 | ;
+: p4   m15 m16 m17 m18 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m19  a3 e3 c4 c5 605 1/4 a2 d5 401 1/8 e5 1 1/8  d4 b3 f5 205
+   1/4 g2# b3 e5 403 1/4  a2 c3 a3 c4 606 1/4 b2 d4 d5 403 1/4
+   c3 z e4 c5 603 1/4 d3 f4# 500 1/4 ;
+: m20  e3 g4 g3 b4 505 1/4 b2 f3 a4 700 1/4  e3 g3 b4 z 701 1/4
+   e3 b3b e4 c5# 303 1/4  a3 a4 f3 f4 d5 307 1/8 e4 2 1/8
+   a2 d4 e5 403 1/8 c4# 2 1/8  d3 d4 f5 403 1/4
+   g3# b4 300 1/8 a3 a4 300 1/8 ;
+: m21  b3 g4# e3 e4 b4 307 1/4 c3 c4 f4# a4 701 1/4  b2 d4 g4#
+   b4 701 1/4 a2 c4 a4 c5 701 1/4  g2# b3 b4 d5 701 1/4
+   b2 b3 202 1/4  a2 c3 e4 c5 701 1/4 e3 a3 202 1/8
+   d3# 200 1/8 ;
+: m22  e2 e3 e4 e3 g3# b4 707 1/2 |  b3 200 1/2
+   e3 200 1/2  b3 200 1/2 | ;
+: p5   m19 m20 m21 ;
+: s1   p1 p2 p3 p4 p5  ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m22'  e2 e3 e4 e3 g3# b4 707 1/2 |  e4 100 1/2 c4 100 1/4
+   a3 2 1/4 f4 100 1/4 b3 2 1/4 ;
+: m23  e4 c4 102 1/4 g3 b3 202 1/4  d4 a3 a4 103 1/4 f3 200 1/4
+   e3 g4 b3 g4 303 1/4 d3 f4 300 1/4  c3 e4 c5 301 1/4
+   a3 2 1/4 ;
+: m24  d3 d4 b4 301 1/4 g3 2 1/4  f3# a4 3 1/4 c3 200 1/8
+   e4 100 1/8  b2 f4 g3# d5 303 1/4 c3 e4 a3 c5 303 1/8
+   d3 200 1/8  e3 e3 b4 301 1/4 b3 g3# 102 1/4 | ;
+: m25  c3 e3 c4 a3 a4 703 1/4 z c4 e5 103 1/4  f3 a3 c4# 602 1/4
+   d4 d5 3 1/4  e3 g3 e4 602 1/8 a3 200 1/8 b3b g4 c5# 301 1/4
+   d3 z d5 403 1/4 a3 f4 300 1/4 ;
+: m26  g3 b3b e4 z 702 1/4 f3 a3 d4 e5 701 1/8 f5 1 1/8
+   e3 g3 g5 601 1/4 c4# 100 1/4  d3 a4 d4 700 1/4 d2 f4 f5 501
+   1/8 e5 1 1/8  z b4b d4 f5 303 1/4 e2 g5 401 1/4 | ;
+: p6   m22' m23 m24 m25 m26 ;                               
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m27  f2 a4 c4 a5 503 1/4  a3 200 1/4 d2 f4 d5 501 1/2  a2 b3
+   c5 a3 e4 706 1/8 b4 100 1/8 g2 a4 c4 502 1/4  f2 z 401 1/4
+   d4 b4 d4 302 1/4 | ;
+: m28  e2 e4 c5 g3 g4 z 707 1/8 b4 100 1/8 c3 g3 c5 f4 g5 703
+   1/8 d5 100 1/8  c4 e5 e4 302 1/4 d3 d5 f4 f5 503 1/4
+   e3 c5 c4 g4 e5 507 1/8 b3 d5 3 1/8 e2 z c4 e5 603 1/8
+   d4 f5 3 1/8 e4 g5 3 1/4 f2 b4 d4 a5 503 1/8 a4 100 1/8 ;
+: m29  g2 d5 b3 504 1/4 g3 z e4 g5 303 1/8  f4 f5 3 1/8
+   z g4 e5 403 1/4
+   g3 f3 d4 d5 603 1/4 e3 a3 a4 c5# 207 1/4  f3 f3 d5 d4 z 703
+   1/8 g3 e4 102 1/8  a3 f4 102 1/4 e3 c5 g4 502 1/4 ;
+: m30  f3# d4 a4 406 1/4 g3# b3 b4 e4 e5 703 1/4  a3 c4 a4 c4
+   704 1/4 f3 f4 d5 403 1/8 g4 e5 3 1/8  d3 f3 b3 f4 f5 607 1/8
+   e4 2 1/8 b2 b4 d4 502 1/8 a4 c4 102 1/8  e3 g3 g4 b3 702 1/4
+   d3 e5 401 1/8 d5 1 1/8 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m31  c3# e3 g4 a3 e5 705 1/4 a2 a4 c4# 502 1/8 g4 100 1/8
+   d3 f3 f4 a4 702 1/4 a3 b3 d5 203 1/8 g3# 200 1/8
+   a2 a3 e4 z c4 c5 707 1/2 |  f4 100 1/2 ;
+: m32  e4 100 1/4 c4 2 1/4  f4 a3 102 1/4 d4 2 1/4  g4 b3 102
+   1/4 g3 200 1/4  e3 c4 g3 302 1/4 a3 c4 202 1/4 | ;
+: m33  g3 e4 b3 302 1/4 e3 c4 202 1/4  f3 d4 300 1/4 g3 b3b g4
+   203 1/4  c3 c4 e4 301 1/4 f4 a3 a4 103 1/8 b3 2 1/8
+   z e4 c4 g4 303 1/4 z e5 101 1/4 ;
+: m34  b3 d5 3 1/4 b4 g5 101 1/4  g4 c4 e5 103 1/4 c5 a5 101 1/4
+   a4 d4 f5# 103 1/4 d5 f5 101 1/4 b4 g3 102 1/4 e3 c5 e5
+   301 1/4 ;
+: m35  d3 b4 b3 f5# 303 1/4 g3 e5 g5 301 1/4  f3# a3 a5 203 1/4
+   b2 c5# b5 301 1/4  e3 e5 g3 c6 303 1/4 f3 a3 202 1/4
+   e3 g3 b3 b5 603 1/4 g3# d5 300 1/4 ;
+: p8   m27 m28 m29 m30 m31 m32 m33 m34 m35 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m36  c3 a3 c4 602 1/8 d4 2 1/8 c5 e4 a5 103 1/4  d3 z a4 f5#
+   701 1/4 e3 g4# c4 e5 303 1/8 b3 2 1/8  a2 c3 a4 c4 702 1/4
+   f3 a5 201 1/8 g5 1 1/8 ;
+: m37  c3 e3 z a5 605 1/4 a3 e5 201 1/4  b2 z d4 f5 503 1/4
+   g3# b3 e5 203 1/8 d5 1 1/8 a2 a3 z c4 e4 c5 707 1/4  e3 z g4#
+   z 702 1/4  c3 a4 z 501 1/4 f3 c5 401 1/4 ;
+: m38  d3 z a4 b3 z f5 707 1/4 b2 d4 402 1/4  e3 g4# b3 e5 503
+   1/4 e4 2 1/4  a2 a4 c4 c4 506 1/4 a3 e5 3 1/4 z f4 c5 403 1/4
+   a3 f5 401 1/4 ;
+: m39  b3 z a4 d4 f4 d5 707 1/4 f3 d4 b4 203 1/4  z d3 g4 b3 g5
+  703 1/4  b2 g3 d5 d4 702 1/4  c3 e3 g3 e4 606 1/4 b2 c5 401
+   1/8 b4 100 1/8  a2 c5 a3 z 505 1/4 f3# b4 d4 302 1/8
+   a4 c4 102 1/8 | ;
+: p9   m36 m37 m38 m39 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m40  e2 g3 g4 b3 b3 706 1/8 a4 100 1/8 e3 b4 500 1/8 c5 100
+   1/8 b2 z d5 z g5 703 1/4 d3 g3 b4 b3 702 1/4 c3 a3 e5 a3 c4
+   706 1/4 a2 e3 c5 700 1/4  d3 f3 a4 d4 f5 703 1/4
+   c3 g3 b4 700 1/8 a3 c5 300 1/8 ;
+: m41  b2 d3 d5 g3 704 1/4 g2 g3 b3 e5 603 1/8 d5 1 1/8
+   c3 e3 g3 e5 603 1/8 d3 200 1/8 e3 c5 z 302 1/8 f3# 200 1/8
+   g2 g3 z z d5 607 1/4 b4 100 1/8 a4 100 1/8 |
+   b4 d4 102 1/2 | ;
+: m42  g4 100 1/4 d4 f4 300 1/8 c4 200 1/8 b3 g4 300 1/4
+   c4 e4 202 1/8 b3 200 1/8 a3 c5 300 1/4 b3 b4 d4 302 1/8
+   a3 c4 202 1/8  g3# b3 202 1/4 a3 a4 c4# 302 1/8 g3 200 1/8 ;
+: m43  f3 d4 202 1/4 g3 g4 300 1/8 f4 100 1/8  a3 e4 c4 302 1/4
+   f4# 100 1/4  e3 g4 b3 302 1/4 e4 2 1/8 d4 2 1/8
+   a3 f4 c4 302 1/4 g3 b3 202 1/4 ;
+: p10   m40 m41 m42 m43 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m44  g3 e4 c4# a4 303 1/4 f3 f4 d4 302 1/8 e4 c4 102 1/8
+   d4 b3 d5 103 1/4 e3 e4 c4 c5 303 1/8 d3 b3 202 1/8
+   c3 a4 a3 302 1/8 g4 100 1/8 d3 f4 b3 b4 303 1/8 a4 1 1/8
+   e3 e4 c4 g4# 303 1/4 b3 a4 3 1/8 c4 2 1/8 | ;
+: m45  d3 f4 d4 b4 303 1/4 e4 g3# 102 1/4  a3 a4 3 1/4 c3 f4
+   300 1/8 e4 100 1/8  b2 d4 b3 302 1/4 e3 e4 g4# 301 1/8
+   d4 100 1/8  a4 c4 a3 a4 503 1/8 d4 100 1/8
+   d3 e4 300 1/8 c3 200 1/8 ;
+: m46  e3 b2 e4 g3# b4 703 1/8 f4# a3 102 1/8 d3 z g4# b3 z 703
+   1/8 a4 a3 102 1/8  b4 g3# e5 103 1/4 c3 c3 c5 a3 702 1/8
+   b4 g3 102 1/8  d3 a4 f3# a5 303 1/4 b2 b4 g3 g5 503 1/8
+   a2 f3 402 1/8  g2 e3 402 1/4 a2 c3 a4 f3 f5 703 1/4
+   e3 2 1/8 ;
+: p11   m44 m45 m46 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m47  b2 b2 g4 z d3 f5 707 1/4 c3 a4 g3 e5 303 1/8 d3 b4 d5 301
+   1/8  a2 e3 c5 c5 701 1/4 f3 f3 d3 203 1/4  g2 g3 g3 e3 e5 607
+   1/8 b4 d3 102 1/8 c5 e3 102 1/8 f3 2 1/8  z g3 d5 601 1/8
+   a4 100 1/8 f3 b4 300 1/4 ;
+: m48  z e3 c5 c4 g3 c5 707 1/4 d3 f3# 202 1/8 e3 g3 202 1/8
+   f3 z a3 z 303 1/4 e3 g3 202 1/8 f3 a3 202 1/8  g3 b3 b3 206
+   1/4 g4 d4 102 1/8 a4 100 1/8 b4 g4 102 1/4
+   f3 a4 300 1/8 g3 b4 300 1/8 ;
+: m49  a3 c5 a3 304 1/4 g3 c4 e5 203 1/8 b4 d4 d5 103 1/8
+   a2 a4 e4 c5 503 1/4 f3# a3 d5 203 1/8 c5 1 1/8  e3 g3 g4 e3
+   b3 b4 707 1/8 a3 2 1/8 d3 z a4 b3 702 1/8 g4 c4 102 1/8
+   f3 d4 f4 7 1/4 c3 g4 a4 501 1/8 f4 b4 101 1/8 ;
+: p12   m47 m48 m49 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m50  e4 g3 g3 c5 107 1/4 b2 d4 b3 g5 503 1/8 a2 c4 f5 501 1/8
+   g2 b3 e3 e5 503 1/4 a2 a3 c4 z f5 703 1/8 e5 1 1/8  b2 d4 f3
+   d5 505 1/4 b3 g3# 102 1/8 c4 a3 102 1/8  a2 b3 d4 700 1/4
+   a3 c4 300 1/8 b3 d4 300 1/8 ;
+: m51  g2# e3 e4 e3 z d5 707 1/4 d4 f5 3 1/8 c4 e5 3 1/8
+   z z z b3 d5 703 1/4 e2 g4# c4 e5 503 1/8 b3 d5 3 1/8
+   a2 a4 a3 c5 503 1/4 g2 e3 z z d5 703 1/8 a2 f3# c5 601 1/8
+   b2 g3# e4 d4 b4 703 1/4 a2 f3# z z c5 703 1/8 b2 g3# b4
+   601 1/8 ;
+: m52  c3 a3 e4 e3 c4 a4 707 1/4 b2 g3# z z b4 703 1/8
+   c3 a3 a4 601 1/8  d3 a3 e4 a3 g4# 703 1/4 z c4 z z f4# 703
+   1/8 b3 g4# 201 1/8  c3 a3 z c4 a4 703 1/4 z z e4 z g4# 703
+   1/8 f4# a4 101 1/8  b2 g4# d4 b4 503 1/4 z f4# c4 a4 503 1/8
+   g4# d4 b4 103 1/8 ;
+: p13   m50 m51 m52 ;
+\ aus tiefer not schrei ich zu dir                    15feb86cht
+: m53  a2 z a4 e3 e4 c5 707 1/4 z g4# d4 b4 503 1/8 a4 c4 c5
+   103 1/8  g2# b4 b3 d5 503 1/4 z a3 e5 403 1/8 b3 d5 3 1/8
+   a2 e3 c5 601 1/8 d4 2 1/8 a4 c4 102 1/8 g4# b3 102 1/8
+   a4 c4 102 1/4 a3 d5 3 1/8 c5 1 1/8 ;
+: m54  e2 e3 a4 e3 z b4 707 1/4 g4# b3 102 1/8 c4# 2 1/8
+   f4# d4# 102 1/4 a4 c4# 102 1/8 d4# 2 1/8
+   e2 e3 g4# e3 e4 b4 707 1/1 | ;
+: p14   m53 m54 ;
+decimal
+: aus   15 fudge !
+   m1 s1 m22 s1 p6 p8 p9 p10 p11 p12 p13 p14 ;
+
+: all jesu 5000 ms christ 5000 ms sheep 5000 ms aus | ; 
+
+[[ all ]]

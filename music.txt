@@ -1,0 +1,148 @@
+короткие звуковые отрезки в уроке 19 файл lesson19.txt
+произведения И.С.Баха взяты из дистрибутива jeforth613
+интересно, что многим мелодиям, закодированным докторм Тингом более 35 лет!
+
+можно пробовать фрагменты вызывая их по имени и обрамив командами активации и выключения звука [[ и ]]
+
+если какая-то нота звучит без остановки, попробуйте дать команду ]] 
+если зависли, ну чтож - закрывайте вкладку браузера.
+
+contents.txt from distr jeforth613:
+
+jsBach is a Javascript program playing J. S. Bach's organ compositions. Compositions are coded in Forth language as text files.
+Open a .txt file with Notepad, copy the file and paste it to the input box. Hit return and the compositions are played in sequence.
+If you do not want to hear all the compositions, delete the "all" command at the end of a file and hit return. Then you can play individual pieces by typing in their names.
+
+Contents of the .txt files and command names to play the compositions are:
+
+aConcert.txt
+   invent-1: BWV772 Two Part Inventions No. 1
+   invent-4: BWV775 Two Part Inventions No. 4
+   little:  BWV939 Little Prelude in C Major
+   prelude-1: BWV846 Prelude in C Major
+   fugue-1: BWV846 Fugue in C Major
+   prelude-2: BWV846 Prelude in C Minor
+   fugue-2: BWV846 Fugue in C Minor
+   toccata-g:BWV916 Toccata and Fugue in G Major
+     toccata
+     adagio
+     allegro
+
+airGstring.txt
+   air: BWV1068 Orchestral Suite No. 3, 2nd Movement
+   doxology 
+
+ambNotebook.txt
+   Anna Magdalena Bach Notebook
+     little: Little Prelude 
+     tobacco: BWV515 So oft ich meine Tobackspfeife    
+     polonaise-1: Anh 119 
+     menuet-1: Anh 116       
+     content: BWV511 Gib dich zufrieden uns sei stille
+     schaff: BWV514 Schaff��s mit mir, Gott         
+     menuet-2: Anh 118      
+     menuet-3: Bohm      
+     march-1: Anh 122       
+     menuet-4: Anh 114       
+     menuet-5: Anh 115       
+     march-2: Anh 124       
+     menuet-6: Anh 132      
+     march-3: Anh 127       
+     menuet-7: Anh 121     
+     prelude-1: BWV846               
+     aria: BWV508 Bist du bei mir            
+     menuet-8: Anh 113      
+     polonaise-2: Anh 125   
+     polonaise-3: Anh 123    
+     menuet-9: Anh 120      
+     polonaise-4: Anh 130   
+     musette-2: Anh 126 
+
+The Art of Fugue, BWV1080
+   artFugue1.txt: Contrapunctus 1-5
+     fugue1 to fugue5
+   artFugue2.txt: Contrapunctus 6-9
+     fugue6 to fugue9
+   artFugue3.txt: Contrapunctus 10-11
+     fugue10 to fugue11
+   artFugue4.txt: Contrapunctus 12-13, Invertus 12-13
+     fugue12, fugue13, invert12, invert13
+   artFugue6.txt: Fuga 15-17
+     fugue15 to fugue17
+
+capriccio.txt
+   BWV992, on the departure of a beloved brother
+     arioso     
+     andante     
+     adagissimo 
+     con-moto   
+     aria        
+     fuga
+
+catechism.txt
+   vater : BWV672 Kyrie, Gott Vaterin Ewigkeit
+   christe :  BWV673 Chruste alle Welt trost
+   geist : BWV674 kyrie Gott heiligen Geist
+   allein : BWV675 Allein Gott in der Hoh��
+   gebot : BWV679 Dies sind die heiligan zehn Gebot
+   glauben : BWV681 Wir glauben all�� an einen Gott
+   jordan : BWV685 Christ unser Herr zum Jordan kam
+   austiefe: BWV686 Aus tiefer Not schrei ich zu dir
+
+choralePreludes.txt
+   wenn: BWV668 Wenn wir in hoechsten Noeten sind
+   wasser: BWV653  An wasserfluessen Babylon
+   nun-danket: BWV657  Nun danket alle Gott
+   komm: BWV667 Komm, Gott, Shoepfer, heiliger Geist
+   himmel: BWV701 Von Himmel hoch komm ich her
+   kyrie: BWV672 Kyrie,Gott Vater in Ewigkeit
+
+inventions.txt
+   Two Part Inventions
+   invent1: BWV772 
+   invent2: BWV773 
+   invent3: BWV774 
+   invent4: BWV775 
+   invent5: BWV776 
+   invent6: BWV777 
+   invent7: BWV778 
+   invent8: BWV779 
+   invent9: BWV780 
+   invent10: BWV781 
+   invent11: BWV782 
+   invent12: BWV783 
+   invent13: BWV784 
+   invent14: BWV785 
+   invent15: BWV786
+
+jesusChristus.txt
+   jesus30: BWV688 Jesus Christus, unser Heiland  
+   jesus31: BWV665 Jesus Christus, unser Heiland  
+   jesus32: BWV666 Jesus Christus, unser Heiland  
+   jesus33: BWV689 Jesus Christus, unser Heiland  
+
+preludeFugueEbMajor.txt
+   BWV552 Prelude and Fugue in Eb Major, St. Ann Fugue
+     prelude
+     fugue
+
+toccataFugueDminor.txt
+   BWV565 Toccata and Fugue in D Minor
+     toccata
+     fugue
+
+FugueGminor.txt
+   BWV578 Fugue in G Minor
+     Fuga-g
+
+vomHimmelHoch.txt
+   BWV769 Canonic variations on Vom Himmel hoch da komm' ich her
+     Himmel1
+     Himmel2
+     Himmel3
+     Himmel4
+     Himmel5
+
+
+
+

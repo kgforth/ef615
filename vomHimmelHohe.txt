@@ -1,0 +1,1128 @@
+\ canonic variations on the christmas song
+\ vom himmel hoch do komm' ich her
+\ variation i, a 2 clav. e ped, in canone all' ottava
+\ j. s. bach, complete organ works, vol. 5, p.92-93
+\ coded by c. h. ting, 9-30-88
+
+decimal
+0 constant bass
+0 constant tenor
+0 constant alto
+0 constant soprano
+0 constant flute
+0 constant pedal
+0 constant z
+: init z to bass z to tenor z to alto z to soprano z to pedal z to flute ;
+
+variable fudge 30 fudge ! ( quater note )
+: notes ( duration -- )
+  >r 0.1 bass tenor alto soprano pedal flute r> poly ;
+hex
+: play ( n1 n2 n3 n4 n5 n6 bits duration -- )
+  >r >r 
+  r@ 1 and if to soprano then  
+  r@ 2 and if to alto then
+  r@ 4 and if to tenor then
+  r@ 100 and if to flute then
+  r@ 200 and if to bass then
+  r@ 400 and if to pedal then
+  r> drop r> notes ;
+
+decimal
+: ppqn   constant   does 0 q@ fudge @ * play ;
+192 ppqn 3/2
+128 ppqn 1/1    64 ppqn 1/2    32 ppqn 1/4   16 ppqn 1/8
+  8 ppqn 1/16    4 ppqn 1/32    2 ppqn 1/64   1 ppqn 1/128
+ 96 ppqn 3/4    48 ppqn 3/8    24 ppqn 3/16  12 ppqn 3/32
+ 12 ppqn 1/12'  10 ppqn 1/12   22 ppqn 1/6
+  6 ppqn $.      5 ppqn $       3 ppqn ]      2 ppqn [
+hex
+: | z z z z z z 707 1/128 ;
+: init-fudge ( n -- ) fudge ! ;
+
+: . 1/16 ;
+: ! 1/128 ;
+: , 1/32 ;
+
+: m1
+c5 1 . b4 1 . a4 1 . g4 1 . f4 1 .
+e4 1 . c4 a4 5 . b3 g4 5 . a3 f4 5 . g3 e4 5 . f3 d4 5 .
+e3 c4 5 . a3 4 . g3 e4 5 . f3 4 . e3 g4 5 . d3 4 .
+c3 c5 5 . e5 1 . e3 g5 5 . c5 1 . g3 b4 5 . f5 1 .
+;
+: m2
+c4 f5 5 , e5 1 , e4 f5 5 , e5 1 , g4 f5 5 ,
+e4 1 , c4 4 . b3 d5 5 . f4 4 .
+f4 z 5 , e4 4 , f4 c5 5 , e4 4 , f4 b4 5 ,
+e4 4 , a4 1 . d4 g4 5 . f4 1 .
+c4 z e4 405 . c4 4 . b3 c4 5 . a3 1 .
+g3 e4 5 . f3 1 .
+e3 g4 5 . g5 1 . c3 f5 5 .
+e5 1 . e3 c5 5 . b4 1 . ;
+: m3
+b3 g3 d5 405 . g4 b4 5 . f4# c5 5 .
+e4 e5 5 . d4 f5# 5 . c4 4 .
+a3 d4 f5 405 . b3 g5 5 . c4 a5 5 .
+e4 c5 5 . f4# b4 5 . a4 1 .
+b3 f4# d5 405 . g4 4 . a4 f5# 5 . c4 4 .
+b3 g5 5 . a3 4 . 
+g3 d4 z 405 . c5 1 . f4# b4 5 .
+a4 1 . g4 g4 5 . f4 1 . ;
+
+: l1 m1 m2 m3 ;
+
+: m4
+a3 z e4 405 . c4 4 . b3 d4 5 .
+a3 e4 5 . g3 f4 5 . f3 4 . 
+b3 e3 f4 405 . g4 1 . d3 f4 5 .
+e3 e4 5 . f3 d4 5 . e4 1 . 
+c4 f3 c4 405 . g3 4 . f3 d4 5 .
+e3 e4 5 . d3 f4 5 . e3 g4 5 .
+c3 a4 5 . g4 1 . d3 f4 5 .
+e3 g4 5 . f3 a4 5 . g3 b4 5 . ;
+: m5
+z a3 c5 405 . g3 4 . f3 a4 5 .
+g3 4 . a3 f4 5 . b3 4 . 
+c4 f4 5 . e4 1 . a3 f4 5 .
+g4 1 . f3 a4 5 . f4 1 . 
+f3 d4 5 . e3 c4 5 . f3 d4 5 .
+g3 e4 5 . a3 c4 5 . f3 d4 5 .
+d3 b3 5 . c3 4 . d3 d4 5 .
+e3 4 . c3 g4 5 . d3 4 . ;
+: m6
+b2 g4 5 . a4 1 . d3 g4 5 .
+f4 1 . g3 e4 5 . d4 1 .
+g3 e4 5 . a3 f4 5 . g3 e4 5 .
+f3 d4 5 . e3 c4 5 . d3 b3 5 .
+c4 e3 c4 405 . f3 g3 5 . e3 a3 5 .
+d3 b3 5 . c3 c4 5 . b2 d4 5 .
+c3 e4 5 . g2 d4 5 . a2 c4 5 .
+b2 d4 5 . c3 e4 5 . z d3 f4 405 . ;
+
+: l2 m4 m5 m6 ;
+
+: m7
+c4 e3 g4 405 . d3 f4 5 . c3 e4 5 .
+d3 g4 5 . e3 c5 5 . f3 a4 5 .
+g3 g3 b4 405 . f3 g4 5 . e3 c5 5 .
+g3 d5 5 . c4 e5 5 . z a3 f5 405 .
+g3 b3 g5 405 . g3 4 . c4 e5 5 .
+d4 4 . e4 b4 5 . f4 4 .
+e3 g4 b4 405 . a4 4 . e4 g4 5 .
+b4 1 . b3 d5# 5 . e5 1 . ;
+: m8
+g3 b3 e5 405 . a3 c5# 5 . g3 d5 5 .
+b3 4 . d4# z 5 . e4 4 . 
+f3 e4 z 405 . c4# a4 5 . d4 g4 5 .
+a4 1 . z e5 5 . d5# 1 . 
+e3 z e5 405 . a3 f5 5 . g3# e5 5 .
+a3 d5 5 . e4 c5 5 . d4# b4 5 .
+e4 c5 5 . f4 d5 5 . e4 c5 5 .
+d4 b4 5 . c4 a4 5 . b3 g4# 5 . ;
+: m9
+z c4 a4 405 . d4 4 . c4 e4 5 .
+b3 4 . a3 d4 5 . g3# 4 .
+a3 c4 5 . b3 1 . e3 c4 5 .
+d4 1 . d3 b3 5 . c4 1 . 
+c3 a3 5 . b2 4 . c3 a4 5 .
+d3 f4 5 . b2 g4 5 . c3 e4 5 .
+a2 f4 5 . g4 1 . a3 f4 5 .
+f3 d4 5 . g3 e4 5 . e3 c4# 5 . ;
+
+: l3 m7 m8 m9 ;
+
+: m10
+f3 d4 5 . g3 4 . f3 d5 5 .
+d3 4 . e3 c5 5 . c3 4 .
+d3 b4 5 . a4 1 . d4 b4 5 .
+d5 1 . c4 a4 5 . d5 1 . 
+e3 b3 g4# 405 . a3 4 . b3 e4 5 .
+d4 4 . a3 z 5 . d4 4 . 
+g3# 4 . e3 1 . e3 f3# 5 .
+g3# 1 . z a3 5 . b3 1 . ;
+: m11
+a3 z c4 405 . e2 b3 5 . f2# a3 5 .
+g2# b3 5 . a2 c4 5 . z b2 d4 405 . 
+a3 c3 e4 405 . b2 d4 5 . a2 c4 5 .
+b2 d4 5 . c3 e4 5 . d3 f4 5 . 
+g3 e3 g4 405 . d3 4 . c3 g5 5 .
+d3 4 . e3 g4 5 . f3 4 . 
+b3 g3 z 405 . a4 1 . g4 g4 5 .
+f4 1 . g3 e4 5 . d4 1 . ;
+: m12
+c4 z e4 405 . a3 f4 5 . g3 e4 5 .
+f3 d4 5 . e3 c4 5 . d3 4 . 
+a3 e3 c4 405 . f3 b3 5 . e3 c4 5 .
+d3 d4 5 . c3 e4 5 . f4# 1 . 
+g3 c3 g4 405 . b2 4 . c3 4 .
+d3 f4# 5 . e3 g4 5 . f3# a4 5 . 
+g3 b4 5 . c5 1 . d5 1 .
+f3# 4 . g3 g4 5 . a3 4 . ;
+
+: l4 m10 m11 m12 ;
+
+: m13
+z b3 z 405 . c4 c5 5 . d4 b4 5 .
+a4 1 . g3 g4 5 . f4 1 . 
+z e4 5 . c4 a4 5 . b3 g4 5 .
+a3 f4 5 . g3 e4 5 . f3 d4 5 . 
+e3 c4 5 . a3 4 . g3 e4 5 .
+f3 4 . e3 g4 5 . d3 4 . 
+c3 c5 5 . e5 1 . e3 g5 5 .
+c5 1 . g3 b4 5 . f5 1 . ;
+: m14
+c4 f5 5 , e5 1 , e4 f5 5 , e5 1 ,
+g4 f5 5 , e5 1 , c4 4 . b3 d5 5 . f4 4 .
+f4 z 5 , e4 4 , f4 c4 5 , e4 4 ,
+f4 d4 5 , e4 4 , e4 1 . d4 f4 5 .
+d4 1 . c4 z e4 405 .
+c3 g4 5 . d3 f4 5 . e3 g4 5 .
+f3 a4 5 . d3 f4 5 . e3 g4 5 .
+g3 4 . f3# d5 5 . g3 4 . a3 d4 5 .
+f3# 4 . ;
+: m15
+b3 a4 z 405 . d5 1 . d4 c5 5 .
+b4 1 . d3 a4 5 . b4 1 . 
+a3 z d5 405 . d4 e5 5 . c4 e5 5 .
+b3 4 . a3 4 . b3 4 . 
+g3 c4 e5 405 . d4 f5 5 . e4 g5 5 .
+d5 1 . e5 1 . b4 1 . 
+a3 e4 c5 405 . f4 d5 5 . g4 e5 5 . d4 f5 5 .
+g3 e4 g5 405 . b3 e5 5 . ;
+
+: l5 m13 m14 m15 ;
+
+: m16
+f3 c4 a5 405 . d4 4 . e4 a4 5 .
+f4 4 . e3 g4 z 405 . e4 4 .
+d3 a4 z 405 . e4 1 . a3 f4 5 .
+a4 1 . z c5 5 . b4 1 . 
+c3 z c5 405 . e3 e5 5 . f3 d5 5 .
+a3 f5 5 . c4 e5 5 . b3 d5 5 . 
+c4 e5 5 . e4 g5 5 . d4 f5 5 .
+f4 a5 5 . e4 g5 5 . d4 f5 5 . ;
+: m17
+c3 e4 g5 405 . g4 e5 5 . f4 d5 5 .
+a4 f5 5 . g4 e5 5 . f4 d5 5 .
+g4 e5 5 . e4 c5 5 . d4 b4 5 .
+f4 d5 5 . e4 c5 5 . d4 b4 5 .
+5 fudge +! e4 c5 5 . c4 a4 5 .
+b3 g4 5 . d4 f4 5 . c4 e4 5 . b3 d4 5 . 
+5 fudge +! c4 e4 5 . a3 f4 5 . g3 e4 5 .
+f3 d4 5 . e3 c4 5 . d3 b3 5 . ;
+: m18
+c3 e3 c4 405 . f3 4 . e3 c5 5 .
+d3 4 . c3 4 . b2 4 .
+c3 c5 5 . g4 1 . c4 e4 5 .
+c4 1 . g3 1 . e3 1 . 
+c4 c3 5 . g3 4 . e3 z 5 .
+c3 4 . g2 4 . e2 4 . c2 4 1/2 ;
+decimal
+: l6 m16 m17 5 fudge +! m18 | ;
+
+: himmel1 30 init-fudge l1 l2 l3 l4 l5 l6 ;
+
+
+\ vom himmel hoch da komm' ich her
+\ canonic variations on a christmas song
+\ variation ii, a 2 clav. e ped., alio modo in canone alla quita.
+\ j. s. bach, complete organ works, vol. 5, p. 94-95.
+\ coded by c. h. ting, 10-5-88
+
+: . 1/16 ;
+: , 1/32 ;
+: / 1/8 ;
+: ! 1/128 ;
+hex
+
+: m1
+z 1 / c5 1 /  b4 1 / a4 1 /
+ z b4 5 / f4 a4 5 . g4 1 .
+ e4 a4 5 . c5 1 . d4 b4 5 . d5 1 . ;
+: m2
+e4 c5 5 / d4 b4 5 . c4 a4 5 . 
+d4 b4 5 . f4 4 . e4 c5 5 . g4 4 . 
+f4 d5 5 / e4 c5 5 . d4 a4 5 . 
+e4 c5 5 . e5 1 . f4 d5 5 . f5 1 . ;
+: m3
+g4 e5 5 / f4 d5 5 . e4 4 . 
+f4# d5 5 , e5 1 , a4 d5 5 , e5 1 ,
+g4# a4 5 . b4 4 . 
+c4 a4 c5 405 . d5 1 . g4 e5 5 . c5 1 . 
+g4 a5 5 , f4# 4 , g4 a4 5 , f4# 4 ,
+e4 b4 5 . c5 1 . ;
+
+: l1 m1 m2 m3 ;
+
+: m4
+c4 f4# d5 405 . g4 e5 5 . a4 f5# 5 . f4 d5 5 .
+ b3 d5 g5 405 . d4 f5# 5 . e4 g5 5 . f4# a5 5 .
+ g4 d5 5 . a4 4 . b4 4 . g4 4 .
+ a3 c5 z 405 . a4 4 . c5 f5 5 . d5 4 . ;
+: m5
+b3 g4 f5 405 . e5 1 . d5 1 . c5 1 .
+ z b4 5 . a4 1 . b4 g4 5 . f4# 1 . 
+g3 b4 g4 405 . a4 4 . g4 b4 5 . f4 4 . 
+e4 e5 5 . d4 4 . c4 g5 5 . b3 4 . ;
+: m6
+a3 c4 g5 405 . f5 1 . e4 e5 5 . d5 1 . 
+a4 c5 5 . e5 1 . c5 f5 5 . a5 1 . 
+b3 c5 d5 405 . b4 g5 5 . a4 f5 5 . g4 e5 5 .
+ f4 d5 5 . a4 c5 5 . b4 d5 5 . d5 f5 5 . ;
+: m7
+c4 g4 e5 405 . c5 4 . b4b 4 . a4 4 .
+ g4 e5 5 . f4 d5 5 . g4 e5 5 . b4 g5 5 .
+ z a4 c5 405 . d5 1 . e5 1 . c5 1 . 
+a4 f5 5 . g4 e5 5 . a4 f5 5 . c5 a5 5 . ;
+
+: l2 m4 m5 m6 m7 ;
+
+: m8
+z f4 d5 405 . g4 4 . a4 f5 5 . f4 4 .
+ b4 g4 5 . a4 4 . b4 g5 5 . d5 f5 5 . 
+c4 g4 e5 405 . f5 1 . b4 d5 5 . f5 1 . 
+c4 e5 5 . b5 1 . c5 a5 5 . z b4 g5 405 .
+;
+: m9
+c4 a4 f5# 405 . b4 g5 5 . g4 e5 5 . b4 g5 5 . 
+a4 f5# 5 . e5 g5 5 . d5 a5 5 . c5 4 . 
+g3 b4 a5 405 . c5 g5 5 . a4 f5# 5 . c5 e5 5 . 
+b4 d5 5 . c5 c5 5 . d5 b4 5 . z a4 401 . ;
+: m10
+g3 d5 g4 405 . c5 4 . b4 d5 5 . a4 4 . 
+g4 d5 5 . f4 4 . e4 g4 5 . d4 4 . 
+e3 c4 g4 405 . f4 1 . g4 e4 5 . f4 1 . 
+g4 g4 5 . c5 1 . c4 g4 5 . f4 1 . ;
+: m11
+g3 c3 e4 405 . b3 d4 5 . a3 c4 5 . b3 d4 5 . 
+c4 e4 5 . f4 4 . c4 e5 5 . b3 4 .
+f3 a3 e5 405 . g3 4 . f3 d5 5 . g3 c5 5 . 
+a3 d5 5 . e5 1 . a4 c5 5 . d5 1 . ;
+
+: l3 m8 m9 m10 m11 ;
+
+: m12
+e3 a4 e5 405 . b4 1 . g4# e5 5 . f4# 4 . 
+g4# e5 5 . a4 f5 5 . f4# d5 5 . g4# e5 5 . 
+z a4 c5 405 . e4 b4 5 . a4 a4 5 . b4 1 . 
+a4 c5# 5 . b4b d5 5 . g4 e5 5 . a4 c5 5 . ;
+: m13
+f4 d5 5 . e4 e5 5 . d4 f5 5 . e4 e5 5 . 
+f4 d5 5 . g4 e5 5 . a4 c5 5 . f4# d5 5 . 
+e3 g4 b4 405 . a4 a4 5 . b4 g4 5 . a4 a4 5 . 
+g4 b4 5 . a4 c5 5 . f4 a4 5 . g4 b4 5 . ;
+: m14
+a3 e4 c5 405 . d4 4 . c3 4 . d4 4 . 
+e4 4 . f4 4 . d4 4 . z e4 404 . 
+a3 f4 c5 405 . b4 1 . a4 1 . g4 1 . 
+f4 1 . e4 1 . d4 1 . c4 1 . ;
+: m15
+g3 f4 d4 405 . e4 4 . d4 4 . c4 4 . 
+b3 z 5 . a3 4 . g3 d5 5 . f3# 4 . 
+b3 g3 d5 405 . c5 1 . b4 1 . a4 1 . 
+z g4 5 . f4 1 . g4 e4 5 . d4 1 . ;
+
+: l4 m12 m13 m14 m15 ;
+
+: m16
+c4 g4 e4 405 . f4 g4 5 . e4 a4 5 . d4 b4 5 . 
+c4 c5 5 . b3 4 . a3 c4 5 . g3 4 . 
+a3 a3 z 405 . c4 4 . d4 c5 5 . e4 4 . 
+f4 c5 5 . b4 1 . f3 4 . a4 1 . ;
+: m17
+g3 z b4 405 / f4 a4 5 . g4 1 . 
+f4 a4 5 . e4 c5 5 . b4 1 . d4 d5 5 . 
+z e4 c5 405 / d4 b4 5 . c4 a4 5 . 
+d4 b4 5 . f4 d5 5 . e4 c5 5 . g4 e5 5 . ;
+: m18
+z f4 d5 405 . b4 1 . e4 c5 5 . d4 d5 5 . 
+e4 g4 5 . g4 4 . f4 z 5 . a4 4 .
+c4 g4 z 405 . e4 4 . f4 a4 5 . g4 b4 5 . 
+c4 c5 5 . d5 1 . z e5 5 . f5# 1 . ;
+: m19
+b3 z g5 405 . e5 1 . d4 f5# 5 . e4 g5 5 . 
+f4# a5 5 . g4 b5 5 . a4 a5 5 . b4 g5 5 . 
+a3 c5 f5# 405 . a4 4 . b4 4 . c5 4 . 
+d5 f5# 5 . e5 g5 5 . d5 e5 5 . c5 f5 5 . ;
+
+: l5 m16 m17 m18 m19 ;
+
+: m20
+g3 b4 g5 405 . a5 1 . f5 1 . g5 1 . 
+b4 e5 5 . c5 4 . a4 e4 5 . b4 4 . 
+a3 c5 e4 405 . d5 f4 5 . b4 d4 5 . c5 e4 5 . 
+a4 f4 5 . g4 1 . a3 a4 5 . b4 1 . ;
+: m21
+f3 a3 c5 405 . b3 b4 5 . g3 c5 5 . a3 4 . 
+e3 b3 z 405 . c4 e5 5 . d4 d5 5 . e4 c5 5 . 
+d3 f4 b4 405 . e4 c5 5 . f4 d5 5 . e5 1 . 
+z f5 5 . a4 4 . g4 b4 5 . f4 4 . ;
+: m22
+c3 e4 c5 405 . f4 4 . g4 e5 5 . a4 4 .
+ b4b g4 5 . a4 1 . e4 b4b 5 . g4 1 . 
+5 fudge +! f4 a4 5 . g4 1 . a4 f4 5 . g4 1 .
+ 5 fudge +! c4 a4 5 . d4 b4 5 . e4 c5 5 . c4 a4 5 . ;
+: m23 
+c3 d4 b4 405 . c4 c5 5 . b3 d5 5 . c4 e5 5 .
+ d4 f5 5 . e4 g5 5 . f4 a5 5 . d4 b5 5 .  e4 c6 5 1/2 | ;
+
+decimal
+: l6 m20 m21 m22 5 fudge +! m23  ;
+
+: himmel2 30 init-fudge  l1 l2 l3 l4 l5 l6  ;
+
+\ vom himmel hoch komm' ich her
+\ canonical variations on a christmas song
+\ variation iii, a 2 clav. e ped.
+\ in canone alla settima
+\ j. s. bach, complete organ works, vol. 5, p. 96-97
+\ coded by c. h. ting, 10-6-88
+
+: . 1/16 ;
+: , 1/32 ;
+: / 1/64 ;
+: ! 1/128 ;
+: & 1/8 ;
+hex
+: m1
+f4 2 , e4 2 , f4 2 , e4 2 ,
+c4 f4 402 , e4 2 , d4 2 , e4 2 ,
+ b3 f4 402 . e4 2 . a3 d4 402 . c4 2 . 
+b3 g4 402 & g3 b4 404 & 
+a3 a4 g4 406 . f4 2 . b3 g4 e4 406 . d4 2 . ;
+: m2
+c4 a4 e4 406 , d4 2 , c4 2 . a3 f4# c5 406 & 
+g3 g4 z 406 & f3# a4 d4 406 & 
+g3 b4 d4 406 . g4 2 . e3 g4 b4b 406 & 
+f3 f4 b4b 406 . a4 2 . g3 e4 b4 406 , a4 2 , g4 2 . ;
+: m3
+a3 f4 f4 406 , g4 2 , a4 2 . f3 d4 a4 406 & 
+e3 e4 z 406 . g4 2 . d3 f4 a4 406 . b4 2 . 
+e3 g4 c5 406 & c3 e4 c4 406 & 
+d3 d4 d4 406 , c4 2 , b3 2 . e3 c4 c4 406 & ;
+: m4
+f3 d4 c4 406 . a4 2 . d3 b3 404 & 
+c3 c4 a4 406 & b2 d4 g4 406 / a4 2 / g4 2 , f4 2 . 
+c3 e4 e4 c5 407 & a2 c4 404 & 
+b2 b3 z 406 & c3 a3 a4 406 & ;
+: m5
+d3 b3 a4 b4 407 . f4# 2 .
+e3 g3 e4 406 / f4# 2 / e4 2 , d4 2 . 
+z a3 g4 406 . f4# 2 . g3 b3 g4 406 . d4 2 . 
+g3 c4 e4 a4 407 & f3 d4 404 . e3 f4 402 , g4 2 , 
+f3 z f4 406 . e4 2 . a3 f4 d4 406 . c4 2 . ;
+
+: l1 m1 m2 m3 m4 m5 ;
+
+: m6
+d3 f4 d4 b4 407 . f4 2 . z e4 g4 406 . d4 a4 6 . 
+e4 g4 6 . f4 2 . f3 g4 e4 406 . d4 2 . 
+f3 c4 e4 g4 407 . f4 2 . e3 z g4 406 . d3 e4 402 . 
+e3 c4 402 . b3b 2 . g3 e4 c4 406 , b3 2 , a3 2 . ;
+: m7
+c3 e4 a3 a4 407 . g4 2 . f3 d4 f4 406 . e3 c4 404 . 
+f3 d4 f4 406 . e4 2 . a3 f4 f4 406 , e4 2 , d4 2 . 
+a3 b3 d4 b4 407 . f4 2 . g3 e4 f4 406 . d4 a4 6 . 
+z e4 a4 406 . g4 2 . e3 g4 a4 406 , g4 2 , f4 2 . ;
+: m8
+a2 g4 e4 c5 407 . d4 2 . a3 f4# c4 406 . d4 2 . 
+g3 z e4 406 . f4# 2 . f3# d4 g4 406 . a4 2 . 
+g3 g3 c5 z 407 , b4 2 , a4 2 . e3 g4 g4 406 & 
+f3 f4 z 406 & g3 e4 g4 406 , a4 2 , g4 2 , f4 2 , ;
+: m9
+a3 f4 g4 406 . c5 2 . f3 d4 404 & 
+e3 e4 c5 406 . d5 2 , c5 2 , d3 f4 b4 406 , c5 2 , a4 2 . 
+e3 g4 a4 406 . g4 2 . c3 e4 404 &  d3 d4 g4 406 . a4 2 ,
+g4 2 , e3 c4 f4 406 , g4 2 , e4 2 . ;
+
+: l2 m6 m7 m8 m9 ;
+
+: m10
+f3 d4 d4 406 . f4 2 . g3 b3 404 . e4 2 . 
+a3 c4 e4 406 . f4 2 , e4 2 , d4 f4 6 . g4 2 .
+ a3 e4 f4 c5 407 . e4 2 . g3 f4 z 406 . f3 400 . 
+e3 g4 404 . c5 2 . d3 b4 402 . a4 z 3 . ;
+: m11
+e3 g4 g4 c5 407 . f4 2 . c3 f4 a4 406 . e4 g4 6 . 
+f3 d4 f4 406 , e4 2 , d4 2 . c4 e4 6 , d4 2 , c4 2 . 
+f3 d4 b3 g4 407 . d4 2 . e3 b3 g4 406 . d3 400 . 
+e3 e4 g4 406 . f4 2 . c3 e4 402 , f4 2 , d4 z 3 . ;
+: m12
+a2 e4 c4 g4 407 & d4 4 . c4 d4 104 , e4 2 , 
+b2 d4 d4 406 . c4 2 . b3 d4 f4 7 & 
+c3 g3 d4 e4 407 . g3 2 . e3 c4 402 . b3 2 . 
+d3 a3 c4 406 . e4 2 . c3 f4 401 . d4 2 . ;
+: m13
+b2 b3 d4 g4 407 . f4 2 . e2 d4 404 . e4 2 . 
+e3 c4 f4 406 , e4 2 , d4 2 . b3 e4 6 , d4 2 , c4 2 . 
+e3 a3 c4 f4 407 . b3 2 . d3 d3 c4 502 , b3 2 , c3 a3 402 . 
+b2 d4 g3# 406 . a3 2 . a2 a3 402 . b3 2 . ;
+
+: l3 m10 m11 m12 m13 ;
+
+: m15
+g2# d4 b3 e4 407 . a3 2 , g3# 2 , e2 c4 a3 406 . b3 b3 6 . 
+a2 a3 d4 406 , c4 2 , b3 2 . z g3 c4 406 & 
+z f3# c4 z 407 . a4 2 . c3 d3 g4 406 . f4# 2 . 
+b2 g3 e4 406 . d4 2 . a2 z e4 406 . f4 2 . ;
+: m16
+b2 g4 402 & g2 b3 g3 406 &  a2 a3 z 406 & b2 g3 404 & 
+c3 a3 d4 406 & d3 f3# 404 . c3 400 . 
+b2 g3 d4 406 . g4 2 . c3 a3 f4# 406 . e4 2 . ;
+: m17
+d3 b3 d3 406 , c4 2 , d4 2 . e3 c4 g4 406 . b3 4 . 
+f3 a3 g4 406 . a4 2 . e3 a3 g4 406 . d3 f4 402 . 
+e3 c4 e4 e4 407 . d4 2 . f3 d4 404 . c4 2 . 
+g3 e4 d4 406 , c4 2 , b3b 2 . d4 c4 6 , b3b 2 , c4# a3 6 . ;
+: m18
+g3 d4 a3 a4 407 & f3 e4 404 . e3 400 . 
+d3 f4 z 406 . g4 2 . e3 f4 402 . e4 z 3 . 
+f3 f4 d4 a4 407 . c4 2 . g3 e4 d4 406 , c4 2 , d4 b3 6 . 
+a3 c4 a3 406 . b3 2 . g3 d4 b3 406 . f3 c4 402 . ;
+
+: l4 m15 m16 m17 m18 ;
+
+: m19
+e3 e4 c4 g4 407 . b3 2 . d3 f4 404 , c4 2 , d4 2 , 
+e3 g4 c4 406 , b3 2 , c4 2 . c3 f4 g3 406 . e4 4 . 
+g3 d4 z b4 407 . d4 2 . g2 c4 e4 406 . f4# 2 . 
+z d4 g4 406 . e4 2 . d3 b3 f4# 406 . g4 2 . ;
+: m20
+d3 f4# b4 c5 407 , a4 2 , g4 2 . d3# f3# a4 406 & 
+e3 z a4 b4 407 . g4 2 . f3 c4 d4# 406 . e4 2 . 
+f3# c4 e4 a4 407 . d4 2 . c4# e4 6 . g4 2 . 
+z d4 f4# 406 . c4 2 . f2# d4# b3 406 . a3 2 . ;
+: m21
+e2 e4 b3 g4 407 . c4 2 . e3 c4 402 . d4 2 . 
+d3 z d4 406 . e4 2 . c3 e3 e4 406 . f4 2 . 
+d3 d3 f4 z 407 & b2 d4 404 &
+ c3 c4 f4 406 . e4 2 . d3 b3 f4 406 , e4 2 , d4 2 . ;
+: m22
+e3 c4 c4 406 . d4 2 . c3 a3 e4 406 . f4# 2 . 
+b2 b3 g4 406 . g4# 2 . a2 c4 404 . a4 2 . 
+b2 d4 a4 406 . g4# 2 . e2 b3 404 . a4 2 . 
+z a3 a4 406 . b4 2 . g3# 4 . c5 2 . ;
+: m23
+a3 c5 6 & g3 d3 404 &
+ f3# z c5 406 . b4 2 . e3 a4 402 . g4 2 . 
+f3 z a4 c5 407 & d3 f4# 404 & 
+e3 e4 a4 406 . e4 2 . f3 d4# f4# 406 , g4 2 , a4 2 . ;
+
+: l5 m19 m20 m21 m22 m23 ;
+
+: m24
+g3 e4 a4 b4 407 . g4 2 . e3 c4# 404 &
+ d3 d4 g4 406 . f4 2 . c3# e4 e4 406 , f4 2 , g4 2 . 
+d3 f4 g4 a4 407 . f4 2 . z d4 g4 406 , f4 2 , e4 2 . 
+z c4 f4 406 , e4 2 , d4 2 . f3 b3 d4 406 . g4 2 . ;
+: m25
+f3 c4 g4 g4 407 & e3 z c4 406 . d3 d4 402 . 
+e3 z c4 406 . b3b 2 . g3 e4 c4 406 , b3b 2 , a3 2 . 
+c3 e4 a3 a4 407 . g4 2 . d3 d4 f4 406 . e3 c4 e4 406 . 
+f3 d4 d4 406 . c4 2 . a3 f4 b3 406 . c4 2 . ;
+: m26
+a3 b3 c4 f4 407 . d4 2 . g3 c4 404 . f3 d4 404 . 
+g3 e4 d4 e4 407 . c4 2 . e3 g4 d4 406 , c4 2 , b3b 2 . 
+f3 g4 a3 d4 407 . b3 2 , a3 2 , d3 f4 b3 406 . e4 c4 6 . 
+g3 f4 b3 406 , c4 2 , g2 d4 b3 406 . c4 2 . ;
+: m27
+c3 e4 c4 c4 407 & b2b c4 404 &
+ a2 f4 c4 406 . d4 2 . a3 f3 d4 406 . e4 2 . 
+g3 b3b e4 406 . f4 2 . f3 a3 f4 406 . g4 2 . 
+e3 g3 g4 406 . a4 2 . d3 g4 a4 405 . b4b e3 402 . ;
+: m28
+f3 f4 b4 c4 407 . a4 2 . e4 g4 6 . a4 2 . 
+f2 d4 g4 406 . f4 2 . c4 e4 6 . d4 f4 6 . 
+c2 e4 f4 406 . g4 2 . f4 2 . g4 2 1/2 | ;
+decimal
+: l6 m24 m25 m26  5 fudge +! m27  5 fudge +! m28  ;
+
+: himmel3
+ 30 init-fudge l1 l2 l3 l4 l5 l6 ;
+
+\ vom himmel hoch komm' ich her
+\ canonical variation on a christmas song
+\ variation iv. a 2 clav. e ped.,
+\ in canone all' ottava per augmentationem.
+\ j. s. bach, complete organ works, vol. 5, p. 98-99.
+\ coded by c. h. ting, 10-6-88
+
+: . 1/16 ;
+: , 1/32 ;
+: / 1/64 ;
+: ! 1/128 ;
+: & 1/8 ;
+hex
+: m1
+z 1 & c4 1 &  c3 e4 5 & a4 1 & 
+e3 z a4 7 & g3 g4 3 & 
+a3 c4 6 & e4 f4# 3 . e4 1 . ;
+: m2
+a3 e4 f4# 7 / d4 2 / e4 g4 3 / d4 2 /
+e4 a4 3 / d4 2 / e4 b4 3 / d4 2 / c5 1 . c4 2 . 
+g3 d4 6 & b4 1 / c5 1 / b4 1 , a4 1 . 
+b4 1 . g4 1 . c4 f4 3 . b3 e4 3 . 
+f3# a3 6 & e3 e4 5 . c4 1 . ;
+: m3
+f3# a3 d4 7 . g3 4 . a3 z z 7 . b3 4 . 
+c4 4 . d4 1 . e4 1 . f4# 1 . 
+g4 1 . d4 1 . d4 g4 3 . e4 2 . 
+b3 d4 5 . a4 1 , g4 1 , a3 c4 f4 7 . e4 1 . ;
+: m4
+b3 g4 d4 7 . c4 1 . g3 b3 d4 7 . a3 e4 3 . 
+e3 b3 d4 7 . f4 1 . g3 e4 3 . d4 1 . 
+c4 c4 401 . e4 1 . a3 f4# 3 . b3 g4 3 . 
+d3 e3 a4 7 . e4 1 . c3 f3# a4 7 . g3 2 . ;
+: m5
+b3 d3 f3# a4 407 . d4 1 . g3 e4 3 . a3 f4# 3 . 
+z b3 g4 7 . d4 1 . a3 g4 3 . g3 2 . 
+a3 c4 g4 403 . f4# 1 , e4 1 , d3 f4# 5 . d4 1 . 
+e3 g4 5 . d4 1 . f3# a4 3 & ;
+: m6
+b3 g3 b3 a4 407 . g4 1 . d3 z a4 7 . f4# 1 . 
+g3 g4 3 . d4 1 . d4 f4 3 . c4 e4 3 . 
+g3 g3 b3 f4 407 , e4 1 , d4 1 . a3 d4 b4 7 . g3 4 . 
+f3 g3 b4 7 . g4 1 . e3 z c5 7 . e4 1 . ;
+
+: l1 m1 m2 m3 m4 m5 m6 ;
+
+: m7
+a3 d3 z f4 407 . g4 1 . c3 e3 a4 7 . g4 1 . 
+d3 f3 f4 7 . e4 1 . e3 d4 5 . c4 1 . 
+b3 d3 f3 d4 407 . c4 1 . f3 g3 b3 7 . a3 c4 3 . 
+e3 g3 d4 7 . e4 1 . d3 f3 f4 7 . d4 1 . ;
+: m8
+c4 c3 g3 e4 407 . f4 1 . e3 g4 5 . f4 1 . 
+f3# z e4 7 . d4 1 . g3 c4 3 . b3 1 . 
+z a3 c4 405 . b3 1 . e3 a3 5 . b3 1 . 
+a3 c4 3 . e4 1 . d4 1 . c4 1 . ;
+: m9
+a3 b3 3 . c4 1 . d3 f3# d4 7 & 
+e3 g3 6 . c4 1 . f3# d4 b3 7 . a3 1 .
+ g3 d4 b3 7 , a3 1 , g3 1 ,
+a3 1 , d3 f3# b3 7 . g3 2 , a3 2 , 
+g3 g3 6 . g3 1 . e4 a3 3 . b3 1 . ;
+: m10
+g3 a3 d4 7 , c4 1 , b3 1 . f3# c4 5 . e3 g3 6 . 
+f3# a3 6 . a3 1 . d3 f3# d4 7 . c4 1 . 
+g3 g3 b3 7 . a3 c4 3 . d3 b3 d4 7 . e4 1 . 
+a3 z f4# 7 . d4 g4# 3 . c4 a4 3 . b3 b4 3 . ;
+: m11
+a3 a3 c5 7 , d5 1 , c5 1 , b4 1 , g3 e4 c5 7 & 
+a3 f4# 6 . b4 1 , a4 1 , f3# a3 d5 7 . c5 1 . 
+g3 g3 b4 7 , c5 1 , b4 1 , a4 1 , d3 b4 5 . b4 1 . 
+f3 b4 5 . d5 1 . e3 4 . c5# 1 . ;
+: m12
+f3 a3 d5 7 . e3 4 . d3 d4 6 . e4 2 . 
+b3 f4# d5 7 . d4 c5 3 . g4 b4 3 . a4 1 . 
+b3 d4 g4 7 . f4 1 , e4 1 , g3 c4 f4 7 . b3 2 . 
+c4 c4 6 . e4 1 . e3 g3 d4 7 . c4 1 . ;
+
+: l2 m7 m8 m9 m10 m11 m12 ;
+
+: m13
+f3 a3 d4 7 . f4 1 . g3 b3 e4 7 . d4 1 . 
+a3 c4 c4 7 . d4 1 . g3 e4 5 . b3b 2 . 
+f3 a3 6 . a3 1 . e3 g3 b3 7 . c4 1 . 
+d3 f3 d4 7 . e4 1 . c3 a3 f4 7 . a3 1 . ;
+: m14
+d3 f3 b3 7 . g4 1 . c3 d3 6 . f4 1 . 
+b2 g3 f4 7 . g4 1 , f4 1 , c3 e4 5 ,
+d4 1 , c4 1 , b3 1 ,  d3 g3 a3 7 .
+f3 d4 3 . e3 g3 6 . c4 1 . 
+f3 a3 d4 7 . f4 1 , g4 1 , d3 f4 5 ,
+e4 1 , d4 1 , c4 1 , ; 
+: m15
+e3 a3 b3 7 . g3 c4 3 . f3 a3 6 . d4 1 . 
+g3 b3 d4 7 . b3 1 . f3 d4 g3 7 . b3 1 . 
+c4 e3 g3 c3 407 . g3 1 . d3 f3 a3 7 . b3 1 . 
+c3 e3 c4 7 . d4 1 . b2 g3 e4 7 . z f4 401 . ;
+: m16
+c4 c3 g3 e4 407 . d4 1 . b2 e3 c4 7 . d4 1 . 
+a2 a3 e4 7 . f4 1 . b2 g3 g4 7 . f3 a4 3 . 
+g3 c3 e3 g4 407 . f4 1 . f3 c4 e4 7 . f4# 1 . 
+d3 b3 g4 7 . a4 1 . c3 a3 b4 7 . c5 1 . ;
+: m17
+g3 b2 g3 d5 407 . c5 1 , b4 1 , c3 z a4 7 & 
+d3 4 . b4 1 , c5 1 , f3 b4 401 .
+c5 1 , d5 1 ,  e3 d3 g4# 405 . a4 1 ,
+b4 1 , c3 e3 a4 7 &  b2 e3 z 7 .
+g4 1 . f3 a2 c3 f4 407 . e4 1 . ;
+: m18
+g3 b2 d3 d4 407 . a2 c4 5 . g2 b3 5 . a2 c4 5 . 
+b2 z d4 7 . e4 1 . g3 f4 3 . g4 1 . 
+f3 b2 d3 a4 407 . g4 1 . g2 a4 5 . b4 1 . 
+a2 z c5 7 . b4 1 , a4 1 , b2 g3 d5 7 & ;
+
+: l3 m13 m14 m15 m16 m17 m18 ;
+
+: m19 e3 c3 g3 g4 407 , a4 1 ,
+g4 1 , f4# 1 , b2 g4 5 . f3 2 . 
+c3 e3 6 . f3 f4 3 . g3 e4 3 . d4 1 . 
+z c3 g3 e4 407 , d4 1 , c4 1 , b3 1 , a2 f3 c4 7 . e3 2 . 
+d3 f3 6 . a3 1 . c3 b3 5 . c4 1 . ;
+: m20
+b2 z d4 7 . d3 g3 3 . c3 e3 g4 7 . g3 2 . 
+d3 b3 6 . a3 f4# 3 . e3 z a4 7 . d4 g4# 3 . 
+f3# c4 a4 7 . a3 1 . g3# b3 e4 7 . c4 2 , d4 2 , 
+a3 c4 e4 7 , c5 1 , b4 1 , a4 1 , b3 d4 g4 7 . f4 1 . ;
+: m21
+c4 c4 f4 7 . d4 e4 5 . c4 z 6 . b3 4 . 
+c4 e4 5 , a4 1 , g4 1 , f4 1 , g4 e4 3 . f4 d4 3 . 
+c4 e4 c4 7 . e4 1 . b3 g4 5 . a3 c5 5 . 
+d4 f4# b4 7 , a4 1 , g4 1 . c4 z a4 7 , g4 1 , f4# 1 . ;
+: m22
+b3 g4 5 . c4 e4 6 . b3 d4 6 . a3 c4 6 . 
+b3 d4 g4 7 , d4 1 , e4 1 , f4# 1 , b3 z g4 7 ,
+a4 1 , b4 1 , c5 1 , 
+b3 d5 5 , c5# 1 , d5 1 , e5 1 , d4 f5 5 ,
+e5 1 , f4 d5 3 , f5 1 , 
+d4 g4 e5 7 . b4b g4 3 . c4# a4 6 . f4 1 , e4 1 ,
+;
+
+: m23
+d4 a4 f4 7 . g4 b4b 3 . f4 a4 3 . e4 g4 3 . 
+d4 d4 f4 7 . e4 e4 3 . f4 d4 3 . c4 1 . 
+d4 f4 b3 7 . d4 1 . c4 a4 f4 7 . a4 1 . 
+b3 d4 a4 7 . g4 1 . a3 c4 6 . f4 1 . ;
+
+: l4 m19 m20 m21 m22 m23 ;
+
+: m24
+g3 d4 f4 7 , d5 1 , c5 1 , b4 1 , f3 g3 c5 7 . e3 g4 5 . 
+f3 z a4 7 . d5 1 . a3 e5 3 . f5 1 . 
+f3 g3 b4 7 / c5 1 / b4 1 , a4 1 . e3 c4 g4 7 & 
+d3 f3 z 7 . c5 1 , b4 1 , c3 a3 c5 7 . a4 1 . ;
+: m25
+d3 a3 g4 7 , f4 1 , e4 1 . f3 b3 d4 7 . a4 1 . 
+e3 c4 a4 7 . g4 1 . d3 b3 6 . f4 1 . 
+e3 c3 z g4 407 , f4 1 , a3 e4 3 . d3 f4 5 , e4 1 , f3 d4 3 . 
+e3 a3 c4 7 . d4 1 , e4 1 , f4 1 , g4 1 , a4 1 , b4 1 , ;
+: m26
+a3 e3 f3 c5 407 , b4 1 , a4 1 . a2 c3 f5 7 & 
+b2 d3 f5 7 . e5 1 . c3 e3 d5 7 . z c5 401 . 
+a3 d3 f3 b4 407 , d5 1 , c5 1 . e3 z 6 , e5 1 , d5 1 . 
+f3 d5 3 , f5 1 , e5 1 . a2 c3 6 . f5 1 . ;
+: m27
+g3 b2 d3 f4 407 . e4 1 . g3 b3 f4 7 , e4 1 , d4 1 . 
+a3 a3 c4 403 . e5 1 . f3 4 . e5 1 , d5 1 , 
+b3 f3 g3 d5 407 , c5 1 , b4 1 , a4 1 , g3 g4 5 . f3 4 . 
+e3 g4 5 . d3 f5 5 . c3 e5 5 . b2 d5 5 . ;
+: m28
+c4 a2 g3 e5 407 . c3 f5# 3 , g5 1 , d3 d3 f5 7 .
+g5 1 , a5 1 , 
+b3 e3 g5 403 & c3 g5 5 , f5 1 , e5 1 , d5 1 , 
+a3 c3 e3 e5 407 . a4 1 . f3 a3 d5 7 . g3 c5# 5 . 
+f3 a3 d5 7 . e3 g3 e5 7 . d3 f3 e5 7 , f5 1 , c3 e3 6 . ;
+
+: l5 m24 m25 m26 m27 m28 ;
+
+: m29
+g3 b2 e3 f5 407 , e5 1 , d5 1 , f5 1 ,
+c3 g3 e5 7 , d5 1 , c5 1 , b4 1 , 
+e3 a4 3 , c5 1 , g3 b4 3 , a4 1 ,
+z d3 b3 g4 407 , f4 1 , c4 e4 3 , f4 1 , 
+d3 b3 g4 7 / f4 1 / g4 1 / f4 1 / g4 1 / f4 1 / g4 1 / f4 1 /
+b2 d3 g4 7 / f4 1 / g4 1 / f4 1 / g4 1 / f4 1 / g4 1 / f4 1 /
+ g2 g3 g4 7 & b2 z e4 7 . f4 1 . ;
+: m30
+c2 z e4 7 & g2 b2 6 & 
+a2 c3 e4 7 , c4 1 , b3 1 , a3 1 ,
+b2 d3 g3 7 , f3 1 , e3 1 , d3 1 , 
+c3 e3 c3 7 . a3 2 . d3 g3 6 . f3 2 . 
+e3 g3 z 7 . c5 1 . f3 d4 b4 7 . a4 1 . ;
+: m31
+e3 g3 b4 7 . g4 1 . d3 f3 a4 7 . b4 1 .
+ c3 f3 c5 7 . e3 2 . d3 z z 7 , f5 1 , g5 1 , a5 1 , 
+e3 g5 5 , b5b 1 , a5 1 , g5 1 ,
+f3 a5 5 , d5 1 , c5 1 , b4 1 , 
+g3 c5 5 , b4 1 , e4 a4 102 , g4 1 ,
+a3 d4 f4# 7 , a4 1 , c4 b4 3 , c5 1 , ;
+: m32
+g3 d4 b4 7 , a4 1 , b3 g4 3 . f3 c4 6 . d4 2 . 
+e3 e4 g4 7 , g4 1 , c5 1 . f3# d4 6 . c5 1 . 
+g3 d4 c5 7 , b4 1 , e5 1 . a3 c4 6 . e5 1 . 
+b3 f4 e5 7 , d5 1 , g5 1 . c4 f4 6 . g5 1 . ;
+: m33
+d4 a4 g5 7 , f5 1 , e5 1 , d5 1 , c4 e5 5 . b3 g5# 5 . 
+a3 a4 a5 7 , e5 1 , d5 1 , c5 1 ,
+g4# d5 3 , f4 2 , e4 b5 3 , d4 2 , 
+a3 e4 c6 7 . a4 1 . b3 a4 5 /
+b4 1 / a4 1 / g4# 1 / c4 a4 5 . 
+b3 z d5 7 . g4 2 . c4 a4 6 . d4 b4 6 . ;
+
+: l6 m29 m30 m31 m32 m33 ;
+
+: m34
+g3# e4 d5 7 . c5 1 , b4 1 , a3 a4 5 ,
+g4# 1 , b3 f4# 5 , e4 1 , 
+a3 e4 c5 7 . c4 2 . d4 2 . e4 2 . 
+z a3 c5 7 . c4 1 . g3 e4 5 . a4 1 . 
+f3 z a4 7 . g4 1 . e3 d4# 6 . f4 1 , e4 1 , ;
+: m35
+d3 d4 f4 7 . d4 1 , f4 1 , c3 f3 a4 7 . d5 1 . 
+b2 d5 5 . c5 1 . c3 e3 6 . b4 1 , a4 1 , 
+d3 f3 b4 7 , g4 1 , a4 1 , b4 1 , e3 g3 c5 7 , d5 1 , e5 1 .  f3 a3 e5 7 .
+d5 1 . g3 e4 6 . c5 1 , b4 1 , ;
+: m36
+a3 e4 c5 7 , b4 1 , c5 1 , d5 1 ,
+g3 b3 e5 7 , f5 1 , g5 1 . 
+a3 c4 g5 7 . f5 1 . b3 g4 6 . e5 1 , d5 1 , 
+c4 c4 g4 e5 407 , f5 1 , e4 e5 3 , d5 1 , b3 a4 e5 7 . a3 f5# 3 . 
+d4 a4 g5 7 / f5# 1 / g5 1 / f5# 1 / g4 g5 3 /
+f5# 1 / g5 1 / f5# 1 / d4 a4 6 . g5 1 . ;
+: m37
+b3 g3 g4 g5 407 . a3 4 . g3 d4 6 . f3# 4 . 
+g3 b3 g5 7 , f5 1 , e5 1 , d5 1 ,
+e4 e5 3 , g5 1 , e5 1 , b4 1 , 
+a3 g3 e4 c5 407 , a4 1 , b4 1 , c5 1 ,
+f3 d4 d5 7 , a4 1 , d5 1 , e5 1 , 
+e3 d4 e5 7 , c4 2 , d4 f5 3 , c4 2 , d3 b3 6 . c4 2 . ;
+
+: l7 m34 m35 m36 m37 ;
+
+: m38
+g3 e3 b3 f5 407 . d3 4 . c3 d3 f5 7 ,
+g5 1 , b2 f5 5 , d5 1 , 
+c3 c3 e5 7 , f5 1 , e5 1 , c5 1 ,
+f3 d5 3 , e5 1 , d5 1 , b4 1 , 
+a3 c3 e3 c5 407 , g4 1 , c5 1 , d5 1 , a2 c3 e5 7 &
+ b2 d3 e5 7 . d5 1 . g3 c3 e3 d5 407 /
+e5 1 / d5 1 , c5 1 . ;
+: m39
+f3 d3 f3 c5 407 / d5 1 / c5 1 , b4 1 .
+g2 e3 b4 7 / c5 1 / b4 1 , a4 1 . 
+g3 z b4 7 . c5# 1 . e3 b3b c5# 403 . d5 1 . 
+d3 g3 b3 d5 407 , e5 1 , d5 1 , c5 1 , f3# a3 d5 7 . e5 1 . 
+a3 c4 f5 7 ,
+e5 1 , d5 1 . g3# b3 d5 7 . e5 1 . ;
+: m40
+c3 a3 c4 e5 407 , f5 1 , e5 1 , d5 1 ,
+a2 z f5 7 , c5 1 , e5 1 , f5 1 , 
+e3 g5 5 , a5 1 , g5 1 , f5 1 , g5 1 , g3 2 , a3 2 , b3 2 , 
+e3 c4 g5 7 , a5 1 , c4 e4 g5 7 , f5 1 ,
+b3 d4 g5 7 . a3 f4 6 . 
+g3 e4 g5 7 , a5 1 , c4 g5 3 , f5 1 ,
+f3 d4 g5 7 . b3 2 . ;
+: m41
+5 fudge +!
+c3 e3 c4 g5 407 , a5 1 , a3 g5 3 , f5 1 ,
+b3b g5 3 , f5 1 , e5 1 , d5 1 , 
+5 fudge +!
+e3 b3 e5 7 , f5 1 , g3 e5 3 , d5 1 ,
+a3b e5 3 , d5 1 , c5 1 , b4 1 , 
+5 fudge +!
+e3 g3 c5 7 . a3 c4 6 . g3 b3 6 . f3 a3 6 . 
+5 fudge +!
+e3 g3 c5 7 . d5 1 , e5 1 , d3 f3 f5 7 ,
+g5 1 , a5 1 , b5 1 , c3 c3 e3 g3 c6 607 1/1 | ;
+
+: l8 m38 m39 m40 m41 ;
+decimal
+: himmel4
+ 30 init-fudge l1 l2 l3 l4 l5 l6 l7 l8  ; 
+
+\ vom himmel hoch da komm' ich her
+\ canonical variations from a christmas song
+\ variation v. a 2 clav. e ped.
+\ j. s. bach, complete organ works, vol. 5, p. 001-101.
+\ coded by c. h. ting, 10-9-88
+
+: & 1/4 ;
+: . 1/8 ;
+: , 1/16 ;
+: / 1/32 ;
+: ! 1/128 ;
+hex
+: m1
+z 400 . c3 400 .  e3 c5 401 . c3 400 . 
+g3 b4 401 . b2 400 .  c3 a4 401 . d3 400 . ;
+: m2
+g2 z b4 405 . g3 400 .  c4 e4 g4 405 . b3b 400 . 
+a3 f4 a4 405 . f3 400 . 
+g4 b4 5 . e3 400 . ;
+: m3
+a2 f4 c5 405 . a3 400 .  g3 a4 404 . f3 400 . 
+f3 g4 z 405 . c4 400 .  d3 f4 404 . b3 400 . ;
+: m4
+c3 e4 z 405 . e3 400 .  f3 c5 401 . c3 400 . 
+z 1 ! a2 z c5 405 . b2 400 . 
+c3 g4 401 . a2 400 . ;
+: m5
+b2 z g4 405 . g2 400 .  c3 e4 e4 405 . b2 f4 401 . 
+z 4 ! a2 e4 g4 405 . a3 400 . 
+a4 f4 5 . b3 400 . ;
+: m6
+c4 a4 e4 405 . b3 400 .  a3 c5 404 . g3 b4 404 . 
+f3 a4 z 405 . e3 400 .  d3 b4 404 . g3 400 . ;
+: m7
+e3 c5 404 . c3 400 .  z e4 401 . c3 400 . 
+f3 z a4 405 . e3 400 .  z 1 ! d3 a4 401 . c3 400 . ;
+: m8
+b2 g4 401 . e2 400 .  e3 c4 404 . a4 1 . 
+e3 g4 a4 405 . f3 b4 401 . 
+z 4 ! e3 g4 404 . d3 400 . ;
+: m9
+c3 a4 c5 405 . a2 400 .  b2 400 . c3 g4 b4 405 . 
+e3 g4 b4 405 / a4 1 / b4 1 / a4 1 /
+a2 f4 b4 405 / a4 1 / b4 1 / a4 1 / 
+d2 b4 401 / a4 1 / b4 1 / a4 1 /
+d3 b4 401 / a4 1 / g4 1 / a4 1 / ;
+
+: l1 m1 m2 m3 m4 m5 m6 m7 m8 m9 ;
+
+: m10
+d3 e4 g4 405 . g2 400 .  c3 400 . d3 f4 404 .
+ e3 f4 z 405 / g4 4 / a4 4 / g4 4 /
+c4 a4 404 / g4 4 / a4 4 / g4 4 / 
+c3 a4 404 / g4 4 / a4 4 / g4 4 /
+b3 a4 404 / g4 4 / f4 4 / g4 4 / ;
+: m11
+f3 a4 404 . g3 400 .  a3 c5 401 . f3 400 . 
+d3 z b4 405 . e3 400 .  f3 a4 401 . d3 400 . ;
+: m12
+b2 g4 401 . g2 400 .  c3 e4 a4 405 . b2b g4 401 . 
+a2 f4 f4 405 . f3 e4 401 . 
+g4 f4 5 / d4 1 / f4 1 / d4 1 /
+e3 f4 401 / d4 1 / f4 1 / d4 1 / ;
+: m13
+f3 a4 d4 405 . d3 400 .  e3 g4 404 . f3 a4 404 . 
+g3 b4 z 405 . f3 c5 404 . 
+f3 e5 404 / d5 4 / e5 4 / d5 4 /
+g3 e5 404 / d5 4 / e5 4 / d5 4 / ;
+: m14
+c3 e5 z 405 . c4 400 .  e4 1 . b3b 400 .
+ a3 z f4 405 . g3 400 .  f3 g4 401 . e3 400 . ;
+: m15
+d3 z f4 405 . e3 g4 401 .  f3 c4 a4 405 . f2 400 . 
+f2 b3 g4 405 . e2 400 .  a3 f4 5 . d2 400 . ;
+: m16
+g2 b3 e4 405 . f2 a3 404 .  e2 g3 404 . c3 400 . 
+f2 a3 z 405 . d3 400 .  g2 b3 404 . f3 400 . ;
+: m17
+e3 c4 z 405 . d3 400 .  c3 e4 401 . b2 400 . 
+z 1 ! a2 z e4 405 . g3 400 .
+ f3 a4 401 . e3 400 . ;
+: m18
+d3 a4 401 . d2 b4 401 .  a2 c4 c5 405 . g2 b4 401 .
+ f2 c4 a4 405 . f3 400 . 
+e3 g3 a4 405 / b4 1 / c4 1 / b4 1 /
+d3 a4 401 / b4 1 / b4 1 , ;
+: m19
+e3 g3 c5 405 . d3 f3 404 .  c3 e3 404 . d3 f3 404 . 
+e3 g3 z 405 . c4 400 . 
+d3 e3 404 / f3 4 / g3 4 / f3 4 /
+b3 e3 404 / f3 4 / f3 4 , ;
+
+: l2 m10 m11 m12 m13 m14 m15 m16 m17 m18 m19 ;
+
+: m20
+c3 e3 z 405 . b2 400 .  a2 c5 401 . b2 400 . 
+c3 z g4 405 . d3 400 .  z 1 !
+e3 g4 401 . c3 400 . ;
+: m21
+f3 z a4 405 . f2 400 .  c3 e3 404 . g4 1 . 
+c3 a3 g4 405 / f4 1 / g4 1 / f4 1 /
+e2 g4 401 / f4 1 / g4 1 / z f4 5 / 
+d2 a3 404 . b2 400 . ;
+: m22
+b2 g3 e4 405 . d2 400 .  c2 400 . c3 a3 f4# 405 . 
+b2 c4 a4 405 / b3 g4 5 / c4 a4 5 / b3 g4 5 /
+e3 c4 a4 405 / b3 g4 5 / c4 a4 5 / b3 g4 5 /
+e2 400 . g3 400 . ;
+: m23
+g3 c4 a4 405 . f3# 400 .  g3 400 . b3b 4 . 
+a3 g3 z 405 / a3 4 / b3b 4 / a3 4 /
+c4# b3b 404 / a3 4 / b3b 4 / a3 4 /
+d4 400 . f3 400 . ;
+: m24
+e3 g3 z 405 . d4 400 .  c4 e4 401 . c3 400 . 
+d3 z f4 405 . c4 400 . 
+b3b g4 401 . e3 400 . ;
+: m25
+f3 a4 401 . d3 400 .  e3 c4 g4 405 . f3 a4 401 . 
+g3 b3 b4 405 . e3 c5 401 . 
+f3 a3 e5 405 / d5 1 / e5 1 / d5 1 /
+b3b e5 401 / d5 1 / e5 1 / d5 1 / ;
+: m26
+b3 g3 e5 405 . g3 400 .  c4 a3 404 . b3b g3 404 . 
+a3 f3 z 405 . g3 e3 404 .  f3 d3 404 . g3 400 . ;
+: m27
+a3 c3 z 405 . b3 400 .  c4 400 . g4 1 . 
+b3 z g4 405 . a4 1 , b4 1 , 
+a3 c5 401 , d5 1 , e5 1 , f5# 1 , ;
+: m28
+b3 z z g5 407 , a5 1 , g5 1 , f5 1 , 
+g3 b3 z e5 407 , d5 1 , e4 c5 3 , b4 1 , 
+a3 c4 a4 405 , c5 1 , f4 b4 3 , a4 1 , 
+b3 d4 g4 405 , f4 1 , g4 e4 3 , d4 1 , ;
+
+: l3 m20 m21 m22 m23 m24 m25 m26 m27 m28 ;
+
+: m29
+c4 c4 g4 e4 407 , f4 1 , a4 e4 3 , d4 1 , 
+z e4 g4 c4 407 , e4 1 , f4# a4 3 , c4 1 , 
+d4 f4# b3 7 , a4 1 , b4 g4 3 , b3 1 , 
+c4 e4 a3 7 , g4 1 , d4 f4# 3 , a3 1 , ;
+: m30
+b3 d4 g3 7 , f4 1 , g4 e4 3 , d4 1 , 
+c4 z z e4 407 , d4 1 , c4 1 , d4 1 , 
+z 400 ! c4 e4 401 , f4# 1 , g4 1 , a4 1 , 
+g3 c5 401 , a4 1 , g4 1 , a4 1 , ;
+: m31
+z 400 ! g3 b4 401 , d5 1 , e5 1 , f5 1 , 
+e3 b3 g5 405 , a5 1 , f3 g5 401 , f5 1 , 
+g3 b3 e5 405 , f5# 1 , e4 g5 3 , f4# a5 3 , 
+e4 g4 b5 7 , c6 1 , f3 a4 b5 403 , a5 1 , ;
+: m32
+e3 e4 b4 g5 407 , e5 1 , e5 d5 3 , c5 1 , 
+z g4 e5 b4 407 , c5 1 , f4# a4 d5 7 , a4 1 , 
+e4 b4 g4 7 , c5 1 , g4 b4 3 , a4 1 , 
+c5 g4 3 , f4# 1 , f4# e4 5 , d4# 1 , ;
+: m33
+z g4 b4 e4 407 , f4# 1 , e4 g4 3 , a4 1 , 
+e3 z z b4 407 , c5 1 , d5 1 , b4 1 , 
+a3 c5 401 , b4 1 , a4 1 , b4 1 , 
+z 400 ! a3 c5 401 , d5 1 , e5 1 , f5# 1 , ;
+: m34
+g3 g5 401 , d5 1 , b4 1 , f5 1 , 
+g4 e5 5 , c5 1 , g4 1 , a4 1 , 
+g3 d4 b4 405 , g4 1 , a3 f4 b4 403 , c5 1 , 
+b3 d4 d5 405 , f4 1 , g4 e4 3 , d4 1 , ;
+
+: l4 m29 m30 m31 m32 m33 m34 ;
+
+: m35 
+c4 e4 g4 c4 407 , b3 1 , b3 g4 c4 403 , d4 1 , 
+a3 e4 401 , f4# 1 , f4# g4 3 , a4 1 , 
+g3 e4 g4 b4 407 , d5 1 , d4 f4# c5 7 , b4 1 , 
+z c4 e4 a4 407 , g4 1 , a4 f4# 3 , e4 1 , ;
+: m36
+b3 a4 d4 7 , e5 1 , c4 e4 d5 7 , c5 1 , 
+d4 f4# b4 7 , a4 1 , b4 g4# 3 , f4# 1 , 
+e4 b4 g4 7 , e4 1 , e5 f4# 3 , g4# 1 , 
+c4 z z a4 407 , b4 1 , c5 1 , a4 1 , ;
+: m37
+b3 d5 401 , b4 1 , c5 1 , d5 1 , 
+a3 e5 401 , f5# 1 , g5 1 , a5 1 , 
+g3 b5 401 , a5 1 , g5 1 , f5 1 ,  b3 e5 5 ,
+d5 1 , a3 e4 c5 403 , g3 b4 401 , ;
+: m38
+f3 c4 f4 a4 407 , b4 1 , e3 g4 c5 403 , g3 1 ,
+ d3 d4 z f4 407 , c5 1 , f4 b4 3 , f4 1 , 
+c3 e4 g4 e4 407 , c5 1 , b4b g4 3 , e4 1 , 
+z a4 c4 403 , f4# c5 3 , d4 g4 b4b 7 , e4 c5 5 , ;
+: m39
+f4# d5 a4 7 , d5 1 , g4 b4b 5 , g4 1 , 
+a4 c5 f4# 7 , a4 1 , e5b c5 3 , f4# 1 , 
+b4 d5 g4 7 , d4 1 , b3 1 , d4 1 , 
+b2 z z g3 407 , f4 2 , g4 z 3 , a4 2 , ;
+: m40
+c3 g4 404 , e4 4 , d4 4 , c4 4 , 
+d3 b3 404 , d4 4 , e4 4 , f4 4 , 
+c3 e4 404 , c4 4 , b3 4 , a3 4 , 
+e3 g3 z c5 407 , c4 4 , d4 a4 6 , e4 4 , ;
+
+: l5 m35 m36 m37 m38 m39 m40 ;
+
+: m41
+d3 f3# a4 b4 407 , d4 4 , g3 g4 6 , b3 4 , 
+c3 e4 a4 405 , c4 4 , a3 f4# 6 , f4# 4 , 
+b2 g4 z c5 407 , d4 4 , g3 d4 6 , f4# 4 , 
+z e4 g4 405 , g4 4 , c5 c4 6 , b4b 4 , ;
+: m42
+f4 z a4 7 , b4b 4 , a4 f4 6 , e4 4 , 
+d4 f4 b4 7 , g4 e4 6 , f4 d4 6 , d4 4 , 
+z e4 c4 c5 407 , g4 4 , f4 g4 6 , e4 4 , 
+b2 d4 z z 407 , c4 4 , b3 4 , a3 4 , ;
+: m43
+z 400 ! b2 g3 404 , f3 4 , e3 4 , d3 4 , 
+e3 c3 404 , b2 4 , a2 4 , b2 4 , 
+z 400 ! e3 c3 z z 407 , b2 4 , c3 4 , d3 4 , 
+g3 e3 z c5 407 , c3 4 , f3# a2 a4 406 , f3# 4 , ;
+: m44
+e3 g3 a4 c5 407 , f3# 4 , g3 g4 6 , a3 f4# 6 , 
+b3 e4 g4 7 , e3 c4 6 , f3# d3 b3 406 , c3 a3 6 , 
+g3 b2 g3 g4 407 , g2 4 , a2 d4 6 , b3 4 , 
+z c3 d4 e4 407 , a2 c4 6 , g2 d4 f4 7 , f2 4 , ;
+: m45
+e2 d4 g4 7 , d2 4 , e2 c4 6 , f2 4 , 
+g2 b3 6 , f2 4 , e2 f4 6 , d2 4 , 
+c2 c4 e4 7 , g2 4 , c3 4 , d3 4 , 
+g3 e3 z z 407 , g3 4 , f3 4 , e3 4 , ;
+
+: l6 m41 m42 m43 m44 m45 ;
+
+: m46
+d3 f3 404 , e3 4 , d3 a3 6 , c3 4 , 
+z 400 ! d3 b2 g3 406 , d3 4 , c3 d4 6 , b2 4 , 
+e3 c3 d4 406 , d3 4 , e3 c4 6 , d3 4 , 
+c3 e4 5 , b2b 4 , a2 b3b 6 , g2 4 , ;
+: m47
+e3 f2 a3 a4 407 , c3 4 , d3 d3 b3 406 , e3 4 , 
+c3 f3 a4 405 , g3 4 , f3 c4 6 , e3 4 , 
+b2 d3 d4 g4 407 , c3 4 , c3 b2 e4 406 , a2 4 , 
+d3 b2 f4 406 , f3 4 , e3 b3 6 , d3 4 , ;
+: m48
+e3 c3 c4 g4 407 , c4 4 , b3 a4 6 , a3 4 , 
+z g3 z b4 407 , f3# 4 , e3 f4# 6 , d3# 4 , 
+e3 g4 c5 7 , f3# 4 , g3 b4 5 , a3 4 , 
+b3 a4 5 , c4# 4 , d4# f4# 6 , b3 4 , ;
+: m49
+z e4 f4 g4 407 , f4# 4 , g4 e4 6 , a4 4 , 
+b2 g4 z z 407 , f4 4 , e4 4 , d4 4 , 
+c3 e4 404 , a4 4 , b4 4 , c5 4 , 
+d3 b4 404 , a4 4 , g4 4 , f4# 4 , ;
+: m50
+e3 g4 z z 407 , g3 4 , a3 4 , b3 4 , 
+a3 z c5 7 , g3 4 , d3 f3# a4 406 , e3 e3 404 , 
+f3# d3 a4 b4 407 , b2 4 , g3 e3 g4 406 , e3 4 ,
+ a3 c3 a4 405 , a2 4 , d3 f4 6 , e3 e4 6 , ;
+
+: l7 m46 m47 m48 m49 m50 ;
+
+: m51
+b3 f3 d4 g4 407 , d3 4 , g3 e4 6 , f3 d4 6 , 
+z e3 c4 406 , c3 4 , f3 a4 5 , g3 g4 5 , 
+a3 c4 f4 7 , g3 4 , f3 e4 6 , e3 4 , 
+f3 c4 d4 7 , d3 4 , g3 b3 6 , f3 4 , ;
+: m52
+z e3 c4 c4 407 , d4 2 , f3# c4 6 , g3 b3 6 , 
+c3 a3 c4 z 407 , a3 2 , b3 2 , c4 2 , 
+b2 a3 d4 406 , g3 4 , f3# 4 , e3 g4 6 , 
+a2 f3# c4 406 , d3 4 , e3 4 , f3# a4 6 , ;
+: m53
+g2 g3 b3 406 , d5 1 , d4 f4 c5 7 , b4 1 , 
+a2 c4 e4 c5 407 , a4 1 , g2 b3 b4 405 , c5 1 , 
+f2 a3 d4 d5 407 , a4 100 , e2 b4 g3 c4 f5 507 , c5 100 , 
+d2 b4 f3 d4 f5 507 , d5 100 , c5 e3 104 , b4 f3 104 , ;
+: m54
+c2 c5 g3 e4 e5 507 . c5 100 .  b4 z z z 107 . a4 100 .  b4 100 ,
+d5 1 , g4 c4 e5 105 , f5 1 , a4 c4 e4 e5 107 ,
+a5 1 , b4 g3 g5 105 , f5 1 , ;
+: m55
+c2 c5 g3 a4 e5 507 , b3 200 , c4 e3 204 , d4 f3 204 , 
+c4 g3 a4 206 , f4 200 , d4 d5 f3 f5 305 , c4 200 , 
+5 fudge +!
+b3b e5 e3 g4 g5 307 , g3 4 , a3 a5 f3 a3 c6 307 , e3 4 , 
+5 fudge +!
+d4 g5 f3 b4 b5 307 , d3 4 , f5 e3 a5 105 , f3 4 , ;
+: m56
+5 fudge +!
+c2 e4 e5 g3 c5 g5 707 . c4 f5 f3 a5 305 , e5 g3 b4b g5 107 , 
+5 fudge +!
+f4 d5 a3 a4 f5 307 , c5 e5 101 , b4 f3 d5 105 , a4b 2 , 
+f4 c5 g3 g4 c5 307 . e4 200 , d4 200 , e4 200 1/2 | ;
+
+: l8 m51 m52 m53 m54 m55 m56 ;
+decimal
+: himmel5 30 init-fudge l1 l2 l3 l4 l5 l6 l7 l8 ;
+
+: all himmel1 | 5000 ms himmel2 | 5000 ms
+      himmel3 | 5000 ms himmel4 | 5000 ms himmel5 | ;
+
+[[ all ]]
+
+
+
+
