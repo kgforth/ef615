@@ -170,7 +170,7 @@ var menu = {
 };	
 
 webix.ui(
-{  
+{ "id":"main", 
   "cols": [
        { "id":"form0%",
        "rows": [
@@ -288,7 +288,7 @@ webix.ui({
   body:{"view":"template","id":"img2","template":"<img src='bach200.jpg' width='200' height='100'/>",height:100,width:200 }
 });
 
-</script> // webix gui 
+</script>  
 
 
 <script> // jeforth615
@@ -633,6 +633,9 @@ cr  .( ef615 = jeforth615 + webix.js ) cr cr
 
 : txt-off s" $$('txt2').hide();" $js ;
 : txt-on  s" $$('txt2').show();" $js ;
+
+: main-off  s" $$('main').hide();" $js ;
+: main-on   s" $$('main').show();" $js ;
 
 : sl-off s" $$('slides').hide();" $js ;
 : sl-on  s" $$('slides').show();" $js ;
